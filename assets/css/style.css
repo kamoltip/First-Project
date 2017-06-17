@@ -1,0 +1,13 @@
+.podlink {
+  margin-left: 10px;
+  color: black;
+  font-size: 14px;
+}
+
+#signUpForm {
+  display: none;
+}
+
+#loginForm {
+  display: none;
+}
