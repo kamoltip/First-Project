@@ -1,106 +1,154 @@
 
-$(document).on("click", function(){
-	alert("GUYS LET'S MAKE OUR APP ALIVE!. WE CAN DO IT!!");
-});
+$(document).ready(function() {
+  $(".panel").hide();
+  //Firebase initialize
+  var config = {
+    apiKey: "AIzaSyDxW087mUoLk6smGAHixRd5lLKYBZ4JeA8",
+    authDomain: "first-project-5b478.firebaseapp.com",
+    databaseURL: "https://first-project-5b478.firebaseio.com",
+    projectId: "first-project-5b478",
+    storageBucket: "",
+    messagingSenderId: "618602692351"
+  };
 
-//Firebase initialize
-var config = {
-  apiKey: "AIzaSyDxW087mUoLk6smGAHixRd5lLKYBZ4JeA8",
-  authDomain: "first-project-5b478.firebaseapp.com",
-  databaseURL: "https://first-project-5b478.firebaseio.com",
-  projectId: "first-project-5b478",
-  storageBucket: "",
-  messagingSenderId: "618602692351"
-};
-firebase.initializeApp(config);
 
-console.log(firebase);
 
-//signup email authentication
-$("#signup").on("click", function() {
-  $("#signUpForm").css("display", "block");
+  firebase.initializeApp(config);
 
-});
+  console.log(firebase);
 
-$("#signUpSubmit").on("click", function() {
-
+  //store firebase db and auth in global variables
   var database = firebase.database();
-  var email = $("#exampleInputEmail1").val().trim();
-  var password = $("#exampleInputPassword1").val().trim();
+  var auth = firebase.auth();
+  var email = "";
+  var password = "";
+  var interest = "";
+	var datatopic = "";
 
-  firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-    console.log(error.code);
-    console.log(error.message);
+  //creates user -- signup email authentication
+  $("#signup").on("click", function() {
+    $("#signUpForm").css("display", "block");
   });
-  $("#signUpForm").css("display", "none");
-});
 
-$("#login").on("click", function() {
-  $("#loginForm").css("display", "block");
+  $("#signUpSubmit").on("click", function() {
+    event.preventDefault();
 
-});
-$("#loginSubmit").on("click", function() {
-      var email = $("#exampleLoginEmail1").val().trim();
-      var password = $("#exampleLoginPassword1").val().trim();
-      var auth = firebase.auth();
-      auth.signInWithEmailAndPassword(email, password).catch(function(error) {
+    email = $("#exampleInputEmail1").val().trim();
+    password = $("#exampleInputPassword1").val().trim();
+    interest = $("#exampleInputInterest1").val().trim();
+
+    var newuser = auth.createUserWithEmailAndPassword(email, password);
+
+    newuser.then(function(user) {
+        var ref = database.ref("/user/" + user.uid);
+
+        ref.set({
+          email: email,
+          password: password,
+          uid: user.uid,
+          interest: interest
+        })
+
+      })
+      .catch(function(error) {
         console.log(error.code);
         console.log(error.message);
       });
 
-      $("#loginForm").css("display", "none");
-});
+    $("#signUpForm").css("display", "none");
 
-//Need to work on signout--login changes state to logout when user is connected
-      // auth.signOut().then(function() {
-      //   console.log("Logged out!")
-      // }, function(error) {
-      //   console.log(error.code);
-      //   console.log(error.message);
-      // });
+  });
 
-      //   newref.push({
-      //     name : "Jeff",
-      //     player : 45,
-      //     color : "black"
-      //   });
-      //
-      //   newref.push({
-      //     name : "El",
-      //     player : 75,
-      //     color : "white"
-      // });
+  //user login
+  $("#login").on("click", function() {
+    $("#loginForm").css("display", "block");
 
-//podcast API
-      var queryURL = 'http://gpodder.net/api/2/tag/news/5.json';
-      // var queryURL = 'http://mygpo-feedservice.appspot.com/api/2/tech/5.json';
+  });
+  $("#loginSubmit").on("click", function() {
+    event.preventDefault();
 
-      $.ajax({
-          url: queryURL,
-          userAgent: "First-Project-App",
-          method: 'GET',
+    email = $("#exampleLoginEmail1").val().trim();
+    password = $("#exampleLoginPassword1").val().trim();
+
+    var loginuser = auth.signInWithEmailAndPassword(email, password);
+
+    loginuser.then(function(user) {
+        var ref = database.ref("/user/" + user.uid);
+
+        ref.on("value", function(snapshot) {
+          datatopic = snapshot.val().interest;
         })
-        .done(function(response) {
 
-          console.log(response);
-          console.log(queryURL);
+      })
+      .catch(function(error) {
+        console.log(error.code);
+        console.log(error.message);
+      })
 
-          var podcasts = response;
+    $("#loginForm").css("display", "none");
+    $("#logout").show();
+  });
 
-          for (var i = 0; i < podcasts.length; i++) {
-            console.log(podcasts[i].url);
+  //Need to work on signout--login changes state to logout when user is connected
 
-            var podRow = $("<div class='margin-top'>");
-            var image = $("<img src=" + podcasts[i].scaled_logo_url + ">");
-            var podURL = $("<a class='podlink' href=" + podcasts[i].url + ">" + podcasts[i].title + "</a>");
-            var savebtn = $("<button class='btn btn-danger btn-sm pull-right'>save<button>");
-            savebtn.attr("data-title", podcasts[i].title).attr("data-url", podcasts[i].url);
+  $("#logout").on("click", function() {
+    auth.signOut().then(function() {
+      console.log("Logged out!")
+      $("#panel").hide();
+      $("#login").show();
+    }, function(error) {
+      console.log(error.code);
+      console.log(error.message);
+    });
+  });
 
-            podRow.append(image);
-            podRow.append(podURL);
-            podRow.append(savebtn);
+  auth.onAuthStateChanged(function(user) {
+    if (user) {
+      console.log(user.uid + "is now signed in")
+      $(".panel").show();
+			getPodcast();
+    } else {
+      console.log("no user is signed in")
+      $(".panel").hide();
+    }
+  });
+
+  // podcast API
+var queryURL = 'http://gpodder.net/api/2/tag/' + datatopic + '/5.json';
+
+	function getPodcast() {
+    $.ajax({
+        url: queryURL,
+        userAgent: "First-Project-App",
+        method: 'GET',
+      })
+      .done(function(response) {
+
+        console.log(response);
+        console.log(queryURL);
+
+        var podcasts = response;
+
+        for (var i = 0; i < podcasts.length; i++) {
+          console.log(podcasts[i].url);
+
 
             $("#pod-div").append(podRow);
           };
         });
 
+          var podRow = $("<div class='margin-top'>");
+          var image = $("<img src=" + podcasts[i].scaled_logo_url + ">");
+          var podURL = $("<a class='podlink' href=" + podcasts[i].url + ">" + podcasts[i].title + "</a>");
+          var savebtn = $("<button class='btn btn-danger btn-sm pull-right'>save<button>");
+          savebtn.attr("data-title", podcasts[i].title).attr("data-url", podcasts[i].url);
+
+          podRow.append(image);
+          podRow.append(podURL);
+          podRow.append(savebtn);
+
+          $("#pod-div").append(podRow);
+        };
+      });
+  	};
+	});
