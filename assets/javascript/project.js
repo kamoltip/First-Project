@@ -15,7 +15,7 @@
     // var results = data.items;
     for (var i = 0; i < response.items.length; i++) {
       var youtubeDiv = $("<iframe class='youtube' allowfullscreen>");
-      youtubeDiv.css({"width": "200px", "height": "140px"});
+      youtubeDiv.css({"width": "200px", "height": "140px", "display":"block"});
       var videoIdList = response.items[i].id.videoId;
       var url = 'https://www.youtube.com/embed/' + videoIdList;
       console.log(url);
