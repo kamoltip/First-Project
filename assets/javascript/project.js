@@ -1,6 +1,10 @@
 
 $(document).ready(function() {
   $(".panel").hide();
+
+	$("#flip").click(function() {
+			$("#mypanel").toggle("fast");
+		});
   //Firebase initialize
   var config = {
     apiKey: "AIzaSyDxW087mUoLk6smGAHixRd5lLKYBZ4JeA8",
@@ -23,7 +27,7 @@ $(document).ready(function() {
   var email = "";
   var password = "";
   var interest = "";
-	var datatopic = "";
+  var datatopic = "";
 
   //creates user -- signup email authentication
   $("#signup").on("click", function() {
@@ -56,7 +60,6 @@ $(document).ready(function() {
       });
 
     $("#signUpForm").css("display", "none");
-
   });
 
   //user login
@@ -72,13 +75,8 @@ $(document).ready(function() {
 
     var loginuser = auth.signInWithEmailAndPassword(email, password);
 
-    loginuser.then(function(user) {
-        var ref = database.ref("/user/" + user.uid);
-
-        ref.on("value", function(snapshot) {
-          datatopic = snapshot.val().interest;
-        })
-
+    loginuser.then(function() {
+      onUserLogin();
       })
       .catch(function(error) {
         console.log(error.code);
@@ -92,15 +90,16 @@ $(document).ready(function() {
   //Need to work on signout--login changes state to logout when user is connected
 
   $("#logout").on("click", function() {
+		$("#panel").hide();
+		$("#login").show();
     auth.signOut().then(function() {
-      console.log("Logged out!")
-      $("#panel").hide();
-      $("#login").show();
+      console.log("Logged out!");
     }, function(error) {
       console.log(error.code);
       console.log(error.message);
     });
   });
+
 
   auth.onAuthStateChanged(function(user) {
     if (user) {
@@ -149,3 +148,56 @@ var queryURL = 'http://gpodder.net/api/2/tag/' + datatopic + '/5.json';
       });
   	};
 	});
+
+  function onUserLogin(){
+  	auth.onAuthStateChanged(function(user) {
+      if (user) {
+        var ref = database.ref("/user/" + user.uid);
+        ref.on("value", function(snapshot) {
+          var datatopic = snapshot.val().interest;
+
+          var queryURL = 'http://gpodder.net/api/2/tag/' + datatopic + '/5.json';
+          // var queryURL = 'http://gpodder.net/api/2/tag/coding/5.json';
+          $.ajax({
+              url: queryURL,
+              userAgent: "First-Project-App",
+              method: 'GET',
+            })
+            .done(function(response) {
+
+              console.log(response);
+              console.log(queryURL);
+
+              var podcasts = response;
+
+							$("#pod-div").empty();
+							
+              for (var i = 0; i < podcasts.length; i++) {
+                console.log(podcasts[i].url);
+
+                var podRow = $("<div class='pod-row margin-top'>");
+                var image = $("<img src=" + podcasts[i].scaled_logo_url + ">");
+                var podURL = $("<a class='podlink' href=" + podcasts[i].url + ">" + podcasts[i].title + "</a>");
+                var savebtn = $("<button class='btn btn-danger btn-sm pull-right'>save<button>");
+                savebtn.attr("data-title", podcasts[i].title).attr("data-url", podcasts[i].url);
+
+                podRow.append(image);
+                podRow.append(podURL);
+                podRow.append(savebtn);
+
+                $("#pod-div").append(podRow);
+              };
+            });
+        })
+        console.log(user.uid + "is now signed in")
+        $(".panel").show();
+
+      } else {
+        console.log("no user is signed in")
+        $("#pod-div").empty();
+        $(".panel").hide();
+      }
+    });
+  };
+});
+
