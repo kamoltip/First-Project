@@ -1,9 +1,9 @@
 $(document).ready(function() {
-  $(".panel").hide();
+  // $(".panel").hide();
 
-	$("#flip").click(function() {
-			$("#mypanel").toggle("fast");
-		});
+  $("#flip").click(function() {
+    $("#mypanel").toggle("fast");
+  });
   //Firebase initialize
   var config = {
     apiKey: "AIzaSyDxW087mUoLk6smGAHixRd5lLKYBZ4JeA8",
@@ -25,13 +25,14 @@ $(document).ready(function() {
   var email = "";
   var password = "";
   var interest = "";
-  var datatopic = "";
-
+  // var datatopic = "";
+  //
   //creates user -- signup email authentication
   $("#signup").on("click", function() {
     $("#signUpForm").css("display", "block");
   });
 
+  console.log("Hello World!!");
   $("#signUpSubmit").on("click", function() {
     event.preventDefault();
 
@@ -42,22 +43,22 @@ $(document).ready(function() {
     var newuser = auth.createUserWithEmailAndPassword(email, password);
 
     newuser.then(function(user) {
-        var ref = database.ref("/user/" + user.uid);
+      var ref = database.ref("/user/" + user.uid);
 
-        ref.set({
-          email: email,
-          password: password,
-          uid: user.uid,
-          interest: interest
-        })
-
+      ref.set({
+        email: email,
+        password: password,
+        uid: user.uid,
+        interest: interest
       })
-      .catch(function(error) {
-        console.log(error.code);
-        console.log(error.message);
-      });
+
+    }).catch(function(error) {
+      console.log(error.code);
+      console.log(error.message);
+    });
 
     $("#signUpForm").css("display", "none");
+    auth.signOut();
   });
 
   //user login
@@ -74,39 +75,47 @@ $(document).ready(function() {
     var loginuser = auth.signInWithEmailAndPassword(email, password);
 
     loginuser.then(function() {
-      onUserLogin();
-      })
-      .catch(function(error) {
-        console.log(error.code);
-        console.log(error.message);
-      })
+      window.location.href = 'main.html';
+
+    }).catch(function(error) {
+      console.log(error.code);
+      console.log(error.message);
+    })
 
     $("#loginForm").css("display", "none");
     $("#logout").show();
   });
 
-  //Need to work on signout--login changes state to logout when user is connected
+  getContent();
 
   $("#logout").on("click", function() {
-		$("#panel").hide();
-		$("#login").show();
-    auth.signOut().then(function() {
+    $("#panel").hide();
+    $("#login").show();
+    var logoutuser = auth.signOut();
+    logoutuser.then(function() {
       console.log("Logged out!");
-    }, function(error) {
+      window.location.href = "index.html"
+    }).catch(function(error) {
       console.log(error.code);
       console.log(error.message);
     });
   });
 
-  function onUserLogin(){
-  	auth.onAuthStateChanged(function(user) {
+
+
+  function getContent() {
+
+    auth.onAuthStateChanged(function(user) {
       if (user) {
         var ref = database.ref("/user/" + user.uid);
-        ref.on("value", function(snapshot) {
-          var datatopic = snapshot.val().interest;
 
+        ref.on("value", function(snapshot) {
+
+          var datatopic = snapshot.val().interest;
+          console.log(datatopic);
+          //podcast API call
           var queryURL = 'http://gpodder.net/api/2/tag/' + datatopic + '/5.json';
-          // var queryURL = 'http://gpodder.net/api/2/tag/coding/5.json';
+
           $.ajax({
               url: queryURL,
               userAgent: "First-Project-App",
@@ -119,8 +128,8 @@ $(document).ready(function() {
 
               var podcasts = response;
 
-							$("#pod-div").empty();
-							
+              $("#pod-div").empty();
+
               for (var i = 0; i < podcasts.length; i++) {
                 console.log(podcasts[i].url);
 
@@ -137,6 +146,40 @@ $(document).ready(function() {
                 $("#pod-div").append(podRow);
               };
             });
+          //Books API CALL
+          var GbooksAPIkey = "AIzaSyAdRit-J3O3HY3ojccN4WDrf1Zqa-mVcgw"
+          var booksQueryURL = "https://www.googleapis.com/books/v1/volumes?q=" + datatopic + "&langRestrict=en&maxResults=5&orderBy=newest&key=" + GbooksAPIkey;
+
+          $.ajax({
+              url: booksQueryURL,
+              method: 'GET',
+            })
+            .done(function(response) {
+
+              console.log(response);
+              console.log(booksQueryURL);
+
+              var books = response;
+
+              $("#book-div").empty();
+
+              for (var i = 0; i < books.length; i++) {
+                console.log(books[i].url);
+
+                var booksRow = $("<div class='books-row margin-top'>");
+                var image = $("<img src=" + books[i].scaled_logo_url + ">");
+                var booksURL = $("<a class='podlink' href=" + books[i].url + ">" + books[i].title + "</a>");
+                var savebtn = $("<button class='btn btn-danger btn-sm pull-right'>save<button>");
+                savebtn.attr("data-title", books[i].title).attr("data-url", books[i].url);
+
+                booksRow.append(image);
+                booksRow.append(booksURL);
+                booksRow.append(savebtn);
+
+                $("#books-div").append(booksRow);
+              };
+            });
+          //books API End
         })
         console.log(user.uid + "is now signed in")
         $(".panel").show();
@@ -144,8 +187,9 @@ $(document).ready(function() {
       } else {
         console.log("no user is signed in")
         $("#pod-div").empty();
-        $(".panel").hide();
+        // $(".panel").hide();
       }
     });
-  };
+  }
+
 });
