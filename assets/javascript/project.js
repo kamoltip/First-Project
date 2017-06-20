@@ -133,10 +133,7 @@ var queryURL = 'http://gpodder.net/api/2/tag/' + datatopic + '/5.json';
           console.log(podcasts[i].url);
 
 
-            $("#pod-div").append(podRow);
-          };
-        });
-
+      
           var podRow = $("<div class='margin-top'>");
           var image = $("<img src=" + podcasts[i].scaled_logo_url + ">");
           var podURL = $("<a class='podlink' href=" + podcasts[i].url + ">" + podcasts[i].title + "</a>");
