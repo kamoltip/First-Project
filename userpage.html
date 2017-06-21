@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+	<meta charset="utf-8">
+	<title>Working File</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+	<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/spacelab/bootstrap.min.css" rel="stylesheet" integrity="sha384-L/tgI3wSsbb3f/nW9V6Yqlaw3Gj7mpE56LWrhew/c8MIhAYWZ/FNirA64AVkB5pI" crossorigin="anonymous">
+	<!-- <link rel="stylesheet" text="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css"> -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous">
+	</script>
+	
+</head>
+<body>
+<!-- start of fletcher -->
+<div class="ui container-fluid">
+	<nav class="navbar navbar-primary">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+				<a class="navbar-brand" href="#">Bento App</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Preset Interests <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">Tech</a></li>
+							<li><a href="#">Gaming</a></li>
+							<li><a href="#">Fashion</a></li>
+							<li><a href="#">Business</a></li>
+							<li><a href="#">Etc...</a></li>
+						</ul>
+					</li>
+				</ul>
+				<form class="navbar-form navbar-right">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Search">
+					</div>
+					<button type="submit" class="btn btn-default">Search</button>
+				</form>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a id="signup" href="#">Sign Up</a></li>
+					<li><a id="login" href="#">Login</a></li>
+					<li><a id="logout" href="#">Logout</a></li>
+				</ul>
+				</li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+	</nav>
+
+		<div class="row" id="signUpForm">
+			<form>
+				<div class="form-group">
+					<label for="exampleInputEmail1">Email address</label>
+					<input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+				</div>
+				<div class="form-group">
+					<label for="exampleInputPassword1">Password</label>
+					<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+				</div>
+				<div class="form-group">
+					<label for="exampleInputInterest1">Interest</label>
+					<input type="text" class="form-control" id="exampleInputInterest1" placeholder="Interest">
+				</div>
+				<button id="signUpSubmit" type="submit" class="btn btn-default">Submit</button>
+			</form>
+		</div>
+
+		<div class="row" id="loginForm">
+			<form>
+				<div class="form-group">
+					<label for="exampleInputEmail1">Email address</label>
+					<input type="email" class="form-control" id="exampleLoginEmail1" placeholder="Email">
+				</div>
+				<div class="form-group">
+					<label for="exampleInputPassword1">Password</label>
+					<input type="password" class="form-control" id="exampleLoginPassword1" placeholder="Password">
+				</div>
+				<button id="loginSubmit" type="submit" class="btn btn-default">Login</button>
+			</form>
+		</div>
+
+	<div class="row">
+
+			<div class="col-md-3 margin-top" id="savedFavorites">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title" id="flip">My Saved Stuff<i class="material-icons">expand_more</i></h3>
+					</div>
+					<div class="panel-body" id="mypanel">
+					<!-- need a list generated from firebase data -->
+					<div class="ui list">
+						<a class="item">
+								<i class="right triangle icon"></i>
+								<div class="content">
+										<div class="header">Interest Placeholder</div>
+									</div>
+								</a>
+									<a class="item">
+								<i class="right triangle icon"></i>
+								<div class="content">
+										<div class="header">Interest Placeholder</div>
+									</div>
+								</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-md-3 margin-top">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Latest Videos</h3>
+					</div>
+					<div class="panel-body">
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus eum fugit id debitis earum nam excepturi sint dolore quae dignissimos quisquam dicta aperiam eveniet, veniam reprehenderit, nisi labore eos voluptatibus nulla porro error aliquid unde
+							placeat? Veniam est quo et ex magni, odit magnam possimus animi? Sed debitis rerum quidem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis voluptates omnis corporis quisquam a voluptatum quidem. Aut fugit delectus a doloremque
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-3 margin-top">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Latest Tweets</h3>
+					</div>
+					<div class="panel-body">
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus eum fugit id debitis earum nam excepturi sint dolore quae dignissimos quisquam dicta aperiam eveniet, veniam reprehenderit, nisi labore eos voluptatibus nulla porro error aliquid unde
+							placeat? Veniam est quo et ex magni, odit magnam possimus animi? Sed debitis rerum quidem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis voluptates omnis corporis quisquam a voluptatum quidem. Aut fugit delectus a doloremque
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-3 margin-top">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">MeetUps</h3>
+					</div>
+					<div class="panel-body">
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus eum fugit id debitis earum nam excepturi sint dolore quae dignissimos quisquam dicta aperiam eveniet, veniam reprehenderit, nisi labore eos voluptatibus nulla porro error aliquid unde
+							placeat? Veniam est quo et ex magni, odit magnam possimus animi? Sed debitis rerum quidem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis voluptates omnis corporis quisquam a voluptatum quidem. Aut fugit delectus a doloremque
+						</p>
+					</div>
+				</div>
+			</div>
+	</div>
+
+
+		<div class="row">
+			<div class="col-md-3 margin-top">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Books</h3>
+					</div>
+					<div class="panel-body">
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus eum fugit id debitis earum nam excepturi sint dolore quae dignissimos quisquam dicta aperiam eveniet, veniam reprehenderit, nisi labore eos voluptatibus nulla porro error aliquid unde
+							placeat? Veniam est quo et ex magni, odit magnam possimus animi? Sed debitis rerum quidem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis voluptates omnis corporis quisquam a voluptatum quidem. Aut fugit delectus a doloremque
+						</p>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-md-3 margin-top">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Other Sites</h3>
+					</div>
+					<div class="panel-body">
+						<p>
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus eum fugit id debitis earum nam excepturi sint dolore quae dignissimos quisquam dicta aperiam eveniet, veniam reprehenderit, nisi labore eos voluptatibus nulla porro error aliquid unde
+							placeat? Veniam est quo et ex magni, odit magnam possimus animi? Sed debitis rerum quidem. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis voluptates omnis corporis quisquam a voluptatum quidem. Aut fugit delectus a doloremque
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-md-3 margin-top">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">Podcasts</h3>
+					</div>
+					<div class="panel-body" id="pod-div">
+
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+
+<script type="text/javascript" src="assets/javascript/project.js"></script>
+
+</body>
+</html>
