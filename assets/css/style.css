@@ -1,0 +1,38 @@
+.podlink {
+  margin-left: 10px;
+  color: black;
+  font-size: 14px;
+}
+
+#signUpForm {
+  display: none;
+}
+
+#loginForm {
+  display: none;
+}
+
+.margin-top {
+  margin-top: 30px;
+}
+
+#mypanel {
+  display: none;
+}
+
+#savedFavorites{
+
+  float:right;
+
+}
+.material-icons{
+  position: absolute;
+ }
+
+ @media screen and (max-width: 995px) {
+  #savedFavorites{
+
+    float: none;
+
+  }
+}
