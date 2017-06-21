@@ -1,5 +1,6 @@
 
 /*------START SEMANTIC UI-----*/
+
   body {
     background: url('http://www.imagestowallpapers.com/wp-content/uploads/2015/12/Background-Image-CSS4.jpg') fixed;
     background-size: cover;
@@ -28,11 +29,16 @@
   .signUp {
     color: black;
   }
+ .slogan{
+  font-size: 18px;
+  text-align: center;
+ }
 
-  .ui .mini .form .label {
-    float: left;
-  }
-
+ .bentoHead{
+  font-size: 45px;
+  display: flex;
+  justify-content: center;
+ }
 /*------end of semantic UI ------*/
 
 
