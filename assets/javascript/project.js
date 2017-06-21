@@ -104,6 +104,7 @@ $(document).ready(function() {
   });
 
 
+
   auth.onAuthStateChanged(function(user) {
     if (user) {
       console.log(user.uid + "is now signed in")
@@ -118,7 +119,7 @@ $(document).ready(function() {
   // podcast API
 var queryURL = 'http://gpodder.net/api/2/tag/' + datatopic + '/5.json';
 
-	function getPodcast() {
+	
     $.ajax({
         url: queryURL,
         userAgent: "First-Project-App",
@@ -149,12 +150,15 @@ var queryURL = 'http://gpodder.net/api/2/tag/' + datatopic + '/5.json';
           $("#pod-div").append(podRow);
         };
       });
-  	};
-	});
+  	
+	
+
+  
 
 
   function getContent() {
     auth.onAuthStateChanged(function(user) {
+
       if (user) {
         var ref = database.ref("/user/" + user.uid);
 
