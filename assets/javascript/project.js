@@ -1,9 +1,9 @@
 $(document).ready(function() {
-  // $(".panel").hide();
 
   $("#flip").click(function() {
     $("#mypanel").toggle("fast");
   });
+
   //Firebase initialize
   var config = {
     apiKey: "AIzaSyDxW087mUoLk6smGAHixRd5lLKYBZ4JeA8",
@@ -13,7 +13,6 @@ $(document).ready(function() {
     storageBucket: "",
     messagingSenderId: "618602692351"
   };
-
 
   firebase.initializeApp(config);
 
@@ -25,17 +24,20 @@ $(document).ready(function() {
   var email = "";
   var password = "";
   var interest = "";
-  // var datatopic = "";
+  var datatopic = "";
+
   //
   //creates user -- signup email authentication
   $("#signup").on("click", function() {
     $("#signUpForm").css("display", "block");
   });
 
-  console.log("Hello World!!");
-  $("#signUpSubmit").on("click", function() {
+  // console.log("Hello World!!");
+  $("#signUpSubmit").on("click", function(event) {
     event.preventDefault();
 
+    //Add User Name = '';
+    //Add firstLogin = 'false';
     email = $("#exampleInputEmail1").val().trim();
     password = $("#exampleInputPassword1").val().trim();
     interest = $("#exampleInputInterest1").val().trim();
@@ -66,7 +68,7 @@ $(document).ready(function() {
     $("#loginForm").css("display", "block");
 
   });
-  $("#loginSubmit").on("click", function() {
+  $("#loginSubmit").on("click", function(event) {
     event.preventDefault();
 
     email = $("#exampleLoginEmail1").val().trim();
@@ -91,17 +93,20 @@ $(document).ready(function() {
   $("#logout").on("click", function() {
     $("#panel").hide();
     $("#login").show();
+
     var logoutuser = auth.signOut();
+
     logoutuser.then(function() {
+
       console.log("Logged out!");
-      window.location.href = "index.html"
+      window.location.href = "index.html";
+
     }).catch(function(error) {
+
       console.log(error.code);
       console.log(error.message);
     });
   });
-
-
 
   function getContent() {
 
@@ -112,120 +117,152 @@ $(document).ready(function() {
         ref.on("value", function(snapshot) {
 
           var datatopic = snapshot.val().interest;
+
           console.log(datatopic);
-          //podcast API call
-          var queryURL = 'http://gpodder.net/api/2/tag/' + datatopic + '/5.json';
 
-          $.ajax({
-              url: queryURL,
-              userAgent: "First-Project-App",
-              method: 'GET',
-            })
-            .done(function(response) {
+          getYouTube(datatopic);
+          getBooks(datatopic);
+          getPodcasts(datatopic);
 
-              console.log(response);
-              console.log(queryURL);
 
-              var podcasts = response;
-
-              $("#pod-div").empty();
-
-              for (var i = 0; i < podcasts.length; i++) {
-                console.log(podcasts[i].url);
-
-                var podRow = $("<div class='pod-row margin-top'>");
-                var image = $("<img src=" + podcasts[i].scaled_logo_url + ">");
-                var podURL = $("<a class='podlink' href=" + podcasts[i].url + ">" + podcasts[i].title + "</a>");
-                var savebtn = $("<button class='btn btn-danger btn-sm pull-right'>save<button>");
-                savebtn.attr("data-title", podcasts[i].title).attr("data-url", podcasts[i].url);
-
-                podRow.append(image);
-                podRow.append(podURL);
-                podRow.append(savebtn);
-
-                $("#pod-div").append(podRow);
-              };
-            });
-          //Books API CALL
-          var GbooksAPIkey = "AIzaSyAdRit-J3O3HY3ojccN4WDrf1Zqa-mVcgw"
-          var booksQueryURL = "https://www.googleapis.com/books/v1/volumes?q=" + datatopic + "&langRestrict=en&maxResults=5&orderBy=newest&key=" + GbooksAPIkey;
-
-          $.ajax({
-              url: booksQueryURL,
-              method: 'GET',
-            })
-            .done(function(response) {
-
-              console.log(response);
-              console.log(booksQueryURL);
-
-              var books = response;
-
-              $("#book-div").empty();
-
-              for (var i = 0; i < books.length; i++) {
-                console.log(books[i].url);
-
-                var booksRow = $("<div class='books-row margin-top'>");
-                var image = $("<img src=" + books[i].scaled_logo_url + ">");
-                var booksURL = $("<a class='podlink' href=" + books[i].url + ">" + books[i].title + "</a>");
-                var savebtn = $("<button class='btn btn-danger btn-sm pull-right'>save<button>");
-                savebtn.attr("data-title", books[i].title).attr("data-url", books[i].url);
-
-                booksRow.append(image);
-                booksRow.append(booksURL);
-                booksRow.append(savebtn);
-
-                $("#books-div").append(booksRow);
-              };
-            });
-          //books API End
-
-          // youtube API ===================================================
-
-          var searchTopic= 'atlanta';
-          var order = 'date';
-          var videoID;
-          var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=5&part=snippet&q='+searchTopic+'&order='+order+'&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
-          $.ajax({
-            url:queryURL,
-            method:'GET',
-            dataType: 'jsonp'
-          })
-
-          .done(function(response){
-          console.log(response);
-          console.log(response.items);
-
-            // var results = data.items;
-            for (var i = 0; i < response.items.length; i++) {
-              var youtubeDiv = $("<iframe class='youtube' allowfullscreen>");
-              youtubeDiv.css({"width": "200px", "height": "140px", "display":"block"});
-              var videoIdList = response.items[i].id.videoId;
-              var url = 'https://www.youtube.com/embed/' + videoIdList;
-              console.log(url);
-              // grabbing the title for every video
-              var videoTitle = response.items[i].snippet.title;
-              console.log(videoTitle);
-              youtubeDiv.attr("src", url);
-              $("#displayedVideo").append(youtubeDiv);
-              }
-          })
-
-          .fail(function(err){
-            console.log(err.statusText);
-          })
-          // youtube ends=======================================================
-        })
-        console.log(user.uid + "is now signed in")
-        $(".panel").show();
-
+        console.log(user.uid + "is now signed in");
+      });
       } else {
-        console.log("no user is signed in")
-        $("#pod-div").empty();
-        // $(".panel").hide();
+
+        console.log("no user is signed in");
       }
     });
-  }
+  };
 
-});
+  //Search topic to populate APIs
+  $("#searchSubmit").on("click", function(event) {
+    event.preventDefault();
+
+    datatopic = $("#searchInput").val().trim();
+    console.log(datatopic);
+
+    getYouTube(datatopic);
+    getBooks(datatopic);
+    getPodcasts(datatopic);
+  });
+
+
+
+  function getYouTube(datatopic) {
+    var searchTopic = datatopic.split(" ").join("+");
+    var order = 'date';
+    var videoID;
+    var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=5&part=snippet&q=' + searchTopic + '&order=' + order + '&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
+    $.ajax({
+        url: queryURL,
+        method: 'GET',
+        dataType: 'jsonp'
+      })
+
+      .done(function(response) {
+        console.log("YouTube: " + queryURL);
+        console.log(response);
+        console.log(response.items);
+
+        $("#video-div").empty();
+        // var results = data.items;
+        for (var i = 0; i < response.items.length; i++) {
+          var youtubeDiv = $("<iframe class='youtube' allowfullscreen>");
+          youtubeDiv.css({
+            "width": "200px",
+            "height": "140px",
+            "display": "block"
+          });
+          var videoIdList = response.items[i].id.videoId;
+          var url = 'https://www.youtube.com/embed/' + videoIdList;
+          console.log(url);
+          // grabbing the title for every video
+          var videoTitle = response.items[i].snippet.title;
+          console.log(videoTitle);
+          youtubeDiv.attr("src", url);
+          youtubeDiv.addClass("margin-top");
+          $("#video-div").append(youtubeDiv);
+        }
+      })
+
+      .fail(function(err) {
+        console.log(err.statusText);
+      })
+  };
+
+  function getBooks(datatopic) {
+    var searchTopic = datatopic.split(" ").join("+");
+    var GbooksAPIkey = "AIzaSyAdRit-J3O3HY3ojccN4WDrf1Zqa-mVcgw"
+    var queryURL = "https://www.googleapis.com/books/v1/volumes?q=" + searchTopic + "&langRestrict=en&maxResults=5&orderBy=newest&key=" + GbooksAPIkey;
+
+    $.ajax({
+        url: queryURL,
+        method: 'GET',
+      })
+      .done(function(response) {
+
+        console.log(response);
+        console.log("Books: " + queryURL);
+
+        $("#books-div").empty();
+
+        for (var i = 0; i < response.items.length; i++) {
+          console.log(response.items[i].volumeInfo.imageLinks.thumbnail);
+
+          var booksRow = $("<div class='books-row margin-top'>");
+          var image = $("<img src=" + response.items[i].volumeInfo.imageLinks.smallThumbnail + ">");
+          var booksURL = $("<a class='podlink' href=" + response.items[i].volumeInfo.infoLink + ">" + response.items[i].volumeInfo.title + "</a>");
+          var savebtn = $("<button class='btn btn-danger btn-sm pull-right'>save<button>");
+          savebtn.attr("data-title", response.items[i].volumeInfo.title).attr("data-url", response.items[i].volumeInfo.infoLink);
+
+          booksRow.append(image);
+          booksRow.append(booksURL);
+          booksRow.append(savebtn);
+
+          $("#books-div").append(booksRow);
+
+        };
+      }).fail(function(err) {
+        console.log(err.statusText);
+      });
+  };
+
+  function getPodcasts(datatopic) {
+    var searchTopic = datatopic.split(" ").join("+");
+    var queryURL = 'http://gpodder.net/api/2/tag/' + searchTopic + '/5.json';
+
+    $.ajax({
+        url: queryURL,
+        userAgent: "First-Project-App",
+        method: 'GET',
+      })
+      .done(function(response) {
+
+        console.log(response);
+        console.log("Podcast: " + queryURL);
+
+        var podcasts = response;
+
+        $("#pod-div").empty();
+
+        for (var i = 0; i < podcasts.length; i++) {
+          console.log(podcasts[i].url);
+
+          var podRow = $("<div class='pod-row margin-top'>");
+          var image = $("<img src=" + podcasts[i].scaled_logo_url + ">");
+          var podURL = $("<a class='podlink' href=" + podcasts[i].url + ">" + podcasts[i].title + "</a>");
+          var savebtn = $("<button class='btn btn-danger btn-sm pull-right'>save<button>");
+          savebtn.attr("data-title", podcasts[i].title).attr("data-url", podcasts[i].url);
+
+          podRow.append(image);
+          podRow.append(podURL);
+          podRow.append(savebtn);
+
+          $("#pod-div").append(podRow);
+        };
+      }).fail(function(err) {
+        console.log(err.statusText);
+      });
+  };
+
+}); //document end.
