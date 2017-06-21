@@ -1,3 +1,4 @@
+
 $(document).ready(function() {
   // $(".panel").hide();
 
@@ -13,6 +14,7 @@ $(document).ready(function() {
     storageBucket: "",
     messagingSenderId: "618602692351"
   };
+
 
 
   firebase.initializeApp(config);
@@ -102,9 +104,56 @@ $(document).ready(function() {
   });
 
 
+  auth.onAuthStateChanged(function(user) {
+    if (user) {
+      console.log(user.uid + "is now signed in")
+      $(".panel").show();
+			getPodcast();
+    } else {
+      console.log("no user is signed in")
+      $(".panel").hide();
+    }
+  });
+
+  // podcast API
+var queryURL = 'http://gpodder.net/api/2/tag/' + datatopic + '/5.json';
+
+	function getPodcast() {
+    $.ajax({
+        url: queryURL,
+        userAgent: "First-Project-App",
+        method: 'GET',
+      })
+      .done(function(response) {
+
+        console.log(response);
+        console.log(queryURL);
+
+        var podcasts = response;
+
+        for (var i = 0; i < podcasts.length; i++) {
+          console.log(podcasts[i].url);
+
+
+      
+          var podRow = $("<div class='margin-top'>");
+          var image = $("<img src=" + podcasts[i].scaled_logo_url + ">");
+          var podURL = $("<a class='podlink' href=" + podcasts[i].url + ">" + podcasts[i].title + "</a>");
+          var savebtn = $("<button class='btn btn-danger btn-sm pull-right'>save<button>");
+          savebtn.attr("data-title", podcasts[i].title).attr("data-url", podcasts[i].url);
+
+          podRow.append(image);
+          podRow.append(podURL);
+          podRow.append(savebtn);
+
+          $("#pod-div").append(podRow);
+        };
+      });
+  	};
+	});
+
 
   function getContent() {
-
     auth.onAuthStateChanged(function(user) {
       if (user) {
         var ref = database.ref("/user/" + user.uid);
@@ -229,3 +278,4 @@ $(document).ready(function() {
   }
 
 });
+
