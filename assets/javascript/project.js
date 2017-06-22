@@ -1,9 +1,13 @@
 $(document).ready(function() {
 
-  $("#flip").click(function() {
-    $("#mypanel").toggle("fast");
-  });
+  $("#flip").on("click",function(){
 
+      $('.ui.sidebar')
+        .sidebar('toggle');
+});
+
+
+  
   //Firebase initialize
   var config = {
     apiKey: "AIzaSyDxW087mUoLk6smGAHixRd5lLKYBZ4JeA8",
@@ -124,6 +128,7 @@ $(document).ready(function() {
           getYouTube(datatopic);
           getBooks(datatopic);
           getPodcasts(datatopic);
+          getNews(datatopic);
 
 
           console.log(user.uid + "is now signed in");
@@ -145,11 +150,13 @@ $(document).ready(function() {
     getYouTube(datatopic);
     getBooks(datatopic);
     getPodcasts(datatopic);
+    getNews(datatopic);
   });
 
 
 
   function getYouTube(datatopic) {
+    
     var searchTopic = datatopic.split(" ").join("+");
     var order = 'date';
     var videoID;
@@ -164,7 +171,7 @@ $(document).ready(function() {
         console.log("YouTube: " + queryURL);
         console.log(response);
         console.log(response.items);
-
+        
         $("#video-div").empty();
         // var results = data.items;
         for (var i = 0; i < response.items.length; i++) {
@@ -174,6 +181,7 @@ $(document).ready(function() {
             "height": "140px",
             "display": "block"
           });
+
           var videoIdList = response.items[i].id.videoId;
           var url = 'https://www.youtube.com/embed/' + videoIdList;
           console.log(url);
@@ -182,13 +190,20 @@ $(document).ready(function() {
           console.log(videoTitle);
           youtubeDiv.attr("src", url);
           youtubeDiv.addClass("margin-top");
+        
           $("#video-div").append(youtubeDiv);
+  // $(youtubeDiv).hide();
+     $("#ytImage").on("click",function(){
+        $(youtubeDiv).show(); });
         }
+          
       })
 
       .fail(function(err) {
         console.log(err.statusText);
       })
+
+
   };
 
   function getBooks(datatopic) {
@@ -202,12 +217,6 @@ $(document).ready(function() {
       })
       .done(function(response) {
 
-<<<<<<< HEAD
-      
-          var podRow = $("<div class='margin-top'>");
-          var image = $("<img src=" + podcasts[i].scaled_logo_url + ">");
-          var podURL = $("<a class='podlink' href=" + podcasts[i].url + ">" + podcasts[i].title + "</a>");
-=======
         console.log(response);
         console.log("Books: " + queryURL);
 
@@ -233,6 +242,47 @@ $(document).ready(function() {
         console.log(err.statusText);
       });
   };
+
+    function getNews(datatopic){
+
+    var searchTopic = $("#searchSubmit").val();
+    var endpoint = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?',
+        params = 'q=' + searchTopic + '&sort=newest&api_key=a49e8a22035943e9bb2f4928fe15d8fe';
+    var url = endpoint + params;
+    $.ajax({
+        url:url,
+        method:'GET'
+    }).then(function (data) {
+        console.log(data);
+        // book.html("Categorie: " + data.response.docs[0].section_name);
+        // source.html("Source: " + data.response.docs[0].source);
+        // snippet.html("Description: " + data.response.docs[0].snippet);
+        // date.html("Date: " + data.response.docs[0].pub_date);
+        var arr = data.response.docs; // array of 10 objects
+        for(var i = 0; i < arr.length; i++){
+            var content = $("<div>");
+            var web = $("<p>").attr('class', 'web'), 
+                source = $("<p>").attr('class', 'source'),
+                snippet = $("<p>").attr('class', 'snippet'), 
+                date = $("<p>").attr('class', 'date');
+                
+            web.html("URL: " + arr[i].web_url);
+            source.html("Source: " + arr[i].source);
+            snippet.html("Description: " + arr[i].snippet);
+            date.html("Date: " + arr[i].pub_date);
+            content.append(date,snippet,source,web);
+            $("#nyTime-div").append(content);
+        }
+    })
+  
+      .catch(function (err) {
+        // var obj = JSON.parse(err.responseText);
+        //console.log(obj.message);
+        console.log(err);
+
+      });   
+    // GET, DELETE, POST, PUT
+};
 
   function getPodcasts(datatopic) {
     var searchTopic = datatopic.split(" ").join("+");
@@ -270,5 +320,11 @@ $(document).ready(function() {
         console.log(err.statusText);
       });
   };
+
+  $('.ui.sticky')
+  .sticky({
+    context: '#example1'
+  })
+;
 
 }); //document end.
