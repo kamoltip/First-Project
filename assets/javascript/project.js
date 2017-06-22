@@ -202,12 +202,7 @@ $(document).ready(function() {
       })
       .done(function(response) {
 
-<<<<<<< HEAD
-      
-          var podRow = $("<div class='margin-top'>");
-          var image = $("<img src=" + podcasts[i].scaled_logo_url + ">");
-          var podURL = $("<a class='podlink' href=" + podcasts[i].url + ">" + podcasts[i].title + "</a>");
-=======
+
         console.log(response);
         console.log("Books: " + queryURL);
 
