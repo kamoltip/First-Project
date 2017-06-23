@@ -15,18 +15,18 @@
 <body>
 
 
-<!-- start of fletcher -->
-<div class="ui container-fluid">
+	<!-- start of fletcher -->
+	<div class="ui container-fluid">
 
-	<nav class="navbar navbar-primary">
+		<nav class="navbar navbar-primary">
 			<!-- Brand and toggle get grouped for better mobile display -->
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-			<span class="sr-only">Toggle navigation</span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		</button>
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
 				<a class="navbar-brand" href="#">Bento App</a>
 			</div>
 
@@ -55,236 +55,228 @@
 					<li><a id="login" href="#">Login</a></li>
 					<li><a id="logout" href="#">Logout</a></li>
 				</ul>
-				</li>
-				</ul>
-			</div>
-			<!-- /.navbar-collapse -->
-	</nav>
+			</li>
+		</ul>
+	</div>
+	<!-- /.navbar-collapse -->
+</nav>
 
-		<div class="row" id="signUpForm">
-			<form>
-				<div class="form-group">
-					<label for="exampleInputEmail1">Email address</label>
-					<input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-				</div>
-				<div class="form-group">
-					<label for="exampleInputPassword1">Password</label>
-					<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-				</div>
-				<div class="form-group">
-					<label for="exampleInputInterest1">Interest</label>
-					<input type="text" class="form-control" id="exampleInputInterest1" placeholder="Interest">
-				</div>
-				<button id="signUpSubmit" type="submit" class="btn btn-default">Submit</button>
-			</form>
+<div class="row" id="addInterestForm">
+	<form>
+		<div class="form-group">
+			<label for="interestEntry">Interest</label>
+			<input type="text" class="form-control" id="interestEntry" placeholder="Interest">
 		</div>
+		<button id="submitInterest" type="submit" class="btn btn-default">Submit</button>
+	</form>
+</div>
 
-		<div class="row" id="loginForm">
-			<form>
-				<div class="form-group">
-					<label for="exampleInputEmail1">Email address</label>
-					<input type="email" class="form-control" id="exampleLoginEmail1" placeholder="Email">
-				</div>
-				<div class="form-group">
-					<label for="exampleInputPassword1">Password</label>
-					<input type="password" class="form-control" id="exampleLoginPassword1" placeholder="Password">
-				</div>
-				<button id="loginSubmit" type="submit" class="btn btn-default">Login</button>
-			</form>
+<div class="row" id="loginForm">
+	<form>
+		<div class="form-group">
+			<label for="exampleInputEmail1">Email address</label>
+			<input type="email" class="form-control" id="exampleLoginEmail1" placeholder="Email">
 		</div>
+		<div class="form-group">
+			<label for="exampleInputPassword1">Password</label>
+			<input type="password" class="form-control" id="exampleLoginPassword1" placeholder="Password">
+		</div>
+		<button id="loginSubmit" type="submit" class="btn btn-default">Login</button>
+	</form>
+</div>
 
 <!-- /*snackable side bar*//////////////////////////////// -->
 
-  <h1>B E N T O</h1>
+<h1>B E N T O</h1>
 
-	<div class="ui container-fluid">
-	  <div class="ui inverted ">
-	      <div class="ui inverted pointing secondary fixed menu">
-	        <button id="flip" class="ui inverted green secondary button">My Snackables</button>
-	        <button class="ui inverted green secondary button">Log Out</button>    
-	        <a class="right item"> B E N T O</a>
-	        <a class="right item"> Logo Placeholder </a>
-	        <div class="item">
-	          <div class="ui icon input">
-	            <input type="text" placeholder="Chew On This!">
-				            <i class="search icon"></i>
-			  </div>
+<div class="ui container-fluid">
+	<div class="ui inverted ">
+		<div class="ui inverted pointing secondary fixed menu">
+			<button id="flip" class="ui inverted green secondary button">My Snackables</button>
+			<button class="ui inverted green secondary button" id="logout">Log Out</button>
+			<a class="right item"> B E N T O</a>
+			<a class="right item"> Logo Placeholder </a>
+			<div class="item">
+				<div class="ui icon input">
+					<input type="text" placeholder="Chew On This!">
+					<i class="search icon"></i>
+				</div>
 			</div>
-	 	 </div>					 
-	  </div>
-
-		<div class="ui sidebar inverted vertical menu">
-				    <a class="item">
-				      1
-				    </a>
-				    <a class="item">
-				      2
-				    </a>
-				    <a class="item">
-				      3
-				    </a>
 		</div>
-		<div class="pusher"></div>
-
 	</div>
 
-			<div class="ui container">
-	
-		<div class="ui grid">
-		  <div class="sixteen wide column"></div>
-		  <div class="sixteen wide column"></div>
-		  <div class="sixteen wide column"></div>
-		
-		</div>
+	<div class="ui sidebar inverted vertical menu">
+		<a class="item">
+			1
+		</a>
+		<a class="item">
+			2
+		</a>
+		<a class="item">
+			3
+		</a>
+	</div>
+	<div class="pusher"></div>
 
-			<div class="ui three column centered row">
-			<div class="ui link stackable cards">
-			  <div class="card">
-			    <div class="image">
-			      <img src="https://www.democracynow.org/images/story/49/29749/full_hd/NYTimes2.jpg">
-			    </div>
-			    <div class="content">
-			      <div class="header">New York Time</div>
-			      <div class="meta">
-			        <a>newest news</a>
-			      </div>
-			      <div class="description" id ="nyTime-div">
-			        Head Line.
-			      </div>
-			    </div>
-			    <div class="extra content">
-			      <span class="left floated">
-			        Ny Time URL link.
-			      </span>
-		
-			    </div>
-			  </div>
-			  <div class="card">
-			    <div class="image">
-			      <img src="http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/08/Youtube-HD-Wallpapers-3.jpg" id="ytImage">
-			    </div>
-			    <div class="content">
-			      <div class="header" id="video-div">Launch this</div>
-			      <div class="meta">
-			        <span class="date">Coworker</span>
-			      </div>
-			      <div class="description">
-			        Molly is a personal assistant living in Paris.
-			      </div>
-			    </div>
-			    <div class="extra content">
-			      <span class="right floated">
-			        Joined in 2011
-			      </span>
-			      <span>
-			        <i class="user icon"></i>
-			        35 Friends
-			      </span>
-			    </div>
-			  </div>
-			  <div class="card">
-			    <div class="image">
-			      <img src="https://www.pixelstalk.net/wp-content/uploads/2016/06/Twitter-Desktop-Wallpaper.jpg">
-			    </div>
-			    <div class="content">
-			      <div class="header">Elyse</div>
-			      <div class="meta">
-			        <a>Coworker</a>
-			      </div>
-			      <div class="description">
-			        Elyse is a copywriter working in New York.
-			      </div>
-			    </div>
-			    <div class="extra content">
-			      <span class="right floated">
-			        Joined in 2014
-			      </span>
-			      <span>
-			        <i class="user icon"></i>
-			        151 Friends
-			      </span>
-			    </div>
-			  </div>
-			  <div class="card">
-			    <div class="image">
-			      <img src="http://hdwallpapersbuzz.com/wp-content/uploads/2017/04/meetup-logo-2.jpg">
-			    </div>
-			    <div class="content">
-			      <div class="header">Matt Giampietro</div>
-			      <div class="meta">
-			        <a>Friends</a>
-			      </div>
-			      <div class="description">
-			        Matthew is an interior designer living in New York.
-			      </div>
-			    </div>
-			    <div class="extra content">
-			      <span class="right floated">
-			        Joined in 2013
-			      </span>
-			      <span>
-			        <i class="user icon"></i>
-			        75 Friends
-			      </span>
-			    </div>
-			  </div>
-			  <div class="card">
-			    <div class="image">
-			      <img src="https://cdn.taschen.com/custom/taschen/includes/phpThumb/phpThumb.php/q=70;f=png;640;/media/images/640/menu_books_1507171125_id_970319.png">
-			    </div>
-			    <div class="content">
-			      <div class="header">Molly</div>
-			      <div class="meta">
-			        <span class="date">Coworker</span>
-			      </div>
-			      <div class="description">
-			        Molly is a personal assistant living in Paris.
-			      </div>
-			    </div>
-			    <div class="extra content">
-			      <span class="right floated">
-			        Joined in 2011
-			      </span>
-			      <span>
-			        <i class="user icon"></i>
-			        35 Friends
-			      </span>
-			    </div>
-			  </div>
-			  <div class="card">
-			    <div class="image">
-			      <img src="https://userscontent2.emaze.com/images/68e5239d-a253-4e78-8904-ce64efb1d29b/b9aeeee7-0660-4bfc-b712-7348084617ad.jpg">
-			    </div>
-			    <div class="content">
-			      <div class="header">Elyse</div>
-			      <div class="meta">
-			        <a>Coworker</a>
-			      </div>
-			      <div class="description">
-			        Elyse is a copywriter working in New York.
-			      </div>
-			    </div>
-			    <div class="extra content">
-			      <span class="right floated">
-			        Joined in 2014
-			      </span>
-			      <span>
-			        <i class="user icon"></i>
-			        151 Friends
-			      </span>
-			    </div>
-			  </div>
-
-			</div>
-
-			</div>
-			</div>
 </div>
-		
+
+<div class="ui container">
+
+	<div class="ui grid">
+		<div class="sixteen wide column"></div>
+		<div class="sixteen wide column"></div>
+		<div class="sixteen wide column"></div>
+
 	</div>
 
-		</div>	
+	<div class="ui three column centered row">
+		<div class="ui link stackable cards">
+			<div class="card">
+				<div class="image">
+					<img src="https://www.democracynow.org/images/story/49/29749/full_hd/NYTimes2.jpg">
+				</div>
+				<div class="content">
+					<div class="header">New York Time</div>
+					<div class="meta">
+						<a>newest news</a>
+					</div>
+					<div class="description" id ="nyTime-div">
+						Head Line.
+					</div>
+				</div>
+				<div class="extra content">
+					<span class="left floated">
+						Ny Time URL link.
+					</span>
+
+				</div>
 			</div>
+			<div class="card">
+				<div class="image">
+					<img src="http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/08/Youtube-HD-Wallpapers-3.jpg" id="ytImage">
+				</div>
+				<div class="content">
+					<div class="header" id="video-div">Launch this</div>
+					<div class="meta">
+						<span class="date">Coworker</span>
+					</div>
+					<div class="description">
+						Molly is a personal assistant living in Paris.
+					</div>
+				</div>
+				<div class="extra content">
+					<span class="right floated">
+						Joined in 2011
+					</span>
+					<span>
+						<i class="user icon"></i>
+						35 Friends
+					</span>
+				</div>
+			</div>
+			<div class="card">
+				<div class="image">
+					<img src="https://www.pixelstalk.net/wp-content/uploads/2016/06/Twitter-Desktop-Wallpaper.jpg">
+				</div>
+				<div class="content">
+					<div class="header">Elyse</div>
+					<div class="meta">
+						<a>Coworker</a>
+					</div>
+					<div class="description">
+						Elyse is a copywriter working in New York.
+					</div>
+				</div>
+				<div class="extra content">
+					<span class="right floated">
+						Joined in 2014
+					</span>
+					<span>
+						<i class="user icon"></i>
+						151 Friends
+					</span>
+				</div>
+			</div>
+			<div class="card">
+				<div class="image">
+					<img src="http://hdwallpapersbuzz.com/wp-content/uploads/2017/04/meetup-logo-2.jpg">
+				</div>
+				<div class="content">
+					<div class="header">Matt Giampietro</div>
+					<div class="meta">
+						<a>Friends</a>
+					</div>
+					<div class="description">
+						Matthew is an interior designer living in New York.
+					</div>
+				</div>
+				<div class="extra content">
+					<span class="right floated">
+						Joined in 2013
+					</span>
+					<span>
+						<i class="user icon"></i>
+						75 Friends
+					</span>
+				</div>
+			</div>
+			<div class="card">
+				<div class="image">
+					<img src="https://cdn.taschen.com/custom/taschen/includes/phpThumb/phpThumb.php/q=70;f=png;640;/media/images/640/menu_books_1507171125_id_970319.png">
+				</div>
+				<div class="content">
+					<div class="header">Molly</div>
+					<div class="meta">
+						<span class="date">Coworker</span>
+					</div>
+					<div class="description">
+						Molly is a personal assistant living in Paris.
+					</div>
+				</div>
+				<div class="extra content">
+					<span class="right floated">
+						Joined in 2011
+					</span>
+					<span>
+						<i class="user icon"></i>
+						35 Friends
+					</span>
+				</div>
+			</div>
+			<div class="card">
+				<div class="image">
+					<img src="https://userscontent2.emaze.com/images/68e5239d-a253-4e78-8904-ce64efb1d29b/b9aeeee7-0660-4bfc-b712-7348084617ad.jpg">
+				</div>
+				<div class="content">
+					<div class="header">Elyse</div>
+					<div class="meta">
+						<a>Coworker</a>
+					</div>
+					<div class="description">
+						Elyse is a copywriter working in New York.
+					</div>
+				</div>
+				<div class="extra content">
+					<span class="right floated">
+						Joined in 2014
+					</span>
+					<span>
+						<i class="user icon"></i>
+						151 Friends
+					</span>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
 
 
 <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
