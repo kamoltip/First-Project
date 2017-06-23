@@ -328,3 +328,83 @@ $(document).ready(function() {
 ;
 
 }); //document end.
+
+
+/*//////////////////////////////////////
+/////////////////air API ///////////////
+/*//////////////////////////////////////
+
+// meet up api ///////////////////////////////////////////
+
+// $("button").on('click', function (event) {
+//     event.preventDefault();
+//     $("#result").empty();
+//     var value = $("#value").val();
+//     console.log(value);
+//     // var data ="how to use react";
+// $.ajax({
+
+//     url:'https://api.meetup.com/find/groups?page=20&text='+ value +'&key=4f2661595c402d1f6c515a3b671056',
+//     method:"GET",
+//     dataType: "jsonp"
+// })
+// .then(function(data){
+//   console.log(data);
+//   var arr = data.data; // array of 10 objects
+//         for(var i = 0; i < arr.length; i++){
+//             var content = $("<div>").attr('class','box');
+//             var city = $("<p>").attr('class', 'city'), 
+//                 description = $("<p>").attr('class', 'description'),
+//                 link = $("<a>").attr({
+//                     'class': 'link',
+//                     "href": arr[i].link
+//                 }), 
+//                 name = $("<p>").attr('class', 'name');
+                
+//             city.html(arr[i].city);
+//             description.html("description: " + arr[i].description);
+//             link.html("link: " + arr[i].link);
+//             name.html("Group Name: " + arr[i].name);
+//             content.append(city,description,name,link);
+//             $("#result").append(content);
+//         }
+    
+//     })
+//       .catch(function (err) {
+//         // var obj = JSON.parse(err.responseText);
+//         //console.log(obj.message);
+//         console.log(err);
+//       })   
+//     // GET, DELETE, POST, PUT
+// });
+
+
+
+// 2.twitter ///////////////////////////////////////////////////
+
+// var data = 'javascript';
+// $.ajax({
+//     url:'https://twitterpopularapi.herokuapp.com/api?q='+data+'&count=3',
+//     method:"GET",
+//     dataType: "jsonp"
+// })
+// .then(function(data){
+//  console.log(data);
+//   var arr = data.statuses; // array of 10 objects
+//         for(var i = 0; i < arr.length; i++){
+//             var content = $("<div>").attr('class','box');
+//             var text = $("<p>").attr('class', 'text'), 
+       
+                
+//                 name = $("<p>").attr('class', 'name');
+                
+//             text.html("Latest Tweet: " + arr[i].text);
+            
+//             content.append(text);
+//             $("#result").append(content);
+//         }
+    
+//     })
+// .fail(function(err){
+//   console.log(err.statusText);
+// })
