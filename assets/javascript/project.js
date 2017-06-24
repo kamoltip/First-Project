@@ -248,7 +248,7 @@ $(document).ready(function() {
   function getBooks(datatopic) {
     var searchTopic = datatopic.split(" ").join("+");
     var GbooksAPIkey = "AIzaSyAdRit-J3O3HY3ojccN4WDrf1Zqa-mVcgw"
-    var queryURL = "https://www.googleapis.com/books/v1/volumes?q=" + searchTopic + "&langRestrict=en&maxResults=5&orderBy=newest&key=" + GbooksAPIkey;
+    var queryURL = "https://www.googleapis.com/books/v1/volumes?q=" + searchTopic + "&langRestrict=en&maxResults=9&orderBy=newest&key=" + GbooksAPIkey;
 
     $.ajax({
         url: queryURL,
@@ -285,17 +285,18 @@ $(document).ready(function() {
   function getNews(datatopic) {
 
     var searchTopic = datatopic.split(" ").join("+");
-    var endpoint = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?',
-      params = 'q=' + searchTopic + '&sort=newest&api_key=a49e8a22035943e9bb2f4928fe15d8fe';
+    var endpoint = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + searchTopic + '&sort=newest&api_key=a49e8a22035943e9bb2f4928fe15d8fe';
+    // params = 'q=' + searchTopic + '&sort=newest&api_key=a49e8a22035943e9bb2f4928fe15d8fe';
       // params = 'q=' + searchTopic + '&sort=newest&api_key=6c06af0cde254bc0a14d82aaa261021c';
 
-    var url = endpoint + params;
+    // var url = endpoint;
+
     $.ajax({
-        url: url,
+        url: endpoint,
         method: 'GET'
       }).then(function(data) {
         console.log(data);
-        console.log("NYT: " + url);
+        console.log("NYT: " + endpoint);
         // book.html("Categorie: " + data.response.docs[0].section_name);
         // source.html("Source: " + data.response.docs[0].source);
         // snippet.html("Description: " + data.response.docs[0].snippet);
@@ -367,9 +368,6 @@ $(document).ready(function() {
       context: '#example1'
     });
 
-}); //document end.
-
-
 /*//////////////////////////////////////
 /////////////////air API ///////////////
 /*//////////////////////////////////////
@@ -404,7 +402,6 @@ $.ajax({
             content.append(city,description,name,link);
             $("#result").append(content);
         }
-
     })
       .catch(function (err) {
         console.log(err.statusText);
@@ -413,15 +410,16 @@ $.ajax({
 };
 
 // 2.twitter ///////////////////////////////////////////////////
-
-var data = 'javascript';
+function getTwitter(datatopic){
+var searchTopic = datatopic.split(" ").join("+");
+var queryURL = 'https://twitterpopularapi.herokuapp.com/api?q='+ searchTopic +'&count=9';
 $.ajax({
-    url:'https://twitterpopularapi.herokuapp.com/api?q='+data+'&count=3',
+    url: queryURL,
     method:"GET",
     dataType: "jsonp"
 })
 .then(function(data){
- console.log(data);
+ console.log("Twitter: " + data);
   var arr = data.statuses; // array of 10 objects
         for(var i = 0; i < arr.length; i++){
             var content = $("<div>").attr('class','box');
@@ -440,3 +438,8 @@ $.ajax({
 .fail(function(err){
   console.log(err.statusText);
 })
+};
+
+});
+
+ //document end.
