@@ -156,7 +156,7 @@ $(document).ready(function() {
        ref.update({
          interest: interest,
        })
-     $("addInterestForm").hide();
+     $("#addInterestForm").hide();
      setTimeout(function() {
        getContent();
      }, 2000);
@@ -270,15 +270,18 @@ $(document).ready(function() {
 
   function getNews(datatopic) {
 
-    var searchTopic = $("#searchSubmit").val();
+    var searchTopic = datatopic.split(" ").join("+");
     var endpoint = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?',
       params = 'q=' + searchTopic + '&sort=newest&api_key=a49e8a22035943e9bb2f4928fe15d8fe';
+      // params = 'q=' + searchTopic + '&sort=newest&api_key=6c06af0cde254bc0a14d82aaa261021c';
+
     var url = endpoint + params;
     $.ajax({
         url: url,
         method: 'GET'
       }).then(function(data) {
         console.log(data);
+        console.log("NYT: " + url);
         // book.html("Categorie: " + data.response.docs[0].section_name);
         // source.html("Source: " + data.response.docs[0].source);
         // snippet.html("Description: " + data.response.docs[0].snippet);
@@ -379,14 +382,14 @@ $(document).ready(function() {
 //   var arr = data.data; // array of 10 objects
 //         for(var i = 0; i < arr.length; i++){
 //             var content = $("<div>").attr('class','box');
-//             var city = $("<p>").attr('class', 'city'), 
+//             var city = $("<p>").attr('class', 'city'),
 //                 description = $("<p>").attr('class', 'description'),
 //                 link = $("<a>").attr({
 //                     'class': 'link',
 //                     "href": arr[i].link
-//                 }), 
+//                 }),
 //                 name = $("<p>").attr('class', 'name');
-                
+
 //             city.html(arr[i].city);
 //             description.html("description: " + arr[i].description);
 //             link.html("link: " + arr[i].link);
@@ -394,13 +397,13 @@ $(document).ready(function() {
 //             content.append(city,description,name,link);
 //             $("#result").append(content);
 //         }
-    
+
 //     })
 //       .catch(function (err) {
 //         // var obj = JSON.parse(err.responseText);
 //         //console.log(obj.message);
 //         console.log(err);
-//       })   
+//       })
 //     // GET, DELETE, POST, PUT
 // });
 
@@ -419,17 +422,17 @@ $(document).ready(function() {
 //   var arr = data.statuses; // array of 10 objects
 //         for(var i = 0; i < arr.length; i++){
 //             var content = $("<div>").attr('class','box');
-//             var text = $("<p>").attr('class', 'text'), 
-       
-                
+//             var text = $("<p>").attr('class', 'text'),
+
+
 //                 name = $("<p>").attr('class', 'name');
-                
+
 //             text.html("Latest Tweet: " + arr[i].text);
-            
+
 //             content.append(text);
 //             $("#result").append(content);
 //         }
-    
+
 //     })
 // .fail(function(err){
 //   console.log(err.statusText);
