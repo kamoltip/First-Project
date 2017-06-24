@@ -191,6 +191,8 @@ $(document).ready(function() {
     getMeetup(datatopic);
   });
 
+
+
   /*//////////////////////////////////////
   /////////////////Mauricio API ///////////////
   /*//////////////////////////////////////
@@ -200,7 +202,7 @@ $(document).ready(function() {
     var searchTopic = datatopic.split(" ").join("+");
     var order = 'date';
     var videoID;
-    var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&part=snippet&&relevanceLanguage=en&q=' + searchTopic + '&order=' + order +  '&order=viewCount'+  '&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
+    var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&part=snippet&&relevanceLanguage=en&q=' + searchTopic + '&order=' + order + '&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
     $.ajax({
         url: queryURL,
         method: 'GET',
@@ -228,6 +230,8 @@ $(document).ready(function() {
           console.log(url);
           // grabbing the title for every video
           var videoTitle = response.items[i].snippet.title;
+          var saveYT = "<p>"
+
           console.log(videoTitle);
           youtubeDiv.attr("src", url);
           youtubeDiv.addClass("margin-top");
