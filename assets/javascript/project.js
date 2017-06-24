@@ -6,6 +6,17 @@ $(document).ready(function() {
       .sidebar('toggle');
   });
 
+  $('.icon.button').on('click', function(){
+  $('.basic.modal.setting')
+  .modal('show')
+;
+});
+
+  $('.ui.radio.checkbox')
+  .checkbox()
+;
+
+
   //Firebase initialize
   var config = {
     apiKey: "AIzaSyDxW087mUoLk6smGAHixRd5lLKYBZ4JeA8",
@@ -184,7 +195,7 @@ $(document).ready(function() {
     var searchTopic = datatopic.split(" ").join("+");
     var order = 'date';
     var videoID;
-    var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=5&part=snippet&q=' + searchTopic + '&order=' + order + '&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
+    var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&part=snippet&q=' + searchTopic + '&order=' + order + '&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
     $.ajax({
         url: queryURL,
         method: 'GET',
@@ -201,9 +212,10 @@ $(document).ready(function() {
         for (var i = 0; i < response.items.length; i++) {
           var youtubeDiv = $("<iframe class='youtube' allowfullscreen>");
           youtubeDiv.css({
-            "width": "200px",
-            "height": "140px",
-            "display": "block"
+            "width": "250px",
+            "height": "160px",
+            "display": "block",
+            "padding": "10px"
           });
 
           var videoIdList = response.items[i].id.videoId;
@@ -214,21 +226,18 @@ $(document).ready(function() {
           console.log(videoTitle);
           youtubeDiv.attr("src", url);
           youtubeDiv.addClass("margin-top");
-
           $("#video-div").append(youtubeDiv);
-          // $(youtubeDiv).hide();
-          $("#ytImage").on("click", function() {
-            $(youtubeDiv).show();
-          });
-        }
-
-      })
+          $('#ytDiv').on('click', function(){
+          $('.basic.modal.yt')
+          .modal('show')
+  ;
+  });
+  }
+  })
 
       .fail(function(err) {
         console.log(err.statusText);
-      })
-
-
+  })
   };
 
   function getBooks(datatopic) {
