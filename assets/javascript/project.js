@@ -191,6 +191,8 @@ $(document).ready(function() {
     getMeetup(datatopic);
   });
 
+
+
   /*//////////////////////////////////////
   /////////////////Mauricio API ///////////////
   /*//////////////////////////////////////
@@ -228,6 +230,8 @@ $(document).ready(function() {
           console.log(url);
           // grabbing the title for every video
           var videoTitle = response.items[i].snippet.title;
+          var saveYT = "<p>"
+
           console.log(videoTitle);
           youtubeDiv.attr("src", url);
           youtubeDiv.addClass("margin-top");
