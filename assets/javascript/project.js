@@ -1,8 +1,21 @@
 $(document).ready(function() {
 
-  $("#flip").click(function() {
-    $("#mypanel").toggle("fast");
+  $("#flip").on("click", function() {
+
+    $('.ui.sidebar')
+      .sidebar('toggle');
   });
+
+  $('.icon.button').on('click', function(){
+  $('.basic.modal.setting')
+  .modal('show')
+;
+});
+
+  $('.ui.radio.checkbox')
+  .checkbox()
+;
+
 
   //Firebase initialize
   var config = {
@@ -21,6 +34,7 @@ $(document).ready(function() {
   //store firebase db and auth in global variables
   var database = firebase.database();
   var auth = firebase.auth();
+  var name = "";
   var email = "";
   var password = "";
   var interest = "";
@@ -29,18 +43,16 @@ $(document).ready(function() {
   //
   //creates user -- signup email authentication
   $("#signup").on("click", function() {
-    $("#signUpForm").css("display", "block");
+    window.location.href = "signup.html";
   });
 
   // console.log("Hello World!!");
   $("#signUpSubmit").on("click", function(event) {
     event.preventDefault();
 
-    //Add User Name = '';
-    //Add firstLogin = 'false';
-    email = $("#exampleInputEmail1").val().trim();
-    password = $("#exampleInputPassword1").val().trim();
-    interest = $("#exampleInputInterest1").val().trim();
+    name = $("#signUpName").val().trim();
+    email = $("#signUpEmail").val().trim();
+    password = $("#signUpPassword").val().trim();
 
     var newuser = auth.createUserWithEmailAndPassword(email, password);
 
@@ -48,10 +60,10 @@ $(document).ready(function() {
       var ref = database.ref("/user/" + user.uid);
 
       ref.set({
+        userName: name,
         email: email,
-        password: password,
         uid: user.uid,
-        interest: interest
+        interest: false
       })
 
     }).catch(function(error) {
@@ -59,20 +71,26 @@ $(document).ready(function() {
       console.log(error.message);
     });
 
-    $("#signUpForm").css("display", "none");
     auth.signOut();
+    setTimeout(function() {
+      window.location.href = "login.html";
+    }, 2000);
   });
 
   //user login
   $("#login").on("click", function() {
-    $("#loginForm").css("display", "block");
-
+    window.location.href = "login.html";
   });
+
+  $("#signUpLink").on("click", function() {
+    window.location.href = "signup.html";
+  });
+
   $("#loginSubmit").on("click", function(event) {
     event.preventDefault();
 
-    email = $("#exampleLoginEmail1").val().trim();
-    password = $("#exampleLoginPassword1").val().trim();
+    email = $("#loginEmail").val().trim();
+    password = $("#loginPassword").val().trim();
 
     var loginuser = auth.signInWithEmailAndPassword(email, password);
 
@@ -84,15 +102,13 @@ $(document).ready(function() {
       console.log(error.message);
     })
 
-    $("#loginForm").css("display", "none");
-    $("#logout").show();
   });
+
+
 
   getContent();
 
   $("#logout").on("click", function() {
-    $("#panel").hide();
-    $("#login").show();
 
     var logoutuser = auth.signOut();
 
@@ -121,10 +137,16 @@ $(document).ready(function() {
 
           console.log(datatopic);
 
-          getYouTube(datatopic);
-          getBooks(datatopic);
-          getPodcasts(datatopic);
+          if (datatopic === false) {
+            setFavoriteTopic();
 
+          } else {
+
+            getYouTube(datatopic);
+            getBooks(datatopic);
+            getPodcasts(datatopic);
+            getNews(datatopic);
+          }
 
           console.log(user.uid + "is now signed in");
         });
@@ -134,6 +156,24 @@ $(document).ready(function() {
       }
     });
   };
+
+   function setFavoriteTopic() {
+     $("#addInterestForm").show();
+     $("#submitInterest").on("click", function() {
+       var interest = $("#interestEntry").val().trim();
+       var user = auth.currentUser;
+       var ref = database.ref("/user/" + user.uid);
+
+       ref.update({
+         interest: interest,
+       })
+     $("addInterestForm").hide();
+     setTimeout(function() {
+       getContent();
+     }, 2000);
+
+     });
+   };
 
   //Search topic to populate APIs
   $("#searchSubmit").on("click", function(event) {
@@ -145,15 +185,17 @@ $(document).ready(function() {
     getYouTube(datatopic);
     getBooks(datatopic);
     getPodcasts(datatopic);
+    getNews(datatopic);
   });
 
 
 
   function getYouTube(datatopic) {
+
     var searchTopic = datatopic.split(" ").join("+");
     var order = 'date';
     var videoID;
-    var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=5&part=snippet&q=' + searchTopic + '&order=' + order + '&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
+    var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&part=snippet&q=' + searchTopic + '&order=' + order + '&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
     $.ajax({
         url: queryURL,
         method: 'GET',
@@ -170,10 +212,12 @@ $(document).ready(function() {
         for (var i = 0; i < response.items.length; i++) {
           var youtubeDiv = $("<iframe class='youtube' allowfullscreen>");
           youtubeDiv.css({
-            "width": "200px",
-            "height": "140px",
-            "display": "block"
+            "width": "250px",
+            "height": "160px",
+            "display": "block",
+            "padding": "10px"
           });
+
           var videoIdList = response.items[i].id.videoId;
           var url = 'https://www.youtube.com/embed/' + videoIdList;
           console.log(url);
@@ -183,12 +227,17 @@ $(document).ready(function() {
           youtubeDiv.attr("src", url);
           youtubeDiv.addClass("margin-top");
           $("#video-div").append(youtubeDiv);
-        }
-      })
+          $('#ytDiv').on('click', function(){
+          $('.basic.modal.yt')
+          .modal('show')
+  ;
+  });
+  }
+  })
 
       .fail(function(err) {
         console.log(err.statusText);
-      })
+  })
   };
 
   function getBooks(datatopic) {
@@ -229,6 +278,49 @@ $(document).ready(function() {
       });
   };
 
+  function getNews(datatopic) {
+
+    var searchTopic = $("#searchSubmit").val();
+    var endpoint = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?',
+      params = 'q=' + searchTopic + '&sort=newest&api_key=a49e8a22035943e9bb2f4928fe15d8fe';
+    var url = endpoint + params;
+    $.ajax({
+        url: url,
+        method: 'GET'
+      }).then(function(data) {
+        console.log(data);
+        // book.html("Categorie: " + data.response.docs[0].section_name);
+        // source.html("Source: " + data.response.docs[0].source);
+        // snippet.html("Description: " + data.response.docs[0].snippet);
+        // date.html("Date: " + data.response.docs[0].pub_date);
+        $("#nyTime-div").empty();
+
+        var arr = data.response.docs; // array of 10 objects
+        for (var i = 0; i < arr.length; i++) {
+          var content = $("<div>");
+          var web = $("<p>").attr('class', 'web'),
+            source = $("<p>").attr('class', 'source'),
+            snippet = $("<p>").attr('class', 'snippet'),
+            date = $("<p>").attr('class', 'date');
+
+          web.html("URL: " + arr[i].web_url);
+          source.html("Source: " + arr[i].source);
+          snippet.html("Description: " + arr[i].snippet);
+          date.html("Date: " + arr[i].pub_date);
+          content.append(date, snippet, source, web);
+          $("#nyTime-div").append(content);
+        }
+      })
+
+      .catch(function(err) {
+        // var obj = JSON.parse(err.responseText);
+        //console.log(obj.message);
+        console.log(err);
+
+      });
+    // GET, DELETE, POST, PUT
+  };
+
   function getPodcasts(datatopic) {
     var searchTopic = datatopic.split(" ").join("+");
     var queryURL = 'http://gpodder.net/api/2/tag/' + searchTopic + '/5.json';
@@ -266,4 +358,89 @@ $(document).ready(function() {
       });
   };
 
+  $('.ui.sticky')
+    .sticky({
+      context: '#example1'
+    });
+
 }); //document end.
+
+
+/*//////////////////////////////////////
+/////////////////air API ///////////////
+/*//////////////////////////////////////
+
+// meet up api ///////////////////////////////////////////
+
+// $("button").on('click', function (event) {
+//     event.preventDefault();
+//     $("#result").empty();
+//     var value = $("#value").val();
+//     console.log(value);
+//     // var data ="how to use react";
+// $.ajax({
+
+//     url:'https://api.meetup.com/find/groups?page=20&text='+ value +'&key=4f2661595c402d1f6c515a3b671056',
+//     method:"GET",
+//     dataType: "jsonp"
+// })
+// .then(function(data){
+//   console.log(data);
+//   var arr = data.data; // array of 10 objects
+//         for(var i = 0; i < arr.length; i++){
+//             var content = $("<div>").attr('class','box');
+//             var city = $("<p>").attr('class', 'city'), 
+//                 description = $("<p>").attr('class', 'description'),
+//                 link = $("<a>").attr({
+//                     'class': 'link',
+//                     "href": arr[i].link
+//                 }), 
+//                 name = $("<p>").attr('class', 'name');
+                
+//             city.html(arr[i].city);
+//             description.html("description: " + arr[i].description);
+//             link.html("link: " + arr[i].link);
+//             name.html("Group Name: " + arr[i].name);
+//             content.append(city,description,name,link);
+//             $("#result").append(content);
+//         }
+    
+//     })
+//       .catch(function (err) {
+//         // var obj = JSON.parse(err.responseText);
+//         //console.log(obj.message);
+//         console.log(err);
+//       })   
+//     // GET, DELETE, POST, PUT
+// });
+
+
+
+// 2.twitter ///////////////////////////////////////////////////
+
+// var data = 'javascript';
+// $.ajax({
+//     url:'https://twitterpopularapi.herokuapp.com/api?q='+data+'&count=3',
+//     method:"GET",
+//     dataType: "jsonp"
+// })
+// .then(function(data){
+//  console.log(data);
+//   var arr = data.statuses; // array of 10 objects
+//         for(var i = 0; i < arr.length; i++){
+//             var content = $("<div>").attr('class','box');
+//             var text = $("<p>").attr('class', 'text'), 
+       
+                
+//                 name = $("<p>").attr('class', 'name');
+                
+//             text.html("Latest Tweet: " + arr[i].text);
+            
+//             content.append(text);
+//             $("#result").append(content);
+//         }
+    
+//     })
+// .fail(function(err){
+//   console.log(err.statusText);
+// })

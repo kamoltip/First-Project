@@ -1,83 +1,126 @@
-
-/*------START SEMANTIC UI-----*/
-
-  body {
-    background: url('http://www.imagestowallpapers.com/wp-content/uploads/2015/12/Background-Image-CSS4.jpg') fixed;
-    background-size: cover;
-    padding: 0;
-    margin: 0;
-  }
-
-  .form-holder {
-    background: rgba(255,255,255,0.2);
-    margin-top: 10%;
-    border-radius: 3px;
-  }
-
-  .form-head {
-    font-size: 30px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #fff;
-    text-shadow: 0 0 30px #000;
-    margin: 15px auto 30px auto;
-  }
-
-  .remember-me {
-    text-align: left;
-  }
-  .signUp {
-    color: black;
-  }
- .slogan{
-  font-size: 18px;
-  text-align: center;
- }
-
- .bentoHead{
-  font-size: 45px;
-  display: flex;
-  justify-content: center;
- }
-/*------end of semantic UI ------*/
-
-
-
-.podlink {
-  margin-left: 10px;
-  color: black;
-  font-size: 14px;
+/*------START login & signup.html-----*/
+body {
+background: url('http://www.imagestowallpapers.com/wp-content/uploads/2015/12/Background-Image-CSS4.jpg') fixed;
+background-size: cover;
+padding: 0;
+margin: 0;
 }
-
-#signUpForm {
-  display: none;
+h1{
+display: flex;
+justify-content: center;
+align-items: center
+font-size:80%;
+/*margin-top: 5%;*/
+text-shadow: 3px 5px 5px;
 }
-
-#loginForm {
-  display: none;
+.form-holder {
+background: rgba(255,255,255,0.2);
+margin-top: 10%;
+border-radius: 3px;
 }
-
-.margin-top {
-  margin-top: 30px;
+.form-head {
+font-size: 30px;
+letter-spacing: 2px;
+text-transform: uppercase;
+color: #fff;
+text-shadow: 0 0 30px #000;
+margin: 15px auto 30px auto;
 }
-
-#mypanel {
-  display: none;
+.remember-me {
+text-align: left;
 }
-
+.signUp {
+color: black;
+}
+.slogan{
+font-size: 18px;
+text-align: center;
+}
+.bentoHead{
+font-size: 45px;
+display: flex;
+justify-content: center;
+}
+/*------Start main-stack.html-----*/
+.ui.page.grid {
+opacity:0.2px;
+display: flex;
+justify-content: center;
+justify-content: space-around;
+}
+#video-div{
+display: flex;
+flex-wrap: wrap;
+padding:10px;
+}
+.ui.container{
+margin-bottom: 10%;
+}
+/*------Star snackable------*/
 #savedFavorites{
-
-  float:right;
-
+float:right;
 }
 .material-icons{
-  position: absolute;
- }
-
- @media screen and (max-width: 995px) {
-  #savedFavorites{
-
-    float: none;
-
-  }
+position: absolute;
+}
+.ui.secondary.inverted.pointing.menu .item {
+color: black !important;
+}
+.ui.secondary.inverted.pointing.menu {
+border-width: 2px;
+border-radius: 3.5px;
+background: rgba(255,255,255,0.2);
+background-color: #f6f6f6;
+opacity: 0.8;
+}
+body.pushable>.pusher {
+background: url('http://wallpapercave.com/wp/n0FcaBH.jpg') fixed;
+background-size: cover;
+padding: 0;
+margin: 0;
+}
+.container-fluid{
+/*margin-bottom: 10%;*/
+}
+#cardsBottom{
+margin-bottom: 10%;
+}
+/*---------SETTING MODAL--------------*/
+.inverted.green.mini.button {
+align-content: center;
+align-items: center;
+}
+#modalContainer {
+background-color: white;
+}
+.basic.modal.yt{
+}
+/*------Start main.html-----*/
+.podlink {
+margin-left: 10px;
+color: black;
+font-size: 14px;
+}
+#addInterestForm {
+display: none;
+}
+#loginForm {
+display: none;
+}
+.margin-top {
+margin-top: 30px;
+}
+#mypanel {
+display: none;
+}
+#savedFavorites{
+float:right;
+}
+.material-icons{
+position: absolute;
+}
+@media screen and (max-width: 995px) {
+#savedFavorites{
+float: none;
+}
 }
