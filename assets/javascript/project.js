@@ -9,6 +9,7 @@ $(document).ready(function() {
   $('.icon.button').on('click', function(){
   $('.basic.modal.setting')
   .modal('show')
+  setFavoriteTopic();
 ;
 });
 
@@ -146,6 +147,7 @@ $(document).ready(function() {
             getBooks(datatopic);
             getPodcasts(datatopic);
             getNews(datatopic);
+            getMeetup(datatopic);
           }
 
           console.log(user.uid + "is now signed in");
@@ -158,8 +160,8 @@ $(document).ready(function() {
   };
 
    function setFavoriteTopic() {
-     $("#addInterestForm").show();
-     $("#submitInterest").on("click", function() {
+     $('.basic.modal.setting').modal('show');
+     $("#firstFavSubmit").on("click", function() {
        var interest = $("#interestEntry").val().trim();
        var user = auth.currentUser;
        var ref = database.ref("/user/" + user.uid);
@@ -167,13 +169,13 @@ $(document).ready(function() {
        ref.update({
          interest: interest,
        })
-     $("addInterestForm").hide();
+     $('.basic.modal.setting').modal('hide');
      setTimeout(function() {
        getContent();
      }, 2000);
-
      });
    };
+
 
   //Search topic to populate APIs
   $("#searchSubmit").on("click", function(event) {
@@ -186,16 +188,19 @@ $(document).ready(function() {
     getBooks(datatopic);
     getPodcasts(datatopic);
     getNews(datatopic);
+    getMeetup(datatopic);
   });
 
-
+  /*//////////////////////////////////////
+  /////////////////Mauricio API ///////////////
+  /*//////////////////////////////////////
 
   function getYouTube(datatopic) {
 
     var searchTopic = datatopic.split(" ").join("+");
     var order = 'date';
     var videoID;
-    var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&part=snippet&q=' + searchTopic + '&order=' + order + '&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
+    var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&part=snippet&&relevanceLanguage=en&q=' + searchTopic + '&order=' + order + '&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
     $.ajax({
         url: queryURL,
         method: 'GET',
@@ -243,7 +248,7 @@ $(document).ready(function() {
   function getBooks(datatopic) {
     var searchTopic = datatopic.split(" ").join("+");
     var GbooksAPIkey = "AIzaSyAdRit-J3O3HY3ojccN4WDrf1Zqa-mVcgw"
-    var queryURL = "https://www.googleapis.com/books/v1/volumes?q=" + searchTopic + "&langRestrict=en&maxResults=5&orderBy=newest&key=" + GbooksAPIkey;
+    var queryURL = "https://www.googleapis.com/books/v1/volumes?q=" + searchTopic + "&langRestrict=en&maxResults=9&orderBy=newest&key=" + GbooksAPIkey;
 
     $.ajax({
         url: queryURL,
@@ -279,15 +284,19 @@ $(document).ready(function() {
 
   function getNews(datatopic) {
 
-    var searchTopic = $("#searchSubmit").val();
-    var endpoint = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?',
-      params = 'q=' + searchTopic + '&sort=newest&api_key=a49e8a22035943e9bb2f4928fe15d8fe';
-    var url = endpoint + params;
+    var searchTopic = datatopic.split(" ").join("+");
+    var endpoint = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + searchTopic + '&sort=newest&api_key=a49e8a22035943e9bb2f4928fe15d8fe';
+    // params = 'q=' + searchTopic + '&sort=newest&api_key=a49e8a22035943e9bb2f4928fe15d8fe';
+      // params = 'q=' + searchTopic + '&sort=newest&api_key=6c06af0cde254bc0a14d82aaa261021c';
+
+    // var url = endpoint;
+
     $.ajax({
-        url: url,
+        url: endpoint,
         method: 'GET'
       }).then(function(data) {
         console.log(data);
+        console.log("NYT: " + endpoint);
         // book.html("Categorie: " + data.response.docs[0].section_name);
         // source.html("Source: " + data.response.docs[0].source);
         // snippet.html("Description: " + data.response.docs[0].snippet);
@@ -312,10 +321,7 @@ $(document).ready(function() {
       })
 
       .catch(function(err) {
-        // var obj = JSON.parse(err.responseText);
-        //console.log(obj.message);
-        console.log(err);
-
+        console.log(err.statusText);
       });
     // GET, DELETE, POST, PUT
   };
@@ -362,84 +368,78 @@ $(document).ready(function() {
       context: '#example1'
     });
 
-}); //document end.
-
-
 /*//////////////////////////////////////
 /////////////////air API ///////////////
 /*//////////////////////////////////////
 
 // meet up api ///////////////////////////////////////////
 
-// $("button").on('click', function (event) {
-//     event.preventDefault();
-//     $("#result").empty();
-//     var value = $("#value").val();
-//     console.log(value);
-//     // var data ="how to use react";
-// $.ajax({
+function getMeetup(datatopic){
+var searchTopic = datatopic.split(" ").join("+");
+$.ajax({
 
-//     url:'https://api.meetup.com/find/groups?page=20&text='+ value +'&key=4f2661595c402d1f6c515a3b671056',
-//     method:"GET",
-//     dataType: "jsonp"
-// })
-// .then(function(data){
-//   console.log(data);
-//   var arr = data.data; // array of 10 objects
-//         for(var i = 0; i < arr.length; i++){
-//             var content = $("<div>").attr('class','box');
-//             var city = $("<p>").attr('class', 'city'), 
-//                 description = $("<p>").attr('class', 'description'),
-//                 link = $("<a>").attr({
-//                     'class': 'link',
-//                     "href": arr[i].link
-//                 }), 
-//                 name = $("<p>").attr('class', 'name');
-                
-//             city.html(arr[i].city);
-//             description.html("description: " + arr[i].description);
-//             link.html("link: " + arr[i].link);
-//             name.html("Group Name: " + arr[i].name);
-//             content.append(city,description,name,link);
-//             $("#result").append(content);
-//         }
-    
-//     })
-//       .catch(function (err) {
-//         // var obj = JSON.parse(err.responseText);
-//         //console.log(obj.message);
-//         console.log(err);
-//       })   
-//     // GET, DELETE, POST, PUT
-// });
+    url:'https://api.meetup.com/find/groups?page=20&text='+ searchTopic +'&key=4f2661595c402d1f6c515a3b671056',
+    method:"GET",
+    dataType: "jsonp"
+})
+.then(function(data){
+  console.log(data);
+  var arr = data.data; // array of 10 objects
+        for(var i = 0; i < arr.length; i++){
+            var content = $("<div>").attr('class','box');
+            var city = $("<p>").attr('class', 'city'),
+                description = $("<p>").attr('class', 'description'),
+                link = $("<a>").attr({
+                    'class': 'link',
+                    "href": arr[i].link
+                }),
+                name = $("<p>").attr('class', 'name');
 
-
+            city.html(arr[i].city);
+            description.html("description: " + arr[i].description);
+            link.html("link: " + arr[i].link);
+            name.html("Group Name: " + arr[i].name);
+            content.append(city,description,name,link);
+            $("#result").append(content);
+        }
+    })
+      .catch(function (err) {
+        console.log(err.statusText);
+      })
+    // GET, DELETE, POST, PUT
+};
 
 // 2.twitter ///////////////////////////////////////////////////
+function getTwitter(datatopic){
+var searchTopic = datatopic.split(" ").join("+");
+var queryURL = 'https://twitterpopularapi.herokuapp.com/api?q='+ searchTopic +'&count=9';
+$.ajax({
+    url: queryURL,
+    method:"GET",
+    dataType: "jsonp"
+})
+.then(function(data){
+ console.log("Twitter: " + data);
+  var arr = data.statuses; // array of 10 objects
+        for(var i = 0; i < arr.length; i++){
+            var content = $("<div>").attr('class','box');
+            var text = $("<p>").attr('class', 'text'),
 
-// var data = 'javascript';
-// $.ajax({
-//     url:'https://twitterpopularapi.herokuapp.com/api?q='+data+'&count=3',
-//     method:"GET",
-//     dataType: "jsonp"
-// })
-// .then(function(data){
-//  console.log(data);
-//   var arr = data.statuses; // array of 10 objects
-//         for(var i = 0; i < arr.length; i++){
-//             var content = $("<div>").attr('class','box');
-//             var text = $("<p>").attr('class', 'text'), 
-       
-                
-//                 name = $("<p>").attr('class', 'name');
-                
-//             text.html("Latest Tweet: " + arr[i].text);
-            
-//             content.append(text);
-//             $("#result").append(content);
-//         }
-    
-//     })
-// .fail(function(err){
-//   console.log(err.statusText);
-// })
+
+                name = $("<p>").attr('class', 'name');
+
+            text.html("Latest Tweet: " + arr[i].text);
+
+            content.append(text);
+            $("#result").append(content);
+        }
+
+    })
+.fail(function(err){
+  console.log(err.statusText);
+})
+};
+
+});
+
+ //document end.
