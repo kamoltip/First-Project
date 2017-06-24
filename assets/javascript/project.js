@@ -9,6 +9,7 @@ $(document).ready(function() {
   $('.icon.button').on('click', function(){
   $('.basic.modal.setting')
   .modal('show')
+  setFavoriteTopic();
 ;
 });
 
@@ -146,6 +147,7 @@ $(document).ready(function() {
             getBooks(datatopic);
             getPodcasts(datatopic);
             getNews(datatopic);
+            getMeetup(datatopic);
           }
 
           console.log(user.uid + "is now signed in");
@@ -158,8 +160,8 @@ $(document).ready(function() {
   };
 
    function setFavoriteTopic() {
-     $("#addInterestForm").show();
-     $("#submitInterest").on("click", function() {
+     $('.basic.modal.setting').modal('show');
+     $("#firstFavSubmit").on("click", function() {
        var interest = $("#interestEntry").val().trim();
        var user = auth.currentUser;
        var ref = database.ref("/user/" + user.uid);
@@ -167,13 +169,13 @@ $(document).ready(function() {
        ref.update({
          interest: interest,
        })
-     $("#addInterestForm").hide();
+     $('.basic.modal.setting').modal('hide');
      setTimeout(function() {
        getContent();
      }, 2000);
-
      });
    };
+
 
   //Search topic to populate APIs
   $("#searchSubmit").on("click", function(event) {
@@ -186,6 +188,7 @@ $(document).ready(function() {
     getBooks(datatopic);
     getPodcasts(datatopic);
     getNews(datatopic);
+    getMeetup(datatopic);
   });
 
 
@@ -315,10 +318,7 @@ $(document).ready(function() {
       })
 
       .catch(function(err) {
-        // var obj = JSON.parse(err.responseText);
-        //console.log(obj.message);
-        console.log(err);
-
+        console.log(err.statusText);
       });
     // GET, DELETE, POST, PUT
   };
@@ -374,75 +374,67 @@ $(document).ready(function() {
 
 // meet up api ///////////////////////////////////////////
 
-// $("button").on('click', function (event) {
-//     event.preventDefault();
-//     $("#result").empty();
-//     var value = $("#value").val();
-//     console.log(value);
-//     // var data ="how to use react";
-// $.ajax({
+function getMeetup(datatopic){
+var searchTopic = datatopic.split(" ").join("+");
+$.ajax({
 
-//     url:'https://api.meetup.com/find/groups?page=20&text='+ value +'&key=4f2661595c402d1f6c515a3b671056',
-//     method:"GET",
-//     dataType: "jsonp"
-// })
-// .then(function(data){
-//   console.log(data);
-//   var arr = data.data; // array of 10 objects
-//         for(var i = 0; i < arr.length; i++){
-//             var content = $("<div>").attr('class','box');
-//             var city = $("<p>").attr('class', 'city'),
-//                 description = $("<p>").attr('class', 'description'),
-//                 link = $("<a>").attr({
-//                     'class': 'link',
-//                     "href": arr[i].link
-//                 }),
-//                 name = $("<p>").attr('class', 'name');
+    url:'https://api.meetup.com/find/groups?page=20&text='+ searchTopic +'&key=4f2661595c402d1f6c515a3b671056',
+    method:"GET",
+    dataType: "jsonp"
+})
+.then(function(data){
+  console.log(data);
+  var arr = data.data; // array of 10 objects
+        for(var i = 0; i < arr.length; i++){
+            var content = $("<div>").attr('class','box');
+            var city = $("<p>").attr('class', 'city'),
+                description = $("<p>").attr('class', 'description'),
+                link = $("<a>").attr({
+                    'class': 'link',
+                    "href": arr[i].link
+                }),
+                name = $("<p>").attr('class', 'name');
 
-//             city.html(arr[i].city);
-//             description.html("description: " + arr[i].description);
-//             link.html("link: " + arr[i].link);
-//             name.html("Group Name: " + arr[i].name);
-//             content.append(city,description,name,link);
-//             $("#result").append(content);
-//         }
+            city.html(arr[i].city);
+            description.html("description: " + arr[i].description);
+            link.html("link: " + arr[i].link);
+            name.html("Group Name: " + arr[i].name);
+            content.append(city,description,name,link);
+            $("#result").append(content);
+        }
 
-//     })
-//       .catch(function (err) {
-//         // var obj = JSON.parse(err.responseText);
-//         //console.log(obj.message);
-//         console.log(err);
-//       })
-//     // GET, DELETE, POST, PUT
-// });
-
-
+    })
+      .catch(function (err) {
+        console.log(err.statusText);
+      })
+    // GET, DELETE, POST, PUT
+};
 
 // 2.twitter ///////////////////////////////////////////////////
 
-// var data = 'javascript';
-// $.ajax({
-//     url:'https://twitterpopularapi.herokuapp.com/api?q='+data+'&count=3',
-//     method:"GET",
-//     dataType: "jsonp"
-// })
-// .then(function(data){
-//  console.log(data);
-//   var arr = data.statuses; // array of 10 objects
-//         for(var i = 0; i < arr.length; i++){
-//             var content = $("<div>").attr('class','box');
-//             var text = $("<p>").attr('class', 'text'),
+var data = 'javascript';
+$.ajax({
+    url:'https://twitterpopularapi.herokuapp.com/api?q='+data+'&count=3',
+    method:"GET",
+    dataType: "jsonp"
+})
+.then(function(data){
+ console.log(data);
+  var arr = data.statuses; // array of 10 objects
+        for(var i = 0; i < arr.length; i++){
+            var content = $("<div>").attr('class','box');
+            var text = $("<p>").attr('class', 'text'),
 
 
-//                 name = $("<p>").attr('class', 'name');
+                name = $("<p>").attr('class', 'name');
 
-//             text.html("Latest Tweet: " + arr[i].text);
+            text.html("Latest Tweet: " + arr[i].text);
 
-//             content.append(text);
-//             $("#result").append(content);
-//         }
+            content.append(text);
+            $("#result").append(content);
+        }
 
-//     })
-// .fail(function(err){
-//   console.log(err.statusText);
-// })
+    })
+.fail(function(err){
+  console.log(err.statusText);
+})
