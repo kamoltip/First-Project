@@ -195,7 +195,7 @@ $(document).ready(function() {
     var searchTopic = datatopic.split(" ").join("+");
     var order = 'date';
     var videoID;
-    var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&part=snippet&q=' + searchTopic + '&order=' + order + '&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
+    var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&relevanceLanguage=en&part=snippet&q=' + searchTopic + '&order=' + order + '&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
     $.ajax({
         url: queryURL,
         method: 'GET',
@@ -388,14 +388,14 @@ $(document).ready(function() {
 //   var arr = data.data; // array of 10 objects
 //         for(var i = 0; i < arr.length; i++){
 //             var content = $("<div>").attr('class','box');
-//             var city = $("<p>").attr('class', 'city'), 
+//             var city = $("<p>").attr('class', 'city'),
 //                 description = $("<p>").attr('class', 'description'),
 //                 link = $("<a>").attr({
 //                     'class': 'link',
 //                     "href": arr[i].link
-//                 }), 
+//                 }),
 //                 name = $("<p>").attr('class', 'name');
-                
+
 //             city.html(arr[i].city);
 //             description.html("description: " + arr[i].description);
 //             link.html("link: " + arr[i].link);
@@ -403,13 +403,13 @@ $(document).ready(function() {
 //             content.append(city,description,name,link);
 //             $("#result").append(content);
 //         }
-    
+
 //     })
 //       .catch(function (err) {
 //         // var obj = JSON.parse(err.responseText);
 //         //console.log(obj.message);
 //         console.log(err);
-//       })   
+//       })
 //     // GET, DELETE, POST, PUT
 // });
 
@@ -428,17 +428,17 @@ $(document).ready(function() {
 //   var arr = data.statuses; // array of 10 objects
 //         for(var i = 0; i < arr.length; i++){
 //             var content = $("<div>").attr('class','box');
-//             var text = $("<p>").attr('class', 'text'), 
-       
-                
+//             var text = $("<p>").attr('class', 'text'),
+
+
 //                 name = $("<p>").attr('class', 'name');
-                
+
 //             text.html("Latest Tweet: " + arr[i].text);
-            
+
 //             content.append(text);
 //             $("#result").append(content);
 //         }
-    
+
 //     })
 // .fail(function(err){
 //   console.log(err.statusText);
