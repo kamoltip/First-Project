@@ -156,10 +156,11 @@ $(document).ready(function() {
           } else {
 
             getYouTube(datatopic);
-            getBooks(datatopic);
-            getPodcasts(datatopic);
-            getNews(datatopic);
-            getMeetup(datatopic);
+            // getBooks(datatopic);
+            // getPodcasts(datatopic);
+            // getNews(datatopic);
+            // getMeetup(datatopic);
+            // getTwitter(datatopic);
           }
 
           console.log(user.uid + "is now signed in");
@@ -197,10 +198,11 @@ $(document).ready(function() {
     console.log(datatopic);
 
     getYouTube(datatopic);
-    getBooks(datatopic);
-    getPodcasts(datatopic);
-    getNews(datatopic);
-    getMeetup(datatopic);
+    // getBooks(datatopic);
+    // getPodcasts(datatopic);
+    // getNews(datatopic);
+    // getMeetup(datatopic);
+    // getTwitter(datatopic);
   });
 
   /*//////////////////////////////////////
@@ -247,6 +249,7 @@ $(document).ready(function() {
           saveIcon.addClass("plus square outline icon green inverted ytSaveIcon");
           saveIcon.css("padding", "10px");
           saveIcon.attr("data-ytUrl", url).attr("data-ytTitle", videoTitle);
+
           youtubeDiv.attr("src", url);
           youtubeDiv.addClass("margin-top");
           ytHoldDiv.append(youtubeDiv);
@@ -265,11 +268,6 @@ $(document).ready(function() {
         console.log(err.statusText);
       })
   };
-
-  $(document).on("click", ".ytSaveIcon", function(){
-    alert("click works");
-
-  })
 
   function getBooks(datatopic) {
     var searchTopic = datatopic.split(" ").join("+");
@@ -445,7 +443,8 @@ $(document).ready(function() {
         dataType: "jsonp"
       })
       .then(function(data) {
-        console.log("Twitter: " + data);
+        console.log(data);
+        console.log(queryURL);
         var arr = data.statuses; // array of 10 objects
         for (var i = 0; i < arr.length; i++) {
           var content = $("<div>").attr('class', 'box');
@@ -466,6 +465,31 @@ $(document).ready(function() {
       })
   };
 
+  $(document).on("click", ".ytSaveIcon", function(){
+    var ytUrl = $(this).attr("data-ytUrl");
+    var ytTitle = $(this).attr("data-ytTitle");
+    console.log(ytUrl);
+    console.log(ytTitle)
+    var user = auth.currentUser;
+    var ref = database.ref("/user/" + user.uid + "/saved");
+    ref.push({
+      url : ytUrl,
+      title : ytTitle,
+      dateAdded: firebase.database.ServerValue.TIMESTAMP
+    })
+   getSavedFromDatabase();
+  });
+
+    function getSavedFromDatabase() {
+    var user = auth.currentUser;
+    var ref = database.ref("/user/" + user.uid + "/saved");
+    ref.on("value", function(childSnapshot){
+    var savedArray = childSnapshot.val();
+    var key = childSnapshot.key;
+    console.log(savedArray);
+    console.log(key);
+  });
+};
 });
 
 //document end.
