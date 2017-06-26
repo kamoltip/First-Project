@@ -8,8 +8,8 @@ margin: 0;
 h1{
 display: flex;
 justify-content: center;
-align-items: center
-font-size:80%;
+align-items: center;
+/*font-size: 80%;*/
 /*margin-top: 5%;*/
 text-shadow: 3px 5px 5px;
 }
@@ -108,7 +108,7 @@ display: none;
 display: none;
 }
 .margin-top {
-margin-top: 30px;
+margin-top: 10px;
 }
 #mypanel {
 display: none;
@@ -119,6 +119,11 @@ float:right;
 .material-icons{
 position: absolute;
 }
+.ytSaveIcon:before:hover{
+content: #f0fe;
+}
+
+
 @media screen and (max-width: 995px) {
 #savedFavorites{
 float: none;

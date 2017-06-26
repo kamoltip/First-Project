@@ -6,32 +6,27 @@ $(document).ready(function() {
       .sidebar('toggle');
   });
 
-  $('.icon.button').on('click', function(){
-  $('.basic.modal.setting')
-  .modal('show')
-  setFavoriteTopic();
-;
-});
+  $('.icon.button').on('click', function() {
+    $('.basic.modal.setting')
+      .modal('show')
+    setFavoriteTopic();;
+  });
 
   $('.ui.radio.checkbox')
-  .checkbox()
-;
+    .checkbox();
 
-          $('#getNews').on('click', function(){
-          $('.basic.modal.nyTime')
-          .modal('show')
-;
-});
-          $('#getTwitter').on('click', function(){
-          $('.basic.modal.twitter')
-          .modal('show')
-;
-});
-          $('#getMeetup').on('click', function(){
-          $('.basic.modal.meetup')
-          .modal('show')
-;
-});
+  $('#getNews').on('click', function() {
+    $('.basic.modal.nyTime')
+      .modal('show');
+  });
+  $('#getTwitter').on('click', function() {
+    $('.basic.modal.twitter')
+      .modal('show');
+  });
+  $('#getMeetup').on('click', function() {
+    $('.basic.modal.meetup')
+      .modal('show');
+  });
 
 
 
@@ -149,7 +144,7 @@ $(document).ready(function() {
       if (user) {
         var ref = database.ref("/user/" + user.uid);
 
-        ref.on("value", function(snapshot) {
+        ref.once("value", function(snapshot) {
 
           var datatopic = snapshot.val().interest;
 
@@ -161,10 +156,11 @@ $(document).ready(function() {
           } else {
 
             getYouTube(datatopic);
-            getBooks(datatopic);
-            getPodcasts(datatopic);
-            getNews(datatopic);
-            getMeetup(datatopic);
+            // getBooks(datatopic);
+            // getPodcasts(datatopic);
+            // getNews(datatopic);
+            // getMeetup(datatopic);
+            // getTwitter(datatopic);
           }
 
           console.log(user.uid + "is now signed in");
@@ -176,22 +172,22 @@ $(document).ready(function() {
     });
   };
 
-   function setFavoriteTopic() {
-     $('.basic.modal.setting').modal('show');
-     $("#firstFavSubmit").on("click", function() {
-       var interest = $("#interestEntry").val().trim();
-       var user = auth.currentUser;
-       var ref = database.ref("/user/" + user.uid);
+  function setFavoriteTopic() {
+    $('.basic.modal.setting').modal('show');
+    $("#firstFavSubmit").on("click", function() {
+      var interest = $("#interestEntry").val().trim();
+      var user = auth.currentUser;
+      var ref = database.ref("/user/" + user.uid);
 
-       ref.update({
-         interest: interest,
-       })
-     $('.basic.modal.setting').modal('hide');
-     setTimeout(function() {
-       getContent();
-     }, 2000);
-     });
-   };
+      ref.update({
+        interest: interest,
+      })
+      $('.basic.modal.setting').modal('hide');
+      setTimeout(function() {
+        getContent();
+      }, 2000);
+    });
+  };
 
 
   //Search topic to populate APIs
@@ -202,15 +198,16 @@ $(document).ready(function() {
     console.log(datatopic);
 
     getYouTube(datatopic);
-    getBooks(datatopic);
-    getPodcasts(datatopic);
-    getNews(datatopic);
-    getMeetup(datatopic);
+    // getBooks(datatopic);
+    // getPodcasts(datatopic);
+    // getNews(datatopic);
+    // getMeetup(datatopic);
+    // getTwitter(datatopic);
   });
 
   /*//////////////////////////////////////
   /////////////////Mauricio API ///////////////
-  /*//////////////////////////////////////
+  /*/ /////////////////////////////////////
 
   function getYouTube(datatopic) {
 
@@ -225,13 +222,14 @@ $(document).ready(function() {
       })
 
       .done(function(response) {
-        console.log("YouTube: " + queryURL);
+        // console.log("YouTube: " + queryURL);
         console.log(response);
-        console.log(response.items);
+        // console.log(response.items);
 
         $("#video-div").empty();
         // var results = data.items;
         for (var i = 0; i < response.items.length; i++) {
+          var ytHoldDiv = $("<div>");
           var youtubeDiv = $("<iframe class='youtube' allowfullscreen>");
           youtubeDiv.css({
             "width": "250px",
@@ -242,24 +240,33 @@ $(document).ready(function() {
 
           var videoIdList = response.items[i].id.videoId;
           var url = 'https://www.youtube.com/embed/' + videoIdList;
-          console.log(url);
+
           // grabbing the title for every video
           var videoTitle = response.items[i].snippet.title;
-          console.log(videoTitle);
+          // console.log(videoTitle);
+
+          var saveIcon = $("<i>");
+          saveIcon.addClass("plus square outline icon green inverted ytSaveIcon");
+          saveIcon.css("padding", "10px");
+          saveIcon.attr("data-ytUrl", url).attr("data-ytTitle", videoTitle);
+
           youtubeDiv.attr("src", url);
           youtubeDiv.addClass("margin-top");
-          $("#video-div").append(youtubeDiv);
-          $('#ytDiv').on('click', function(){
-          $('.basic.modal.yt')
-          .modal('show')
-  ;
-  });
-  }
-  })
+          ytHoldDiv.append(youtubeDiv);
+          ytHoldDiv.append(saveIcon);
+          // $("#video-div").append(youtubeDiv);
+          // $("#video-div").append(saveDiv);
+          $("#video-div").append(ytHoldDiv);
+          $('#ytDiv').on('click', function() {
+            $('.basic.modal.yt')
+              .modal('show');
+          });
+        }
+      })
 
       .fail(function(err) {
         console.log(err.statusText);
-  })
+      })
   };
 
   function getBooks(datatopic) {
@@ -304,7 +311,7 @@ $(document).ready(function() {
     var searchTopic = datatopic.split(" ").join("+");
     var endpoint = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + searchTopic + '&sort=newest&api_key=a49e8a22035943e9bb2f4928fe15d8fe';
     // params = 'q=' + searchTopic + '&sort=newest&api_key=a49e8a22035943e9bb2f4928fe15d8fe';
-      // params = 'q=' + searchTopic + '&sort=newest&api_key=6c06af0cde254bc0a14d82aaa261021c';
+    // params = 'q=' + searchTopic + '&sort=newest&api_key=6c06af0cde254bc0a14d82aaa261021c';
 
     // var url = endpoint;
 
@@ -385,78 +392,110 @@ $(document).ready(function() {
       context: '#example1'
     });
 
-/*//////////////////////////////////////
-/////////////////air API ///////////////
-/*//////////////////////////////////////
+  /*//////////////////////////////////////
+  /////////////////air API ///////////////
+  /*/ /////////////////////////////////////
 
-// meet up api ///////////////////////////////////////////
+  // meet up api ///////////////////////////////////////////
 
-function getMeetup(datatopic){
-var searchTopic = datatopic.split(" ").join("+");
-$.ajax({
+  function getMeetup(datatopic) {
+    var searchTopic = datatopic.split(" ").join("+");
+    $.ajax({
 
-    url:'https://api.meetup.com/find/groups?page=20&text='+ searchTopic +'&key=4f2661595c402d1f6c515a3b671056',
-    method:"GET",
-    dataType: "jsonp"
-})
-.then(function(data){
-  console.log(data);
-  var arr = data.data; // array of 10 objects
-        for(var i = 0; i < arr.length; i++){
-            var content = $("<div>").attr('class','box');
-            var city = $("<p>").attr('class', 'city'),
-                description = $("<p>").attr('class', 'description'),
-                link = $("<a>").attr({
-                    'class': 'link',
-                    "href": arr[i].link
-                }),
-                name = $("<p>").attr('class', 'name');
+        url: 'https://api.meetup.com/find/groups?page=20&text=' + searchTopic + '&key=4f2661595c402d1f6c515a3b671056',
+        method: "GET",
+        dataType: "jsonp"
+      })
+      .then(function(data) {
+        console.log(data);
+        var arr = data.data; // array of 10 objects
+        for (var i = 0; i < arr.length; i++) {
+          var content = $("<div>").attr('class', 'box');
+          var city = $("<p>").attr('class', 'city'),
+            description = $("<p>").attr('class', 'description'),
+            link = $("<a>").attr({
+              'class': 'link',
+              "href": arr[i].link
+            }),
+            name = $("<p>").attr('class', 'name');
 
-            city.html(arr[i].city);
-            description.html("description: " + arr[i].description);
-            link.html("link: " + arr[i].link);
-            name.html("Group Name: " + arr[i].name);
-            content.append(city,description,name,link);
-            $("#result").append(content);
+          city.html(arr[i].city);
+          description.html("description: " + arr[i].description);
+          link.html("link: " + arr[i].link);
+          name.html("Group Name: " + arr[i].name);
+          content.append(city, description, name, link);
+          $("#result").append(content);
         }
-    })
-      .catch(function (err) {
+      })
+      .catch(function(err) {
         console.log(err.statusText);
       })
     // GET, DELETE, POST, PUT
-};
+  };
 
-// 2.twitter ///////////////////////////////////////////////////
-function getTwitter(datatopic){
-var searchTopic = datatopic.split(" ").join("+");
-var queryURL = 'https://twitterpopularapi.herokuapp.com/api?q='+ searchTopic +'&count=9';
-$.ajax({
-    url: queryURL,
-    method:"GET",
-    dataType: "jsonp"
-})
-.then(function(data){
- console.log("Twitter: " + data);
-  var arr = data.statuses; // array of 10 objects
-        for(var i = 0; i < arr.length; i++){
-            var content = $("<div>").attr('class','box');
-            var text = $("<p>").attr('class', 'text'),
+  // 2.twitter ///////////////////////////////////////////////////
+  function getTwitter(datatopic) {
+    var searchTopic = datatopic.split(" ").join("+");
+    var queryURL = 'https://twitterpopularapi.herokuapp.com/api?q=' + searchTopic + '&count=9';
+    $.ajax({
+        url: queryURL,
+        method: "GET",
+        dataType: "jsonp"
+      })
+      .then(function(data) {
+        console.log(data);
+        console.log(queryURL);
+        var arr = data.statuses; // array of 10 objects
+        for (var i = 0; i < arr.length; i++) {
+          var content = $("<div>").attr('class', 'box');
+          var text = $("<p>").attr('class', 'text'),
 
 
-                name = $("<p>").attr('class', 'name');
+            name = $("<p>").attr('class', 'name');
 
-            text.html("Latest Tweet: " + arr[i].text);
+          text.html("Latest Tweet: " + arr[i].text);
 
-            content.append(text);
-            $("#result").append(content);
+          content.append(text);
+          $("#result").append(content);
         }
 
+      })
+      .fail(function(err) {
+        console.log(err.statusText);
+      })
+  };
+
+  $(document).on("click", ".ytSaveIcon", function(){
+    var ytUrl = $(this).attr("data-ytUrl");
+    var ytTitle = $(this).attr("data-ytTitle");
+    console.log(ytUrl);
+    console.log(ytTitle)
+    var user = auth.currentUser;
+    var ref = database.ref("/user/" + user.uid + "/saved");
+    ref.push({
+      url : ytUrl,
+      title : ytTitle,
+      dateAdded: firebase.database.ServerValue.TIMESTAMP
     })
-.fail(function(err){
-  console.log(err.statusText);
-})
+   getSavedFromDatabase();
+  });
+
+    function getSavedFromDatabase() {
+    var user = auth.currentUser;
+    var ref = database.ref("/user/" + user.uid + "/saved");
+    // ref.on("value", function(childSnapshot){
+    // var savedArray = childSnapshot.val();
+    // var key = childSnapshot.key;
+    // console.log(savedArray);
+    // console.log(key);
+    // });
+    ref.once("value", function (snapshot) {
+     snapshot.forEach(function (childSnapshot) {
+      console.log('user', childSnapshot.val());
+      console.log(ref.key);
+    });
+});
 };
 
 });
-
- //document end.
+//document end.
