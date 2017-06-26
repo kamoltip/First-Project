@@ -334,11 +334,16 @@ $(document).ready(function() {
             source = $("<p>").attr('class', 'source'),
             snippet = $("<p>").attr('class', 'snippet'),
             date = $("<p>").attr('class', 'date');
+            link = $("<a>").attr({
+              'class': 'link',
+              "href": arr[i].link
+            }),
 
           web.html("URL: " + arr[i].web_url);
           source.html("Source: " + arr[i].source);
           snippet.html("Description: " + arr[i].snippet);
           date.html("Date: " + arr[i].pub_date);
+          link.html("Read more:") + arr[i].link;
           content.append(date, snippet, source, web);
           $("#nyTime-div").append(content);
         }
