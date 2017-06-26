@@ -144,7 +144,7 @@ $(document).ready(function() {
       if (user) {
         var ref = database.ref("/user/" + user.uid);
 
-        ref.on("value", function(snapshot) {
+        ref.once("value", function(snapshot) {
 
           var datatopic = snapshot.val().interest;
 
@@ -222,9 +222,9 @@ $(document).ready(function() {
       })
 
       .done(function(response) {
-        console.log("YouTube: " + queryURL);
+        // console.log("YouTube: " + queryURL);
         console.log(response);
-        console.log(response.items);
+        // console.log(response.items);
 
         $("#video-div").empty();
         // var results = data.items;
@@ -243,7 +243,7 @@ $(document).ready(function() {
 
           // grabbing the title for every video
           var videoTitle = response.items[i].snippet.title;
-          console.log(videoTitle);
+          // console.log(videoTitle);
 
           var saveIcon = $("<i>");
           saveIcon.addClass("plus square outline icon green inverted ytSaveIcon");
@@ -483,13 +483,19 @@ $(document).ready(function() {
     function getSavedFromDatabase() {
     var user = auth.currentUser;
     var ref = database.ref("/user/" + user.uid + "/saved");
-    ref.on("value", function(childSnapshot){
-    var savedArray = childSnapshot.val();
-    var key = childSnapshot.key;
-    console.log(savedArray);
-    console.log(key);
-  });
-};
+    // ref.on("value", function(childSnapshot){
+    // var savedArray = childSnapshot.val();
+    // var key = childSnapshot.key;
+    // console.log(savedArray);
+    // console.log(key);
+    // });
+    ref.once("value", function (snapshot) {
+     snapshot.forEach(function (childSnapshot) {
+      console.log('user', childSnapshot.val());
+      console.log(ref.key);
+    });
 });
+};
 
+});
 //document end.
