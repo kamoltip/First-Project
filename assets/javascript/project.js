@@ -15,19 +15,26 @@ $(document).ready(function() {
   $('.ui.radio.checkbox')
     .checkbox();
 
-  $('#getNews').on('click', function() {
+    $('#getNews').on('click', function() {
     $('.basic.modal.nyTime')
       .modal('show');
   });
-  $('#getTwitter').on('click', function() {
+    $('#getTwitter').on('click', function() {
     $('.basic.modal.twitter')
       .modal('show');
   });
-  $('#getMeetup').on('click', function() {
+    $('#getBooks').on('click', function() {
+    $('.basic.modal.books')
+      .modal('show');
+  });
+    $('#getPodcasts').on('click', function() {
+    $('.basic.modal.podcast')
+      .modal('show');
+  });
+    $('#getMeetUp').on('click', function() {
     $('.basic.modal.meetup')
       .modal('show');
   });
-
 
 
   //Firebase initialize
@@ -429,7 +436,7 @@ $(document).ready(function() {
           link.html("link: " + arr[i].link);
           name.html("Group Name: " + arr[i].name);
           content.append(city, description, name, link);
-          $("#result").append(content);
+          $("#meetup-div").append(content);
         }
       })
       .catch(function(err) {
@@ -461,7 +468,7 @@ $(document).ready(function() {
           text.html("Latest Tweet: " + arr[i].text);
 
           content.append(text);
-          $("#result").append(content);
+          $("#twitter-div").append(content);
         }
 
       })
