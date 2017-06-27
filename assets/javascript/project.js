@@ -215,11 +215,27 @@ $(document).ready(function() {
   /*/ /////////////////////////////////////
 
   function getYouTube(datatopic) {
-
     var searchTopic = datatopic.split(" ").join("+");
-    var order = 'date';
+
+    // NEW VARIABLE TO set search to begin 30 days ago from current time
+    // USING MOMENT.JS
+    var searchBeginingDate = moment().subtract(30, 'days').toISOString();
+    console.log(searchBeginingDate);
+    // the youtube query url requires "publishedAfter" to be a string
+    var publishedAfter = String(searchBeginingDate);
+    console.log(publishedAfter);
+    // ===============================================================
+    // var order = 'date';
     var videoID;
-    var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&part=snippet&&relevanceLanguage=en&q=' + searchTopic + '&order=' + order + '&order=viewCount&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
+    // =======PREVIOUS URL BEFORE MAURICIO'S MOMENT.JS DATE TEST.======
+    // var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&part=snippet&&relevanceLanguage=en&q=' + searchTopic + '&order=' + order + '&order=viewCount&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
+    // =====================================================================
+    // =TESTING NEW QUERY URL TO GRAB VIDEOS FROM 30 DAYS AGO WITH MOST viewCountS
+
+    var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&part=snippet&&relevanceLanguage=en&q=' +
+     searchTopic + '&publishedAfter=' + publishedAfter +  '&order=viewCount'+
+    '&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
+
     $.ajax({
         url: queryURL,
         method: 'GET',
