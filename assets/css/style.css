@@ -95,6 +95,10 @@ background-color: white;
 }
 .basic.modal.yt{
 }
+#video-div{
+	display: flex;
+	justify-content: center;
+}
 /*------Start main.html-----*/
 .podlink {
 margin-left: 10px;
