@@ -99,6 +99,34 @@ background-color: white;
 display: flex;
 justify-content: center;
 }
+/*--------------NY Time Modal--------------*/
+.nyTimeBox{
+	border:1px outset grey;
+	border-radius:10px;
+	background-color: white;
+	padding:2%;
+	color:black;
+	margin-bottom: 2%;
+	/*box-shadow: 3px 5px 5px;*/
+}
+#getNews{
+	color: red;
+}
+#getMeetUp{
+	color: red;
+}
+#getPodcasts{
+	color: red;
+}
+#ytDiv{
+	color: red;
+}
+#getTwitter{
+	color: red;
+}
+#getBooks{
+	color: red;
+}
 /*------Start main.html-----*/
 .podlink {
 margin-left: 10px;
