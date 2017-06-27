@@ -166,8 +166,13 @@ $(document).ready(function() {
             getSavedFromDatabase();
             getYouTube(datatopic);
             // getBooks(datatopic);
-            // getPodcasts(datatopic);
+
+            
             getNews(datatopic);
+
+            getPodcasts(datatopic);
+     
+
             // getMeetup(datatopic);
             // getTwitter(datatopic);
           }
@@ -208,8 +213,11 @@ $(document).ready(function() {
 
     getYouTube(datatopic);
     // getBooks(datatopic);
-    // getPodcasts(datatopic);
+
     getNews(datatopic);
+
+    getPodcasts(datatopic);
+
     // getMeetup(datatopic);
     // getTwitter(datatopic);
   });
@@ -219,11 +227,27 @@ $(document).ready(function() {
   /*/ /////////////////////////////////////
 
   function getYouTube(datatopic) {
-
     var searchTopic = datatopic.split(" ").join("+");
-    var order = 'date';
+
+    // NEW VARIABLE TO set search to begin 30 days ago from current time
+    // USING MOMENT.JS
+    var searchBeginingDate = moment().subtract(30, 'days').toISOString();
+    console.log(searchBeginingDate);
+    // the youtube query url requires "publishedAfter" to be a string
+    var publishedAfter = String(searchBeginingDate);
+    console.log(publishedAfter);
+    // ===============================================================
+    // var order = 'date';
     var videoID;
-    var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&part=snippet&&relevanceLanguage=en&q=' + searchTopic + '&order=' + order + '&order=viewCount&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
+    // =======PREVIOUS URL BEFORE MAURICIO'S MOMENT.JS DATE TEST.======
+    // var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&part=snippet&&relevanceLanguage=en&q=' + searchTopic + '&order=' + order + '&order=viewCount&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
+    // =====================================================================
+    // =TESTING NEW QUERY URL TO GRAB VIDEOS FROM 30 DAYS AGO WITH MOST viewCountS
+
+    var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&part=snippet&&relevanceLanguage=en&q=' +
+     searchTopic + '&publishedAfter=' + publishedAfter +  '&order=viewCount'+
+    '&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
+
     $.ajax({
         url: queryURL,
         method: 'GET',
@@ -382,12 +406,11 @@ $(document).ready(function() {
   };
 
   function getPodcasts(datatopic) {
-    var searchTopic = datatopic.split(" ").join("+");
-    var queryURL = 'http://gpodder.net/api/2/tag/' + searchTopic + '/5.json';
+    var searchTopic = datatopic.split(" ").join("%20");
+    var queryURL = 'https://api.ottoradio.com/v1/podcasts?query=' + searchTopic + '&type=recent&count=10';
 
     $.ajax({
         url: queryURL,
-        userAgent: "First-Project-App",
         method: 'GET',
       })
       .done(function(response) {
@@ -399,19 +422,30 @@ $(document).ready(function() {
         $("#pod-div").empty();
 
         for (var i = 0; i < response.length; i++) {
-          console.log(response[i].url);
 
-          var podRow = $("<div class='pod-row margin-top'>");
-          var image = $("<img src=" + response[i].scaled_logo_url + ">");
-          var podURL = $("<a class='podlink' href=" + response[i].url + ">" + response[i].title + "</a>");
-          var savebtn = $("<button class='btn btn-danger btn-sm pull-right'>save<button>");
-          savebtn.attr("data-title", response[i].title).attr("data-url", response[i].url);
+          var podDiv = $("<div>");
+          var podTitle = $("<p>" + response[i].title + "</p>");
+          var podSource = $("<p>" + response[i].source + "</p>");
+          var podDate = $("<p>" + response[i].published_at + "</p>");
+          var controller = $("<audio controls>");
+          var audioSource = $("<source>");
+          audioSource.attr("src", response[i].audio_url).attr("type", "audio/mpeg");
 
-          podRow.append(image);
-          podRow.append(podURL);
-          podRow.append(savebtn);
+          podDiv.css({
+            "width" : "315px",
+            "height" : "150px",
+            "float": "left",
+            "margin": "10px 50px 10px 50px",
+          })
 
-          $("#pod-div").append(podRow);
+          controller.append(audioSource);
+
+          podDiv.append(podTitle);
+          podDiv.append(controller);
+          podDiv.append(podSource);
+          podDiv.append(podDate);
+
+          $("#pod-div").append(podDiv);
         };
       }).fail(function(err) {
         console.log(err.statusText);
