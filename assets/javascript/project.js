@@ -4,6 +4,10 @@ $(document).ready(function() {
 
     $('.ui.sidebar')
       .sidebar('toggle');
+
+      //       $('.ui.dropdown')
+//   .dropdown()
+// ;
   });
 
   $('.icon.button').on('click', function() {
@@ -163,7 +167,7 @@ $(document).ready(function() {
             getYouTube(datatopic);
             // getBooks(datatopic);
             // getPodcasts(datatopic);
-            // getNews(datatopic);
+            getNews(datatopic);
             // getMeetup(datatopic);
             // getTwitter(datatopic);
           }
@@ -205,7 +209,7 @@ $(document).ready(function() {
     getYouTube(datatopic);
     // getBooks(datatopic);
     // getPodcasts(datatopic);
-    // getNews(datatopic);
+    getNews(datatopic);
     // getMeetup(datatopic);
     // getTwitter(datatopic);
   });
@@ -334,26 +338,43 @@ $(document).ready(function() {
 
         var arr = data.response.docs; // array of 10 objects
         for (var i = 0; i < arr.length; i++) {
-          var content = $("<div>");
-          var web = $("<p>").attr('class', 'web'),
-            source = $("<p>").attr('class', 'source'),
+          var content = $("<div>").attr('class','nyTimeBox');
+          var source = $("<p>").attr('class', 'source'),
+            headline = $("<h5>").attr('class','headline')
             snippet = $("<p>").attr('class', 'snippet'),
             date = $("<p>").attr('class', 'date');
-            link = $("<a>").attr({
+            web = $("<a>").attr({
               'class': 'link',
-              "href": arr[i].link
+              "href": arr[i].web_url
             }),
-
-          web.html("URL: " + arr[i].web_url);
-          source.html("Source: " + arr[i].source);
-          snippet.html("Description: " + arr[i].snippet);
-          date.html("Date: " + arr[i].pub_date);
-          link.html("Read more:") + arr[i].link;
-          content.append(date, snippet, source, web);
+          headline.html(arr[i].headline.main);
+          source.html("Source : " + arr[i].source);
+          snippet.html("' " + arr[i].snippet + " '");
+          date.html(arr[i].pub_date);
+          web.html("Read More >>") + arr[i].web_url;
+          content.append(source,date,headline,snippet,web);
           $("#nyTime-div").append(content);
         }
+         $("#nyTimeIntro").empty();
+         for (var i = 0; i < 3; i++) {
+          var content = $("<div>").attr('class','nyTimeBox');
+          var snippet = $("<h6>").attr('class', 'snippet'),
+            headline = $("<h5>").attr('class','headline'),
+            date = $("<p>").attr('class', 'date');
+            web = $("<a>").attr({
+              'class': 'link',
+              "href": arr[i].web_url
+            }),
+         
+          headline.html(arr[i].headline.main);
+          snippet.html("' " + arr[i].snippet + " '");
+          date.html(arr[i].pub_date);
+          web.html("Read More >>") + arr[i].web_u
+          content.append(date,headline,snippet,web);
+          $("#nyTimeIntro").append(content);
+        }
       })
-
+    
       .catch(function(err) {
         console.log(err.statusText);
       });
