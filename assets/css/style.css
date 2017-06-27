@@ -96,8 +96,8 @@ background-color: white;
 .basic.modal.yt{
 }
 #video-div{
-	display: flex;
-	justify-content: center;
+display: flex;
+justify-content: center;
 }
 /*------Start main.html-----*/
 .podlink {
@@ -126,8 +126,6 @@ position: absolute;
 .ytSaveIcon:before:hover{
 content: #f0fe;
 }
-
-
 @media screen and (max-width: 995px) {
 #savedFavorites{
 float: none;
