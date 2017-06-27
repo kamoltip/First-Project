@@ -1,8 +1,41 @@
 $(document).ready(function() {
 
-  $("#flip").click(function() {
-    $("#mypanel").toggle("fast");
+  $("#flip").on("click", function() {
+
+    $('.ui.sidebar')
+      .sidebar('toggle');
   });
+
+  $('.icon.button').on('click', function() {
+    $('.basic.modal.setting')
+      .modal('show')
+    setFavoriteTopic();;
+  });
+
+  $('.ui.radio.checkbox')
+    .checkbox();
+
+    $('#getNews').on('click', function() {
+    $('.basic.modal.nyTime')
+      .modal('show');
+  });
+    $('#getTwitter').on('click', function() {
+    $('.basic.modal.twitter')
+      .modal('show');
+  });
+    $('#getBooks').on('click', function() {
+    $('.basic.modal.books')
+      .modal('show');
+  });
+    $('#getPodcasts').on('click', function() {
+    $('.basic.modal.podcast')
+      .modal('show');
+  });
+    $('#getMeetUp').on('click', function() {
+    $('.basic.modal.meetup')
+      .modal('show');
+  });
+
 
   //Firebase initialize
   var config = {
@@ -21,6 +54,7 @@ $(document).ready(function() {
   //store firebase db and auth in global variables
   var database = firebase.database();
   var auth = firebase.auth();
+  var name = "";
   var email = "";
   var password = "";
   var interest = "";
@@ -29,18 +63,16 @@ $(document).ready(function() {
   //
   //creates user -- signup email authentication
   $("#signup").on("click", function() {
-    $("#signUpForm").css("display", "block");
+    window.location.href = "signup.html";
   });
 
   // console.log("Hello World!!");
   $("#signUpSubmit").on("click", function(event) {
     event.preventDefault();
 
-    //Add User Name = '';
-    //Add firstLogin = 'false';
-    email = $("#exampleInputEmail1").val().trim();
-    password = $("#exampleInputPassword1").val().trim();
-    interest = $("#exampleInputInterest1").val().trim();
+    name = $("#signUpName").val().trim();
+    email = $("#signUpEmail").val().trim();
+    password = $("#signUpPassword").val().trim();
 
     var newuser = auth.createUserWithEmailAndPassword(email, password);
 
@@ -48,10 +80,10 @@ $(document).ready(function() {
       var ref = database.ref("/user/" + user.uid);
 
       ref.set({
+        userName: name,
         email: email,
-        password: password,
         uid: user.uid,
-        interest: interest
+        interest: false
       })
 
     }).catch(function(error) {
@@ -59,20 +91,26 @@ $(document).ready(function() {
       console.log(error.message);
     });
 
-    $("#signUpForm").css("display", "none");
     auth.signOut();
+    setTimeout(function() {
+      window.location.href = "login.html";
+    }, 2000);
   });
 
   //user login
   $("#login").on("click", function() {
-    $("#loginForm").css("display", "block");
-
+    window.location.href = "login.html";
   });
+
+  $("#signUpLink").on("click", function() {
+    window.location.href = "signup.html";
+  });
+
   $("#loginSubmit").on("click", function(event) {
     event.preventDefault();
 
-    email = $("#exampleLoginEmail1").val().trim();
-    password = $("#exampleLoginPassword1").val().trim();
+    email = $("#loginEmail").val().trim();
+    password = $("#loginPassword").val().trim();
 
     var loginuser = auth.signInWithEmailAndPassword(email, password);
 
@@ -84,15 +122,11 @@ $(document).ready(function() {
       console.log(error.message);
     })
 
-    $("#loginForm").css("display", "none");
-    $("#logout").show();
   });
 
   getContent();
 
   $("#logout").on("click", function() {
-    $("#panel").hide();
-    $("#login").show();
 
     var logoutuser = auth.signOut();
 
@@ -115,25 +149,51 @@ $(document).ready(function() {
       if (user) {
         var ref = database.ref("/user/" + user.uid);
 
-        ref.on("value", function(snapshot) {
+        ref.once("value", function(snapshot) {
 
           var datatopic = snapshot.val().interest;
-
+          $("#userName").text("Welcome back " + snapshot.val().userName);
           console.log(datatopic);
 
-          getYouTube(datatopic);
-          getBooks(datatopic);
-          getPodcasts(datatopic);
+          if (datatopic === false) {
+            setFavoriteTopic();
 
+          } else {
+            getSavedFromDatabase();
+            getYouTube(datatopic);
+            // getBooks(datatopic);
+            getPodcasts(datatopic);
+            // getNews(datatopic);
+            // getMeetup(datatopic);
+            // getTwitter(datatopic);
+          }
 
           console.log(user.uid + "is now signed in");
         });
       } else {
-
+        $("#userName").text("Sign In");
         console.log("no user is signed in");
       }
     });
   };
+
+  function setFavoriteTopic() {
+    $('.basic.modal.setting').modal('show');
+    $("#firstFavSubmit").on("click", function() {
+      var interest = $("#interestEntry").val().trim();
+      var user = auth.currentUser;
+      var ref = database.ref("/user/" + user.uid);
+
+      ref.update({
+        interest: interest,
+      })
+      $('.basic.modal.setting').modal('hide');
+      setTimeout(function() {
+        getContent();
+      }, 2000);
+    });
+  };
+
 
   //Search topic to populate APIs
   $("#searchSubmit").on("click", function(event) {
@@ -143,17 +203,39 @@ $(document).ready(function() {
     console.log(datatopic);
 
     getYouTube(datatopic);
-    getBooks(datatopic);
+    // getBooks(datatopic);
     getPodcasts(datatopic);
+    // getNews(datatopic);
+    // getMeetup(datatopic);
+    // getTwitter(datatopic);
   });
 
-
+  /*//////////////////////////////////////
+  /////////////////Mauricio API ///////////////
+  /*/ /////////////////////////////////////
 
   function getYouTube(datatopic) {
     var searchTopic = datatopic.split(" ").join("+");
-    var order = 'date';
+
+    // NEW VARIABLE TO set search to begin 30 days ago from current time
+    // USING MOMENT.JS
+    var searchBeginingDate = moment().subtract(30, 'days').toISOString();
+    console.log(searchBeginingDate);
+    // the youtube query url requires "publishedAfter" to be a string
+    var publishedAfter = String(searchBeginingDate);
+    console.log(publishedAfter);
+    // ===============================================================
+    // var order = 'date';
     var videoID;
-    var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=5&part=snippet&q=' + searchTopic + '&order=' + order + '&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
+    // =======PREVIOUS URL BEFORE MAURICIO'S MOMENT.JS DATE TEST.======
+    // var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&part=snippet&&relevanceLanguage=en&q=' + searchTopic + '&order=' + order + '&order=viewCount&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
+    // =====================================================================
+    // =TESTING NEW QUERY URL TO GRAB VIDEOS FROM 30 DAYS AGO WITH MOST viewCountS
+
+    var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&part=snippet&&relevanceLanguage=en&q=' +
+     searchTopic + '&publishedAfter=' + publishedAfter +  '&order=viewCount'+
+    '&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
+
     $.ajax({
         url: queryURL,
         method: 'GET',
@@ -161,28 +243,45 @@ $(document).ready(function() {
       })
 
       .done(function(response) {
-        console.log("YouTube: " + queryURL);
+        // console.log("YouTube: " + queryURL);
         console.log(response);
-        console.log(response.items);
+        // console.log(response.items);
 
         $("#video-div").empty();
         // var results = data.items;
         for (var i = 0; i < response.items.length; i++) {
+          var ytHoldDiv = $("<div>");
           var youtubeDiv = $("<iframe class='youtube' allowfullscreen>");
           youtubeDiv.css({
-            "width": "200px",
-            "height": "140px",
-            "display": "block"
+            "width": "250px",
+            "height": "160px",
+            "display": "block",
+            "padding": "10px"
           });
+
           var videoIdList = response.items[i].id.videoId;
           var url = 'https://www.youtube.com/embed/' + videoIdList;
-          console.log(url);
+
           // grabbing the title for every video
           var videoTitle = response.items[i].snippet.title;
-          console.log(videoTitle);
+          // console.log(videoTitle);
+
+          var saveIcon = $("<i>");
+          saveIcon.addClass("plus square outline icon green inverted ytSaveIcon");
+          saveIcon.css("padding", "10px");
+          saveIcon.attr("data-ytUrl", url).attr("data-ytTitle", videoTitle);
+
           youtubeDiv.attr("src", url);
           youtubeDiv.addClass("margin-top");
-          $("#video-div").append(youtubeDiv);
+          ytHoldDiv.append(youtubeDiv);
+          ytHoldDiv.append(saveIcon);
+          // $("#video-div").append(youtubeDiv);
+          // $("#video-div").append(saveDiv);
+          $("#video-div").append(ytHoldDiv);
+          $('#ytDiv').on('click', function() {
+            $('.basic.modal.yt')
+              .modal('show');
+          });
         }
       })
 
@@ -194,7 +293,7 @@ $(document).ready(function() {
   function getBooks(datatopic) {
     var searchTopic = datatopic.split(" ").join("+");
     var GbooksAPIkey = "AIzaSyAdRit-J3O3HY3ojccN4WDrf1Zqa-mVcgw"
-    var queryURL = "https://www.googleapis.com/books/v1/volumes?q=" + searchTopic + "&langRestrict=en&maxResults=5&orderBy=newest&key=" + GbooksAPIkey;
+    var queryURL = "https://www.googleapis.com/books/v1/volumes?q=" + searchTopic + "&langRestrict=en&maxResults=9&orderBy=newest&key=" + GbooksAPIkey;
 
     $.ajax({
         url: queryURL,
@@ -229,13 +328,61 @@ $(document).ready(function() {
       });
   };
 
-  function getPodcasts(datatopic) {
+  function getNews(datatopic) {
+
     var searchTopic = datatopic.split(" ").join("+");
-    var queryURL = 'http://gpodder.net/api/2/tag/' + searchTopic + '/5.json';
+    var endpoint = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + searchTopic + '&sort=newest&api_key=a49e8a22035943e9bb2f4928fe15d8fe';
+    // params = 'q=' + searchTopic + '&sort=newest&api_key=a49e8a22035943e9bb2f4928fe15d8fe';
+    // params = 'q=' + searchTopic + '&sort=newest&api_key=6c06af0cde254bc0a14d82aaa261021c';
+
+    // var url = endpoint;
+
+    $.ajax({
+        url: endpoint,
+        method: 'GET'
+      }).then(function(data) {
+        console.log(data);
+        console.log("NYT: " + endpoint);
+        // book.html("Categorie: " + data.response.docs[0].section_name);
+        // source.html("Source: " + data.response.docs[0].source);
+        // snippet.html("Description: " + data.response.docs[0].snippet);
+        // date.html("Date: " + data.response.docs[0].pub_date);
+        $("#nyTime-div").empty();
+
+        var arr = data.response.docs; // array of 10 objects
+        for (var i = 0; i < arr.length; i++) {
+          var content = $("<div>");
+          var web = $("<p>").attr('class', 'web'),
+            source = $("<p>").attr('class', 'source'),
+            snippet = $("<p>").attr('class', 'snippet'),
+            date = $("<p>").attr('class', 'date');
+            link = $("<a>").attr({
+              'class': 'link',
+              "href": arr[i].link
+            }),
+
+          web.html("URL: " + arr[i].web_url);
+          source.html("Source: " + arr[i].source);
+          snippet.html("Description: " + arr[i].snippet);
+          date.html("Date: " + arr[i].pub_date);
+          link.html("Read more:") + arr[i].link;
+          content.append(date, snippet, source, web);
+          $("#nyTime-div").append(content);
+        }
+      })
+
+      .catch(function(err) {
+        console.log(err.statusText);
+      });
+    // GET, DELETE, POST, PUT
+  };
+
+  function getPodcasts(datatopic) {
+    var searchTopic = datatopic.split(" ").join("%20");
+    var queryURL = 'https://api.ottoradio.com/v1/podcasts?query=' + searchTopic + '&type=recent&count=10';
 
     $.ajax({
         url: queryURL,
-        userAgent: "First-Project-App",
         method: 'GET',
       })
       .done(function(response) {
@@ -247,23 +394,168 @@ $(document).ready(function() {
         $("#pod-div").empty();
 
         for (var i = 0; i < response.length; i++) {
-          console.log(response[i].url);
 
-          var podRow = $("<div class='pod-row margin-top'>");
-          var image = $("<img src=" + response[i].scaled_logo_url + ">");
-          var podURL = $("<a class='podlink' href=" + response[i].url + ">" + response[i].title + "</a>");
-          var savebtn = $("<button class='btn btn-danger btn-sm pull-right'>save<button>");
-          savebtn.attr("data-title", response[i].title).attr("data-url", response[i].url);
+          var podDiv = $("<div>");
+          var podTitle = $("<p>" + response[i].title + "</p>");
+          var podSource = $("<p>" + response[i].source + "</p>");
+          var podDate = $("<p>" + response[i].published_at + "</p>");
+          var controller = $("<audio controls>");
+          var audioSource = $("<source>");
+          audioSource.attr("src", response[i].audio_url).attr("type", "audio/mpeg");
 
-          podRow.append(image);
-          podRow.append(podURL);
-          podRow.append(savebtn);
+          podDiv.css({
+            "width" : "315px",
+            "height" : "150px",
+            "float": "left",
+            "margin": "10px 50px 10px 50px",
+          })
 
-          $("#pod-div").append(podRow);
+          controller.append(audioSource);
+
+          podDiv.append(podTitle);
+          podDiv.append(controller);
+          podDiv.append(podSource);
+          podDiv.append(podDate);
+
+          $("#pod-div").append(podDiv);
         };
       }).fail(function(err) {
         console.log(err.statusText);
       });
   };
 
-}); //document end.
+  $('.ui.sticky')
+    .sticky({
+      context: '#example1'
+    });
+
+  /*//////////////////////////////////////
+  /////////////////air API ///////////////
+  /*/ /////////////////////////////////////
+
+  // meet up api ///////////////////////////////////////////
+
+  function getMeetup(datatopic) {
+    var searchTopic = datatopic.split(" ").join("+");
+    $.ajax({
+
+        url: 'https://api.meetup.com/find/groups?page=20&text=' + searchTopic + '&key=4f2661595c402d1f6c515a3b671056',
+        method: "GET",
+        dataType: "jsonp"
+      })
+      .then(function(data) {
+        console.log(data);
+        var arr = data.data; // array of 10 objects
+        for (var i = 0; i < arr.length; i++) {
+          var content = $("<div>").attr('class', 'box');
+          var city = $("<p>").attr('class', 'city'),
+            description = $("<p>").attr('class', 'description'),
+            link = $("<a>").attr({
+              'class': 'link',
+              "href": arr[i].link
+            }),
+            name = $("<p>").attr('class', 'name');
+
+          city.html(arr[i].city);
+          description.html("description: " + arr[i].description);
+          link.html("link: " + arr[i].link);
+          name.html("Group Name: " + arr[i].name);
+          content.append(city, description, name, link);
+          $("#meetup-div").append(content);
+        }
+      })
+      .catch(function(err) {
+        console.log(err.statusText);
+      })
+    // GET, DELETE, POST, PUT
+  };
+
+  // 2.twitter ///////////////////////////////////////////////////
+  function getTwitter(datatopic) {
+    var searchTopic = datatopic.split(" ").join("+");
+    var queryURL = 'https://twitterpopularapi.herokuapp.com/api?q=' + searchTopic + '&count=9';
+    $.ajax({
+        url: queryURL,
+        method: "GET",
+        dataType: "jsonp"
+      })
+      .then(function(data) {
+        console.log(data);
+        console.log(queryURL);
+        var arr = data.statuses; // array of 10 objects
+        for (var i = 0; i < arr.length; i++) {
+          var content = $("<div>").attr('class', 'box');
+          var text = $("<p>").attr('class', 'text'),
+
+
+            name = $("<p>").attr('class', 'name');
+
+          text.html("Latest Tweet: " + arr[i].text);
+
+          content.append(text);
+          $("#twitter-div").append(content);
+        }
+
+      })
+      .fail(function(err) {
+        console.log(err.statusText);
+      })
+  };
+
+  $(document).on("click", ".ytSaveIcon", function(){
+    var ytUrl = $(this).attr("data-ytUrl");
+    var ytTitle = $(this).attr("data-ytTitle");
+    console.log(ytUrl);
+    console.log(ytTitle)
+    var user = auth.currentUser;
+    var ref = database.ref("/user/" + user.uid + "/saved");
+    ref.push({
+      url : ytUrl,
+      title : ytTitle,
+      dateAdded: firebase.database.ServerValue.TIMESTAMP
+    })
+   getSavedFromDatabase();
+  });
+
+    function getSavedFromDatabase() {
+    $("#ytSavedItems").empty();
+    var user = auth.currentUser;
+    var ref = database.ref("/user/" + user.uid + "/saved");
+    ref.once("value", function (snapshot) {
+    snapshot.forEach(function (childSnapshot) {
+    var dbItemKey = childSnapshot.key;
+    var ytSavedUrl = childSnapshot.val().url;
+    console.log(dbItemKey);
+    console.log(ytSavedUrl);
+    var ytSavedDiv = $("<div>");
+    var iFrameSaved = $("<iframe class='youtube' allowfullscreen>");
+    iFrameSaved.css({
+      "width": "120px",
+      "height": "80px",
+      "display": "block",
+      "padding": "5px"
+    });
+    iFrameSaved.attr("src", ytSavedUrl);
+    var deleteIcon = $("<i>");
+    deleteIcon.addClass("remove circle icon green deleteIcon");
+    deleteIcon.css("padding", "5px");
+    deleteIcon.attr("data-itemKey", dbItemKey);
+
+    ytSavedDiv.append(iFrameSaved);
+    ytSavedDiv.append(deleteIcon);
+    $("#ytSavedItems").prepend(ytSavedDiv);
+
+    });
+});
+};
+
+$(document).on("click", ".deleteIcon", function(){
+  var itemKey = $(this).attr("data-itemKey");
+  var user = auth.currentUser;
+  var ref = database.ref("/user/" + user.uid + "/saved");
+  ref.child(itemKey).remove();
+  getSavedFromDatabase();
+});
+
+});
+//document end.
