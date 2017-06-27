@@ -342,7 +342,7 @@ $(document).ready(function() {
   function getNews(datatopic) {
 
     var searchTopic = datatopic.split(" ").join("+");
-    var endpoint = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + searchTopic + '&sort=newest&api_key=a49e8a22035943e9bb2f4928fe15d8fe';
+    var endpoint = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + searchTopic + '&sort=newest&begin_date=20170000&hl=true&api_key=a49e8a22035943e9bb2f4928fe15d8fe';
     // params = 'q=' + searchTopic + '&sort=newest&api_key=a49e8a22035943e9bb2f4928fe15d8fe';
     // params = 'q=' + searchTopic + '&sort=newest&api_key=6c06af0cde254bc0a14d82aaa261021c';
 
