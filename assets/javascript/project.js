@@ -124,8 +124,6 @@ $(document).ready(function() {
 
   });
 
-
-
   getContent();
 
   $("#logout").on("click", function() {
@@ -154,14 +152,14 @@ $(document).ready(function() {
         ref.once("value", function(snapshot) {
 
           var datatopic = snapshot.val().interest;
-
+          $("#userName").text("Welcome back " + snapshot.val().userName);
           console.log(datatopic);
 
           if (datatopic === false) {
             setFavoriteTopic();
 
           } else {
-
+            getSavedFromDatabase();
             getYouTube(datatopic);
             // getBooks(datatopic);
             // getPodcasts(datatopic);
@@ -173,7 +171,7 @@ $(document).ready(function() {
           console.log(user.uid + "is now signed in");
         });
       } else {
-
+        $("#userName").text("Sign In");
         console.log("no user is signed in");
       }
     });
@@ -493,21 +491,44 @@ $(document).ready(function() {
   });
 
     function getSavedFromDatabase() {
+    $("#ytSavedItems").empty();
     var user = auth.currentUser;
     var ref = database.ref("/user/" + user.uid + "/saved");
-    // ref.on("value", function(childSnapshot){
-    // var savedArray = childSnapshot.val();
-    // var key = childSnapshot.key;
-    // console.log(savedArray);
-    // console.log(key);
-    // });
     ref.once("value", function (snapshot) {
-     snapshot.forEach(function (childSnapshot) {
-      console.log('user', childSnapshot.val());
-      console.log(ref.key);
+    snapshot.forEach(function (childSnapshot) {
+    var dbItemKey = childSnapshot.key;
+    var ytSavedUrl = childSnapshot.val().url;
+    console.log(dbItemKey);
+    console.log(ytSavedUrl);
+    var ytSavedDiv = $("<div>");
+    var iFrameSaved = $("<iframe class='youtube' allowfullscreen>");
+    iFrameSaved.css({
+      "width": "100x",
+      "height": "64px",
+      "display": "block",
+      "padding": "10px"
+    });
+    iFrameSaved.attr("src", ytSavedUrl);
+    var deleteIcon = $("<i>");
+    deleteIcon.addClass("remove circle icon green deleteIcon");
+    deleteIcon.css("padding", "5px");
+    deleteIcon.attr("data-itemKey", dbItemKey);
+
+    ytSavedDiv.append(iFrameSaved);
+    ytSavedDiv.append(deleteIcon);
+    $("#ytSavedItems").prepend(ytSavedDiv);
+
     });
 });
 };
+
+$(document).on("click", ".deleteIcon", function(){
+  var itemKey = $(this).attr("data-itemKey");
+  var user = auth.currentUser;
+  var ref = database.ref("/user/" + user.uid + "/saved");
+  ref.child(itemKey).remove();
+  getSavedFromDatabase();
+});
 
 });
 //document end.
