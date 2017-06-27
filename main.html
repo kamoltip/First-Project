@@ -17,12 +17,11 @@
 					<button id="flip" class="ui inverted green secondary button">My Snackables</button>
 					<button class="ui inverted green secondary button" id="logout">Log Out</button>
 					<a class="right item"></a>
-					<a class="right item"> Logo Placeholder </a>
+					<p class="right item" id="userName">Sign In</p>
 					<div class="ui icon input">
 						<input id="searchInput" type="text" placeholder="Chew On This!">
-						<input class="ui inverted green mini submit button" type="submit" id="searchSubmit"></input>
-						<i class="search icon"></i>
-					</div>
+
+						<button class="ui inverted green mini button" type="submit" id="searchSubmit"><i class="search icon"></i></button>
 						<div class="ui icon button">
 							<i class="large settings basic icon"></i>
 						</div>
@@ -43,27 +42,72 @@
 								<hr>
 								<div class="ui input">
 									<input type="text" placeholder="Prep your own snack.." id="interestEntry">
-									<input class="ui inverted green mini submit button" type="submit" id="firstFavSubmit"><i class="small search icon"></i></input>
-									
+
+
+									<button class="ui inverted green mini button" type="submit" id="firstFavSubmit"><i class="tag icon"></i></button>
+								</div>
+								<hr>
+								<div class="grouped inline fields">
+									<div class="field">
+										<div class="ui radio checkbox">
+											<input type="radio" name="fruit">
+											<label>Javascript</label>
+										</div>
+									</div>
+									<div class="field">
+										<div class="ui radio checkbox">
+											<input type="radio" name="fruit" checked="">
+											<label>Latest technology</label>
+										</div>
+									</div>
+									<div class="field">
+										<div class="ui radio checkbox">
+											<input type="radio" name="fruit">
+											<label>React</label>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
-
-
-			<!--/////////////////////////////////////////////////////////////> -->
+			<!--///////////////////////////flip side bar///////////////////////////////> -->
 			<div class="ui sidebar inverted vertical menu">
+				<div class="item">
+					<div class="ui input" id="searchTopic"><input type="text" placeholder="Search..."></div>
+				</div>
+				<div class="item">
+					<i class="home icon"></i> Home
+					<div class="menu">
+						<a class="active item">Search</a>
+						<a class="item">Add</a>
+						<a class="item">Remove</a>
+					</div>
+				</div>
 				<a class="item">
-					Tweets
+					<i class="youtube icon"></i>
+					<div id="ytSavedItems"></div>
 				</a>
 				<a class="item">
-					Youtube
+					<i class="twitter icon"></i>
+					<div id="twitterSavedItems"></div>
 				</a>
 				<a class="item">
-					Lord Of The Ring Book
+					<i class="file text outline icon"></i>
+					<div id="booksSavedItems"></div>
+				</a>
+				<a class="item">
+					<i class="meetup icon"></i>
+					<div id="meetupSavedItems"></div>
+				</a>
+				<a class="item">
+					<i class="play video outline icon"></i>
+					<div id="podSavedItems"></div>
+				</a>
+				<a class="item">
+					<i class="newspaper icon"></i>
+					<div id="nytimeSavedItems"></div>
 				</a>
 			</div>
 			<div class="pusher"></div>
@@ -72,13 +116,15 @@
 				<div class="sixteen wide column"></div>
 				<div class="sixteen wide column"></div>
 			</div>
+			<!-- <////////////Start Cards////////////////////////////> -->
 			<div class="ui three stackable link cards">
 				<div class="card">
 					<div class="image">
 						<img src="https://www.democracynow.org/images/story/49/29749/full_hd/NYTimes2.jpg">
 					</div>
 					<div class="content">
-						<div class="header">Matt Giampietro</div>
+						<div class="header" id="getNews">Get News</div>
+						<div class="ui basic modal nyTime"><div id="nyTime-div"></div></div>
 						<div class="meta">
 							<a>Friends</a>
 						</div>
@@ -125,12 +171,13 @@
 						<img src="https://www.pixelstalk.net/wp-content/uploads/2016/06/Twitter-Desktop-Wallpaper.jpg">
 					</div>
 					<div class="content">
-						<div class="header">Elyse</div>
+						<div class="header" id ="getTwitter">TWITTER</div>
+						<div class="ui basic modal twitter"><div id="twitter-div"></div></div>
 						<div class="meta">
 							<a>Coworker</a>
 						</div>
 						<div class="description">
-							Elyse is a copywriter working in New York.
+							twitter results
 						</div>
 					</div>
 					<div class="extra content">
@@ -150,12 +197,13 @@
 						<img src="http://hdwallpapersbuzz.com/wp-content/uploads/2017/04/meetup-logo-2.jpg">
 					</div>
 					<div class="content">
-						<div class="header">Matt Giampietro</div>
+						<div class="header" id="getMeetUp">MEET UP</div>
+						<div class="ui basic modal meetup"><div id="meetup-div"></div></div>
 						<div class="meta">
 							<a>Friends</a>
 						</div>
 						<div class="description">
-							Matthew is an interior designer living in New York.
+							meet up results
 						</div>
 					</div>
 					<div class="extra content">
@@ -173,12 +221,13 @@
 						<img src="https://cdn.taschen.com/custom/taschen/includes/phpThumb/phpThumb.php/q=70;f=png;640;/media/images/640/menu_books_1507171125_id_970319.png">
 					</div>
 					<div class="content">
-						<div class="header">Molly</div>
+						<div class="header" id="getBooks">BOOKS</div>
+						<div class="ui basic modal books"><div id="books-div"></div></div>
 						<div class="meta">
 							<span class="date">Coworker</span>
 						</div>
 						<div class="description">
-							Molly is a personal assistant living in Paris.
+							Books results
 						</div>
 					</div>
 					<div class="extra content">
@@ -196,7 +245,8 @@
 						<img src="https://userscontent2.emaze.com/images/68e5239d-a253-4e78-8904-ce64efb1d29b/b9aeeee7-0660-4bfc-b712-7348084617ad.jpg">
 					</div>
 					<div class="content">
-						<div class="header">Elyse</div>
+						<div class="header" id ="getPodcasts">POD CAST</div>
+						<div class="ui basic modal podcast"><div id="pod-div"></div></div>
 						<div class="meta">
 							<a>Coworker</a>
 						</div>
@@ -217,6 +267,8 @@
 			</div>
 		</div>
 	</div>
+	<!-- MOMENT.JS CDN -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous">
 	</script>
