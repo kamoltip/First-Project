@@ -162,7 +162,7 @@ $(document).ready(function() {
             getSavedFromDatabase();
             getYouTube(datatopic);
             // getBooks(datatopic);
-            // getPodcasts(datatopic);
+            getPodcasts(datatopic);
             // getNews(datatopic);
             // getMeetup(datatopic);
             // getTwitter(datatopic);
@@ -204,7 +204,7 @@ $(document).ready(function() {
 
     getYouTube(datatopic);
     // getBooks(datatopic);
-    // getPodcasts(datatopic);
+    getPodcasts(datatopic);
     // getNews(datatopic);
     // getMeetup(datatopic);
     // getTwitter(datatopic);
@@ -377,12 +377,11 @@ $(document).ready(function() {
   };
 
   function getPodcasts(datatopic) {
-    var searchTopic = datatopic.split(" ").join("+");
-    var queryURL = 'http://gpodder.net/api/2/tag/' + searchTopic + '/5.json';
+    var searchTopic = datatopic.split(" ").join("%20");
+    var queryURL = 'https://api.ottoradio.com/v1/podcasts?query=' + searchTopic + '&type=recent&count=10';
 
     $.ajax({
         url: queryURL,
-        userAgent: "First-Project-App",
         method: 'GET',
       })
       .done(function(response) {
@@ -394,19 +393,30 @@ $(document).ready(function() {
         $("#pod-div").empty();
 
         for (var i = 0; i < response.length; i++) {
-          console.log(response[i].url);
 
-          var podRow = $("<div class='pod-row margin-top'>");
-          var image = $("<img src=" + response[i].scaled_logo_url + ">");
-          var podURL = $("<a class='podlink' href=" + response[i].url + ">" + response[i].title + "</a>");
-          var savebtn = $("<button class='btn btn-danger btn-sm pull-right'>save<button>");
-          savebtn.attr("data-title", response[i].title).attr("data-url", response[i].url);
+          var podDiv = $("<div>");
+          var podTitle = $("<p>" + response[i].title + "</p>");
+          var podSource = $("<p>" + response[i].source + "</p>");
+          var podDate = $("<p>" + response[i].published_at + "</p>");
+          var controller = $("<audio controls>");
+          var audioSource = $("<source>");
+          audioSource.attr("src", response[i].audio_url).attr("type", "audio/mpeg");
 
-          podRow.append(image);
-          podRow.append(podURL);
-          podRow.append(savebtn);
+          podDiv.css({
+            "width" : "315px",
+            "height" : "150px",
+            "float": "left",
+            "margin": "10px 50px 10px 50px",
+          })
 
-          $("#pod-div").append(podRow);
+          controller.append(audioSource);
+
+          podDiv.append(podTitle);
+          podDiv.append(controller);
+          podDiv.append(podSource);
+          podDiv.append(podDate);
+
+          $("#pod-div").append(podDiv);
         };
       }).fail(function(err) {
         console.log(err.statusText);
