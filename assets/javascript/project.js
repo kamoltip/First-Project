@@ -503,10 +503,10 @@ $(document).ready(function() {
     var ytSavedDiv = $("<div>");
     var iFrameSaved = $("<iframe class='youtube' allowfullscreen>");
     iFrameSaved.css({
-      "width": "100x",
-      "height": "64px",
+      "width": "120px",
+      "height": "80px",
       "display": "block",
-      "padding": "10px"
+      "padding": "5px"
     });
     iFrameSaved.attr("src", ytSavedUrl);
     var deleteIcon = $("<i>");

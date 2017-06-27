@@ -19,13 +19,11 @@
 					<a class="right item"></a>
 					<p class="right item" id="userName">Sign In</p>
 					<div class="ui icon input">
-
 						<input id="searchInput" type="text" placeholder="Chew On This!">
 						<button class="ui inverted green mini button" type="submit" id="searchSubmit"><i class="search icon"></i></button>
 						<div class="ui icon button">
 							<i class="large settings basic icon"></i>
 						</div>
-
 					</div>
 				</div>
 			</div>
@@ -45,10 +43,8 @@
 									<input type="text" placeholder="Prep your own snack.." id="interestEntry">
 									<button class="ui inverted green mini button" type="submit" id="firstFavSubmit"><i class="tag icon"></i></button>
 								</div>
-
 								<hr>
 								<div class="grouped inline fields">
-
 									<div class="field">
 										<div class="ui radio checkbox">
 											<input type="radio" name="fruit">
@@ -73,18 +69,42 @@
 					</div>
 				</div>
 			</div>
-
 			<!--///////////////////////////flip side bar///////////////////////////////> -->
 			<div class="ui sidebar inverted vertical menu">
+				<div class="item">
+					<div class="ui input" id="searchTopic"><input type="text" placeholder="Search..."></div>
+				</div>
+				<div class="item">
+					<i class="home icon"></i> Home
+					<div class="menu">
+						<a class="active item">Search</a>
+						<a class="item">Add</a>
+						<a class="item">Remove</a>
+					</div>
+				</div>
 				<a class="item">
-					Tweets
+					<i class="youtube icon"></i>
+					<div id="ytSavedItems"></div>
 				</a>
 				<a class="item">
-					Youtube
+					<i class="twitter icon"></i>
+					<div id="twitterSavedItems"></div>
 				</a>
-				<div id="ytSavedItems"></div>
 				<a class="item">
-					Lord Of The Ring Book
+					<i class="file text outline icon"></i>
+					<div id="booksSavedItems"></div>
+				</a>
+				<a class="item">
+					<i class="meetup icon"></i>
+					<div id="meetupSavedItems"></div>
+				</a>
+				<a class="item">
+					<i class="play video outline icon"></i>
+					<div id="podSavedItems"></div>
+				</a>
+				<a class="item">
+					<i class="newspaper icon"></i>
+					<div id="nytimeSavedItems"></div>
 				</a>
 			</div>
 			<div class="pusher"></div>
@@ -93,15 +113,11 @@
 				<div class="sixteen wide column"></div>
 				<div class="sixteen wide column"></div>
 			</div>
-
 			<!-- <////////////Start Cards////////////////////////////> -->
-
 			<div class="ui three stackable link cards">
 				<div class="card">
 					<div class="image">
-
 						<img src="https://www.democracynow.org/images/story/49/29749/full_hd/NYTimes2.jpg">
-
 					</div>
 					<div class="content">
 						<div class="header" id="getNews">Get News</div>
