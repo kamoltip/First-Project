@@ -151,8 +151,8 @@ float:right;
 .material-icons{
 position: absolute;
 }
-.ytSaveIcon:before:hover{
-content: #f0fe;
+.ytSaveIcon :hover{
+background-color: #f0fe;
 }
 @media screen and (max-width: 995px) {
 #savedFavorites{

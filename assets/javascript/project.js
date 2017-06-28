@@ -167,11 +167,11 @@ $(document).ready(function() {
             getYouTube(datatopic);
             // getBooks(datatopic);
 
-            
+
             getNews(datatopic);
 
             getPodcasts(datatopic);
-     
+
 
             // getMeetup(datatopic);
             // getTwitter(datatopic);
@@ -279,8 +279,13 @@ $(document).ready(function() {
           // console.log(videoTitle);
 
           var saveIcon = $("<i>");
-          saveIcon.addClass("plus square outline icon green inverted ytSaveIcon");
-          saveIcon.css("margin", "10px 0 0 10px");
+
+          saveIcon.addClass("plus square outline icon green inverted SaveIcon");
+          saveIcon.css({
+            "padding": "0px",
+            "margin-left" : "8px"
+          });
+
           saveIcon.attr("data-ytUrl", url).attr("data-ytTitle", videoTitle);
 
           youtubeDiv.attr("src", url);
@@ -389,7 +394,7 @@ $(document).ready(function() {
               'class': 'link',
               "href": arr[i].web_url
             }),
-         
+
           headline.html(arr[i].headline.main);
           snippet.html("' " + arr[i].snippet + " '");
           date.html(arr[i].pub_date);
@@ -398,7 +403,7 @@ $(document).ready(function() {
           $("#nyTimeIntro").append(content);
         }
       })
-    
+
       .catch(function(err) {
         console.log(err.statusText);
       });
@@ -433,17 +438,19 @@ $(document).ready(function() {
 
           podDiv.css({
             "width" : "315px",
-            "height" : "150px",
+            "height" : "160px",
             "float": "left",
-            "margin": "10px 50px 10px 50px",
+            "margin": "10px 50px 20px 50px",
           })
+
+          var podSaveIcon = $("<i>");
+          podSaveIcon.addClass("plus square outline icon green inverted SaveIcon");
+
+          podSaveIcon.attr("data-podUrl", response[i].audio_url).attr("data-podTitle", podTitle);
 
           controller.append(audioSource);
 
-          podDiv.append(podTitle);
-          podDiv.append(controller);
-          podDiv.append(podSource);
-          podDiv.append(podDate);
+          podDiv.append(podTitle, controller, podSource, podDate, podSaveIcon);
 
           $("#pod-div").append(podDiv);
         };
@@ -530,7 +537,7 @@ $(document).ready(function() {
       })
   };
 
-  $(document).on("click", ".ytSaveIcon", function(){
+  $(document).on("click", ".SaveIcon", function(){
     var ytUrl = $(this).attr("data-ytUrl");
     var ytTitle = $(this).attr("data-ytTitle");
     console.log(ytUrl);
@@ -545,6 +552,8 @@ $(document).ready(function() {
    getSavedFromDatabase();
   });
 
+
+
     function getSavedFromDatabase() {
     $("#ytSavedItems").empty();
     var user = auth.currentUser;
@@ -552,9 +561,8 @@ $(document).ready(function() {
     ref.once("value", function (snapshot) {
     snapshot.forEach(function (childSnapshot) {
     var dbItemKey = childSnapshot.key;
+
     var ytSavedUrl = childSnapshot.val().url;
-    console.log(dbItemKey);
-    console.log(ytSavedUrl);
     var ytSavedDiv = $("<div>");
     var iFrameSaved = $("<iframe class='youtube' allowfullscreen>");
     iFrameSaved.css({
@@ -572,6 +580,8 @@ $(document).ready(function() {
     ytSavedDiv.append(iFrameSaved);
     ytSavedDiv.append(deleteIcon);
     $("#ytSavedItems").prepend(ytSavedDiv);
+
+    // var podSavedUrl =
 
     });
 });
