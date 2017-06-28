@@ -293,6 +293,21 @@ $(document).ready(function() {
               .modal('show');
           });
         }
+
+        $("#ytThumbnail").empty();
+
+        // APPENDING thumbnails TO youtube DIV
+
+                for (var i = 0; i < response.items.length; i++) {
+                var ytHoldDiv = $("<div class=thumbnails>");
+                var ytThumbNailUrl = response.items[i].snippet.thumbnails.default.url;
+                console.log(ytThumbNailUrl);
+                var ytThumbnailHolder = $("<img>").attr("src", ytThumbNailUrl);
+                ytThumbnailHolder.css({"height":"40px", "width":"55px"})
+                ytHoldDiv.append(ytThumbnailHolder);
+                $("#ytThumbnail").append(ytHoldDiv);
+                }
+
       })
 
       .fail(function(err) {
