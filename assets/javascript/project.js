@@ -280,7 +280,7 @@ $(document).ready(function() {
 
           var saveIcon = $("<i>");
           saveIcon.addClass("plus square outline icon green inverted ytSaveIcon");
-          saveIcon.css("padding", "10px");
+          saveIcon.css("margin", "10px 0 0 10px");
           saveIcon.attr("data-ytUrl", url).attr("data-ytTitle", videoTitle);
 
           youtubeDiv.attr("src", url);
@@ -380,7 +380,7 @@ $(document).ready(function() {
           $("#nyTime-div").append(content);
         }
          $("#nyTimeIntro").empty();
-         for (var i = 0; i < 3; i++) {
+         for (var i = 0; i < 1; i++) {
           var content = $("<div>").attr('class','nyTimeBox');
           var snippet = $("<h6>").attr('class', 'snippet'),
             headline = $("<h5>").attr('class','headline'),
