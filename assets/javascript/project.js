@@ -303,7 +303,20 @@ $(document).ready(function() {
                 var ytThumbNailUrl = response.items[i].snippet.thumbnails.default.url;
                 console.log(ytThumbNailUrl);
                 var ytThumbnailHolder = $("<img>").attr("src", ytThumbNailUrl);
-                ytThumbnailHolder.css({"height":"40px", "width":"55px"})
+                ytThumbnailHolder.css({
+                  "height":"75px", "width":"90px",
+                })
+                ytHoldDiv.css({
+                  "display" : "flex",
+                  "flex-flow" : "column-wrap",
+                  "justify-content" : "center",
+                  "float" : "left",
+                  "padding" : "3px",
+                  "width" : "33.33%",
+                  "border" : "1px solid black",
+                  "background-color" : "black"
+                })
+
                 ytHoldDiv.append(ytThumbnailHolder);
                 $("#ytThumbnail").append(ytHoldDiv);
                 }
