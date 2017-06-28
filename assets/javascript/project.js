@@ -167,11 +167,11 @@ $(document).ready(function() {
             getYouTube(datatopic);
             // getBooks(datatopic);
 
-            
+
             getNews(datatopic);
 
             getPodcasts(datatopic);
-     
+
 
             // getMeetup(datatopic);
             // getTwitter(datatopic);
@@ -229,15 +229,10 @@ $(document).ready(function() {
   function getYouTube(datatopic) {
     var searchTopic = datatopic.split(" ").join("+");
 
-    // NEW VARIABLE TO set search to begin 30 days ago from current time
-    // USING MOMENT.JS
     var searchBeginingDate = moment().subtract(30, 'days').toISOString();
     console.log(searchBeginingDate);
-    // the youtube query url requires "publishedAfter" to be a string
     var publishedAfter = String(searchBeginingDate);
     console.log(publishedAfter);
-    // ===============================================================
-    // var order = 'date';
     var videoID;
     // =======PREVIOUS URL BEFORE MAURICIO'S MOMENT.JS DATE TEST.======
     // var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&part=snippet&&relevanceLanguage=en&q=' + searchTopic + '&order=' + order + '&order=viewCount&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
@@ -265,11 +260,11 @@ $(document).ready(function() {
           var ytHoldDiv = $("<div>");
           var youtubeDiv = $("<iframe class='youtube' allowfullscreen>");
           youtubeDiv.css({
-            "width": "250px",
-            "height": "160px",
-            "display": "block",
-            "padding": "10px"
-          });
+                            "width": "250px",
+                            "height": "160px",
+                            "display": "block",
+                            "padding": "10px"
+                        });
 
           var videoIdList = response.items[i].id.videoId;
           var url = 'https://www.youtube.com/embed/' + videoIdList;
@@ -280,7 +275,7 @@ $(document).ready(function() {
 
           var saveIcon = $("<i>");
           saveIcon.addClass("plus square outline icon green inverted ytSaveIcon");
-          saveIcon.css("padding", "10px");
+          saveIcon.css("margin", "10px 0 0 10px");
           saveIcon.attr("data-ytUrl", url).attr("data-ytTitle", videoTitle);
 
           youtubeDiv.attr("src", url);
@@ -295,6 +290,19 @@ $(document).ready(function() {
               .modal('show');
           });
         }
+
+        $("#ytThumbnail").empty();
+
+        for (var i = 0; i < response.items.length; i++) {
+        var ytHoldDiv = $("<div class=thumbnails>");
+        var ytThumbNailUrl = response.items[i].snippet.thumbnails.default.url;
+        console.log(ytThumbNailUrl);
+        var ytThumbnailHolder = $("<img>").attr("src", ytThumbNailUrl);
+        ytThumbnailHolder.css({"height":"40px", "width":"55px"})
+        ytHoldDiv.append(ytThumbnailHolder);
+        $("#ytThumbnail").append(ytHoldDiv);
+        }
+
       })
 
       .fail(function(err) {
@@ -380,7 +388,7 @@ $(document).ready(function() {
           $("#nyTime-div").append(content);
         }
          $("#nyTimeIntro").empty();
-         for (var i = 0; i < 3; i++) {
+         for (var i = 0; i < 1; i++) {
           var content = $("<div>").attr('class','nyTimeBox');
           var snippet = $("<h6>").attr('class', 'snippet'),
             headline = $("<h5>").attr('class','headline'),
@@ -389,7 +397,7 @@ $(document).ready(function() {
               'class': 'link',
               "href": arr[i].web_url
             }),
-         
+
           headline.html(arr[i].headline.main);
           snippet.html("' " + arr[i].snippet + " '");
           date.html(arr[i].pub_date);
@@ -398,7 +406,7 @@ $(document).ready(function() {
           $("#nyTimeIntro").append(content);
         }
       })
-    
+
       .catch(function(err) {
         console.log(err.statusText);
       });
