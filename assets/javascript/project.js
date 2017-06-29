@@ -288,7 +288,7 @@ $(document).ready(function() {
           // $("#video-div").append(youtubeDiv);
           // $("#video-div").append(saveDiv);
           $("#video-div").append(ytHoldDiv);
-          $('#ytDiv').on('click', function() {
+          $('#ytThumbnail').on('click', function() {
             $('.basic.modal.yt')
               .modal('show');
           });
@@ -311,10 +311,11 @@ $(document).ready(function() {
                   "flex-flow" : "column-wrap",
                   "justify-content" : "center",
                   "float" : "left",
-                  "padding" : "3px",
+                  "padding" : "1px",
                   "width" : "33.33%",
                   "border" : "1px solid black",
-                  "background-color" : "black"
+                  "background-color" : "black",
+                  "border-radius" : "10px"
                 })
 
                 ytHoldDiv.append(ytThumbnailHolder);
@@ -565,7 +566,9 @@ $(document).ready(function() {
   $(document).on("click", ".ytSaveIcon", function() {
     var ytUrl = $(this).attr("data-ytUrl");
     var ytTitle = $(this).attr("data-ytTitle");
-
+    $(this).removeClass("plus square");
+    $(this).addClass("pin");
+  
     var user = auth.currentUser;
     var ref = database.ref("/user/" + user.uid + "/ytSaved");
     ref.push({

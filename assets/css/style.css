@@ -126,7 +126,10 @@ justify-content: center;
 	padding:2%;
 	color:black;
 	margin-bottom: 2%;
-	/*box-shadow: 3px 5px 5px;*/
+	box-shadow: 3px 5px 5px;
+}
+#getNew{
+	color: red;
 }
 #getNews{
 	color: red;
@@ -144,6 +147,9 @@ justify-content: center;
 	color: red;
 }
 #getBooks{
+	color: red;
+}
+#getyt{
 	color: red;
 }
 /*------Start main.html-----*/
