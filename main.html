@@ -11,6 +11,8 @@
 		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	</head>
 	<body>
+		
+		
 		<div class="ui container-fluid">
 			<div class="ui container">
 				<div class="ui inverted pointing secondary fixed menu">
@@ -78,8 +80,6 @@
 					<i class="home icon"></i> Home
 					<div class="menu">
 						<a class="active item">Search</a>
-						<a class="item">Add</a>
-						<a class="item">Remove</a>
 					</div>
 				</div>
 				<a class="item">
@@ -99,7 +99,7 @@
 					<div id="meetupSavedItems"></div>
 				</a>
 				<a class="item">
-					<i class="play video outline icon"></i>
+					<i class="sound icon"></i>
 					<div id="podSavedItems"></div>
 				</a>
 				<a class="item">
@@ -122,177 +122,180 @@
 					<div class="content">
 						<div class="header left floated" id="getNew"><i class="large newspaper icon"></i></div> <br>
 						<div class="ui basic modal nyTime">
-						<!-- <br> <br> <br> <br> -->
-						<i class="close icon"></i>
-						<div id="nyTime-div"></div></div>
-						<div class="meta">
-							<a></a>
+							
+							<i class="close icon"></i>
+							<div id="nyTime-div"></div></div>
+							<div class="meta">
+								<a></a>
+							</div>
+							<br> <br>
+							<div class="description" id="nyTimeIntro">
+							</div> <br>
+							<div class="header right floated" id="getNews">See all news >></div>
+							
 						</div>
-						<div class="description" id="nyTimeIntro">
-						</div> <br>
-						<div class="header right floated" id="getNews">See all news >></div>
-						
+						<!-- 		<div class="extra content">
+							<span class="right floated">
+										share
+							</span>
+							<span>
+										<i class="user icon"></i>
+										75 likes
+							</span>
+						</div> -->
 					</div>
-					<div class="extra content">
-						<span class="right floated">
-							share
-						</span>
-						<span>
-							<i class="user icon"></i>
-							75 likes
-						</span>
+					<div class="card">
+						<div class="image">
+							<img src="http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/08/Youtube-HD-Wallpapers-3.jpg" id="ytImage">
+						</div>
+						<div class="content">
+							<div class="header" id="ytDiv"><i class ="large youtube icon"></i></div>
+							<div class="ui basic modal yt">
+								<i class="close icon"></i>
+								<div id="video-div"></div>
+							</div>
+							<div class="meta">
+								<span class="date"></span>
+							</div>
+							<br> <br> <br>
+							<div class="description"  id="ytThumbnail">
+							</div>
+						</div>
+						<div class="extra content">
+							<span class="right floated">
+								share
+							</span>
+							<span>
+								<i class="user icon"></i>
+								35 likes
+							</span>
+						</div>
+					</div>
+					<div class="card">
+						<div class="image">
+							<img src="https://www.pixelstalk.net/wp-content/uploads/2016/06/Twitter-Desktop-Wallpaper.jpg">
+						</div>
+						<div class="content">
+							<div class="header" id ="getTwitter"><i class="large twitter icon"></i></div>
+							<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+							<div class="ui basic modal twitter">
+								<i class="close icon"></i>
+								
+								<div id="twitter-div"></div>
+								
+							</div>
+							<!-- 	<div class="meta">
+									<p>"Twitter is so short ... safe. I don't want my bosses to be like, 'Hey, your script is due & we saw you wrote four blog pages!" <br><span class="right floated">- @mindykaling</span></a>
+							</div> -->
+							<div class="description">
+								<a class="twitter-timeline"  href="https://twitter.com/hashtag/technology" data-widget-id="880523365978603520">#technology Tweets</a>
+							</div>
+						</div>
+						<!-- <div class="extra content">
+									<span class="right floated">
+												share
+									</span>
+									<span>
+												<i class="user icon"></i>
+												151 likes
+									</span>
+						</div> -->
 					</div>
 				</div>
-				<div class="card">
-					<div class="image">
-						<img src="http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/08/Youtube-HD-Wallpapers-3.jpg" id="ytImage">
+				<div class="ui three stackable link cards" id="cardsBottom">
+					<div class="card">
+						<div class="image">
+							<img src="http://hdwallpapersbuzz.com/wp-content/uploads/2017/04/meetup-logo-2.jpg">
+						</div>
+						<div class="content">
+							<div class="header" id="getMeetUp"><i class="large meetup icon"></i></div>
+							<div class="ui basic modal meetup">
+								<i class="close icon"></i>
+								<div id="meetup-div"></div>
+							</div>
+							<div class="meta">
+								<p>"To educate a man in mind and not in morals is to educate a menace to society." <br><span class="right floated">-Anonymous</span></p>
+							</div>
+							<div class="description">
+								meet up results
+							</div>
+						</div>
+						<!-- 	<div class="extra content">
+								<span class="right floated">
+											share
+								</span>
+								<span>
+											<i class="user icon"></i>
+											75 likes
+								</span>
+						</div> -->
 					</div>
-					<div class="content">
-						<div class="header" id="ytDiv"><i class ="large youtube icon"></i></div>
-						<div class="ui basic modal yt">
-						<i class="close icon"></i>
-						<div id="video-div"></div>
+					<div class="card">
+						<div class="image">
+							<img src="https://cdn.taschen.com/custom/taschen/includes/phpThumb/phpThumb.php/q=70;f=png;640;/media/images/640/menu_books_1507171125_id_970319.png">
 						</div>
-						<div class="meta">
-							<span class="date"></span>
+						<div class="content">
+							<div class="header" id="getBooks"><i class="large book icon"></i></div>
+							<div class="ui basic modal books">
+								<i class="close icon"></i>
+								<div id="books-div"></div>
+							</div>
+							<div class="meta">
+								<span class="date">"If we encounter a man of rare intellect, we should ask him what books he reads." <br>
+									<span class="right floated">–Ralph Waldo Emerson</span> <br>
+								</div>
+								<div class="description">
+									Books results
+								</div>
+							</div>
+							<!-- 	<div class="extra content">
+									<span class="right floated">
+												share
+									</span>
+									<span>
+												<i class="user icon"></i>
+												35 likes
+									</span>
+							</div> -->
 						</div>
-						<div class="description"  id="ytThumbnail">
-
-							Molly is a personal assistant living in Paris.
+						<div class="card">
+							<div class="image">
+								<img src="https://userscontent2.emaze.com/images/68e5239d-a253-4e78-8904-ce64efb1d29b/b9aeeee7-0660-4bfc-b712-7348084617ad.jpg">
+							</div>
+							<div class="content">
+								<div class="header" id ="getPodcasts"><i class="large sound icon"></i> >> </div>
+								<div class="ui basic modal podcast">
+									<i class="close icon"></i>
+									<br> <br>
+									<div id="pod-div"></div>
+								</div>
+								<div class="meta">
+									<p>“Listening to podcast, reading a book, listening to an audibook and watching films isn't waste of time. It's how somebody becomes wise!”
+										<span class = "right floated"> <br> ― Deyth Banger</span></p>
+									</div>
+									<div class="description">
+										
+									</div>
+								</div>
+								<!-- 	<div class="extra content">
+										<span class="right floated">
+													share
+										</span>
+										<span>
+													<i class="user icon"></i>
+													151 likes
+										</span>
+								</div> -->
+							</div>
 						</div>
-					</div>
-					<div class="extra content">
-						<span class="right floated">
-							share
-						</span>
-						<span>
-							<i class="user icon"></i>
-							35 likes
-						</span>
 					</div>
 				</div>
-				<div class="card">
-					<div class="image">
-						<img src="https://www.pixelstalk.net/wp-content/uploads/2016/06/Twitter-Desktop-Wallpaper.jpg">
-					</div>
-					<div class="content">
-						<div class="header" id ="getTwitter"><i class="large twitter icon"></i></div>
-						<div class="ui basic modal twitter">
-						<i class="close icon"></i>
-						<div id="twitter-div"></div>
-						</div>
-						<div class="meta">
-							<p>"Twitter is so short ... safe. I don't want my bosses to be like, 'Hey, your script is due & we saw you wrote four blog pages!" <br><span class="right floated">- @mindykaling</span></a>
-						</div>
-						<div class="description">
-							twitter results
-						</div>
-					</div>
-					<div class="extra content">
-						<span class="right floated">
-							share
-						</span>
-						<span>
-							<i class="user icon"></i>
-							151 Friends
-						</span>
-					</div>
-				</div>
-			</div>
-			<div class="ui three stackable link cards" id="cardsBottom">
-				<div class="card">
-					<div class="image">
-						<img src="http://hdwallpapersbuzz.com/wp-content/uploads/2017/04/meetup-logo-2.jpg">
-					</div>
-					<div class="content">
-						<div class="header" id="getMeetUp"><i class="large meetup icon"></i></div>
-						<div class="ui basic modal meetup">
-						<i class="close icon"></i>
-						<div id="meetup-div"></div>
-						</div>
-						<div class="meta">
-							<p>"To educate a man in mind and not in morals is to educate a menace to society." <br><span class="right floated">-Anonymous</span></p>
-						</div>
-						<div class="description">
-							meet up results
-						</div>
-					</div>
-					<div class="extra content">
-						<span class="right floated">
-							share
-						</span>
-						<span>
-							<i class="user icon"></i>
-							75 likes
-						</span>
-					</div>
-				</div>
-				<div class="card">
-					<div class="image">
-						<img src="https://cdn.taschen.com/custom/taschen/includes/phpThumb/phpThumb.php/q=70;f=png;640;/media/images/640/menu_books_1507171125_id_970319.png">
-					</div>
-					<div class="content">
-						<div class="header" id="getBooks"><i class="large book icon"></i></div>
-						<div class="ui basic modal books">
-						<i class="close icon"></i>
-						<div id="books-div"></div>
-						</div>
-						<div class="meta">
-							<span class="date">"If we encounter a man of rare intellect, we should ask him what books he reads." <br> 
-							<span class="right floated">–Ralph Waldo Emerson</span> <br>
-						</div>
-						<div class="description">
-							Books results
-						</div>
-					</div>
-					<div class="extra content">
-						<span class="right floated">
-							share
-						</span>
-						<span>
-							<i class="user icon"></i>
-							35 likes
-						</span>
-					</div>
-				</div>
-				<div class="card">
-					<div class="image">
-						<img src="https://userscontent2.emaze.com/images/68e5239d-a253-4e78-8904-ce64efb1d29b/b9aeeee7-0660-4bfc-b712-7348084617ad.jpg">
-					</div>
-					<div class="content">
-						<div class="header" id ="getPodcasts"><i class="large sound icon"></i> >> </div>
-						<div class="ui basic modal podcast">
-						<i class="close icon"></i>
-						<br> <br>
-						<div id="pod-div"></div>
-						</div>
-						<div class="meta">
-							<p>“Listening to podcast, reading a book, listening to an audibook and watching films isn't waste of time. It's how somebody becomes wise!” 
-								<span class = "right floated"> <br> ― Deyth Banger</span></p>
-						</div>
-						<div class="description">
-						
-						</div>
-					</div>
-					<div class="extra content">
-						<span class="right floated">
-							share
-						</span>
-						<span>
-							<i class="user icon"></i>
-							151 likes
-						</span>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- MOMENT.JS CDN -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous">
-	</script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
-	<script type="text/javascript" src="assets/javascript/project.js"></script>
-</body>
-</html>
+				<!-- MOMENT.JS CDN -->
+				<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+				<script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+				<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous">
+				</script>
+				<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+				<script type="text/javascript" src="assets/javascript/project.js"></script>
+			</body>
+		</html>

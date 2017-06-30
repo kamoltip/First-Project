@@ -1,6 +1,3 @@
-
-
-
 /*------START login & signup.html-----*/
 body {
 background: url('http://www.imagestowallpapers.com/wp-content/uploads/2015/12/Background-Image-CSS4.jpg') fixed;
@@ -97,22 +94,22 @@ align-items: center;
 background-color: white;
 }
 .basic.modal.yt{
-	overflow: auto
+overflow: auto
 }
 .basic.modal.nyTime{
-	overflow: auto;
+overflow: auto;
 }
 .basic.modal.meetup{
-	overflow: auto;
+overflow: auto;
 }
 .basic.modal.twitter{
-	overflow: auto;
+overflow: auto;
 }
 .basic.modal.podcast{
-	overflow: auto;
+overflow: auto;
 }
 .basic.modal.books{
-	overflow: auto;
+overflow: auto;
 }
 #video-div{
 display: flex;
@@ -120,37 +117,37 @@ justify-content: center;
 }
 /*--------------NY Time Modal--------------*/
 .nyTimeBox{
-	border:1px outset grey;
-	border-radius:10px;
-	background-color: white;
-	padding:2%;
-	color:black;
-	margin-bottom: 2%;
-	box-shadow: 3px 5px 5px;
+border:1px outset grey;
+border-radius:10px;
+background-color: white;
+padding:2%;
+color:black;
+/*margin-bottom: 2%;
+box-shadow: 3px 5px 5px;*/
 }
 #getNew{
-	color: red;
+color: red;
 }
 #getNews{
-	color: red;
+color: red;
 }
 #getMeetUp{
-	color: red;
+color: red;
 }
 #getPodcasts{
-	color: red;
+color: red;
 }
 #ytDiv{
-	color: red;
+color: red;
 }
 #getTwitter{
-	color: red;
+color: red;
 }
 #getBooks{
-	color: red;
+color: red;
 }
 #getyt{
-	color: red;
+color: red;
 }
 /*------Start main.html-----*/
 .podlink {
@@ -174,29 +171,26 @@ display: none;
 float:right;
 }
 
-position: absolute;
-}
-.ytSaveIcon :hover{
-background-color: #f0fe;
-}
 /*//////////////custom scroll bar///////////////*/
 ::-webkit-scrollbar {
-    width: 12px;
-    color: red;
-}
- 
-::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(255,0,0,0.3); 
-    border-radius: 10px;
-    height:5px;
-    margin-left: 2px
-}
- 
-::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(255,0,0,0.9); 
+width: 12px;
+color: red;
 }
 
+::-webkit-scrollbar-track {
+-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+border-radius: 10px;
+height:5px;
+margin-left: 2px
+}
+
+::-webkit-scrollbar-thumb {
+border-radius: 10px;
+-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+.twitter-timeline{
+height: 30px;
+}
 @media screen and (max-width: 995px) {
 #savedFavorites{
 float: none;

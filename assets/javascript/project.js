@@ -10,6 +10,10 @@ $(document).ready(function() {
     // ;
   });
 
+  $('.ui.sidebar.inverted.vertical.menu').sidebar({
+    transition: 'overlay'
+});
+
   $('.icon.button').on('click', function() {
     $('.basic.modal.setting')
       .modal('show')
@@ -164,11 +168,11 @@ $(document).ready(function() {
 
           } else {
             getYouTube(datatopic);
-            // getBooks(datatopic);
+            getBooks(datatopic);
             getNews(datatopic);
             getPodcasts(datatopic);
             // getMeetup(datatopic);
-            // getTwitter(datatopic);
+            getTwitter(datatopic);
             getSavedYouTubeFromDatabase();
             getSavedPodcastFromDatabase();
           }
@@ -208,11 +212,11 @@ $(document).ready(function() {
     console.log(datatopic);
 
     getYouTube(datatopic);
-    // getBooks(datatopic);
+    getBooks(datatopic);
     getNews(datatopic);
     getPodcasts(datatopic);
     // getMeetup(datatopic);
-    // getTwitter(datatopic);
+    getTwitter(datatopic);
   });
 
   /*//////////////////////////////////////
@@ -238,9 +242,9 @@ $(document).ready(function() {
     // =TESTING NEW QUERY URL TO GRAB VIDEOS FROM 30 DAYS AGO WITH MOST viewCountS
 
     var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&part=snippet&&relevanceLanguage=en&q=' +
-      searchTopic + '&publishedAfter=' + publishedAfter + '&order=viewCount' +
+      searchTopic + '&publishedAfter=' + publishedAfter +
       '&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
-
+      // + '&order=viewCount'
     $.ajax({
         url: queryURL,
         method: 'GET',
@@ -291,6 +295,8 @@ $(document).ready(function() {
           $('#ytThumbnail').on('click', function() {
             $('.basic.modal.yt')
               .modal('show');
+
+
           });
         }
 
@@ -311,9 +317,9 @@ $(document).ready(function() {
                   "flex-flow" : "column-wrap",
                   "justify-content" : "center",
                   "float" : "left",
-                  "padding" : "1px",
+                  // "padding" : "1px",
                   "width" : "33.33%",
-                  "border" : "1px solid black",
+                  // "border" : "1px solid black",
                   "background-color" : "black",
                   "border-radius" : "10px"
                 })
@@ -545,14 +551,10 @@ $(document).ready(function() {
         for (var i = 0; i < arr.length; i++) {
           var content = $("<div>").attr('class', 'box');
           var text = $("<p>").attr('class', 'text'),
-
-
-            name = $("<p>").attr('class', 'name');
-
-          text.html("Latest Tweet: " + arr[i].text);
-
-          content.append(text);
-          $("#twitter-div").append(content);
+              name = $("<p>").attr('class', 'name');
+              text.html("Latest Tweet: " + arr[i].text);
+              content.append(text);
+              $("#twitter-div").append(content);
         }
 
       })
@@ -561,13 +563,14 @@ $(document).ready(function() {
       })
   };
 
+
   //Saving - Displaying - Deleting Saved Items
   //YouTube Saves
   $(document).on("click", ".ytSaveIcon", function() {
     var ytUrl = $(this).attr("data-ytUrl");
     var ytTitle = $(this).attr("data-ytTitle");
     $(this).removeClass("plus square");
-    $(this).addClass("pin");
+    $(this).addClass("red pin");
   
     var user = auth.currentUser;
     var ref = database.ref("/user/" + user.uid + "/ytSaved");
