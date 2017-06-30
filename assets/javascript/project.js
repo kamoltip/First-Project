@@ -5,10 +5,14 @@ $(document).ready(function() {
     $('.ui.sidebar')
       .sidebar('toggle');
 
-      //       $('.ui.dropdown')
-//   .dropdown()
-// ;
+    //       $('.ui.dropdown')
+    //   .dropdown()
+    // ;
   });
+
+  $('.ui.sidebar.inverted.vertical.menu').sidebar({
+    transition: 'overlay'
+});
 
   $('.icon.button').on('click', function() {
     $('.basic.modal.setting')
@@ -19,23 +23,23 @@ $(document).ready(function() {
   $('.ui.radio.checkbox')
     .checkbox();
 
-    $('#getNews').on('click', function() {
+  $('#getNews').on('click', function() {
     $('.basic.modal.nyTime')
       .modal('show');
   });
-    $('#getTwitter').on('click', function() {
+  $('#getTwitter').on('click', function() {
     $('.basic.modal.twitter')
       .modal('show');
   });
-    $('#getBooks').on('click', function() {
+  $('#getBooks').on('click', function() {
     $('.basic.modal.books')
       .modal('show');
   });
-    $('#getPodcasts').on('click', function() {
+  $('#getPodcasts').on('click', function() {
     $('.basic.modal.podcast')
       .modal('show');
   });
-    $('#getMeetUp').on('click', function() {
+  $('#getMeetUp').on('click', function() {
     $('.basic.modal.meetup')
       .modal('show');
   });
@@ -163,18 +167,14 @@ $(document).ready(function() {
             setFavoriteTopic();
 
           } else {
-            getSavedFromDatabase();
             getYouTube(datatopic);
-            // getBooks(datatopic);
-
-            
+            getBooks(datatopic);
             getNews(datatopic);
-
             getPodcasts(datatopic);
-     
-
             // getMeetup(datatopic);
-            // getTwitter(datatopic);
+            getTwitter(datatopic);
+            getSavedYouTubeFromDatabase();
+            getSavedPodcastFromDatabase();
           }
 
           console.log(user.uid + "is now signed in");
@@ -212,14 +212,11 @@ $(document).ready(function() {
     console.log(datatopic);
 
     getYouTube(datatopic);
-    // getBooks(datatopic);
-
+    getBooks(datatopic);
     getNews(datatopic);
-
     getPodcasts(datatopic);
-
     // getMeetup(datatopic);
-    // getTwitter(datatopic);
+    getTwitter(datatopic);
   });
 
   /*//////////////////////////////////////
@@ -245,9 +242,9 @@ $(document).ready(function() {
     // =TESTING NEW QUERY URL TO GRAB VIDEOS FROM 30 DAYS AGO WITH MOST viewCountS
 
     var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&part=snippet&&relevanceLanguage=en&q=' +
-     searchTopic + '&publishedAfter=' + publishedAfter +  '&order=viewCount'+
-    '&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
-
+      searchTopic + '&publishedAfter=' + publishedAfter +
+      '&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
+      // + '&order=viewCount'
     $.ajax({
         url: queryURL,
         method: 'GET',
@@ -279,8 +276,13 @@ $(document).ready(function() {
           // console.log(videoTitle);
 
           var saveIcon = $("<i>");
+
           saveIcon.addClass("plus square outline icon green inverted ytSaveIcon");
-          saveIcon.css("padding", "10px");
+          saveIcon.css({
+            "padding": "0px",
+            "margin-left": "8px"
+          });
+
           saveIcon.attr("data-ytUrl", url).attr("data-ytTitle", videoTitle);
 
           youtubeDiv.attr("src", url);
@@ -290,11 +292,42 @@ $(document).ready(function() {
           // $("#video-div").append(youtubeDiv);
           // $("#video-div").append(saveDiv);
           $("#video-div").append(ytHoldDiv);
-          $('#ytDiv').on('click', function() {
+          $('#ytThumbnail').on('click', function() {
             $('.basic.modal.yt')
               .modal('show');
+
+
           });
         }
+
+        $("#ytThumbnail").empty();
+
+        // APPENDING thumbnails TO youtube DIV
+
+                for (var i = 0; i < response.items.length; i++) {
+                var ytHoldDiv = $("<div class=thumbnails>");
+                var ytThumbNailUrl = response.items[i].snippet.thumbnails.default.url;
+                console.log(ytThumbNailUrl);
+                var ytThumbnailHolder = $("<img>").attr("src", ytThumbNailUrl);
+                ytThumbnailHolder.css({
+                  "height":"75px", "width":"90px",
+                })
+                ytHoldDiv.css({
+                  "display" : "flex",
+                  "flex-flow" : "column-wrap",
+                  "justify-content" : "center",
+                  "float" : "left",
+                  // "padding" : "1px",
+                  "width" : "33.33%",
+                  // "border" : "1px solid black",
+                  "background-color" : "black",
+                  "border-radius" : "10px"
+                })
+
+                ytHoldDiv.append(ytThumbnailHolder);
+                $("#ytThumbnail").append(ytHoldDiv);
+                }
+
       })
 
       .fail(function(err) {
@@ -363,43 +396,43 @@ $(document).ready(function() {
 
         var arr = data.response.docs; // array of 10 objects
         for (var i = 0; i < arr.length; i++) {
-          var content = $("<div>").attr('class','nyTimeBox');
+          var content = $("<div>").attr('class', 'nyTimeBox');
           var source = $("<p>").attr('class', 'source'),
-            headline = $("<h5>").attr('class','headline')
-            snippet = $("<p>").attr('class', 'snippet'),
+            headline = $("<h5>").attr('class', 'headline')
+          snippet = $("<p>").attr('class', 'snippet'),
             date = $("<p>").attr('class', 'date');
-            web = $("<a>").attr({
+          web = $("<a>").attr({
               'class': 'link',
               "href": arr[i].web_url
             }),
-          headline.html(arr[i].headline.main);
+            headline.html(arr[i].headline.main);
           source.html("Source : " + arr[i].source);
           snippet.html("' " + arr[i].snippet + " '");
           date.html(arr[i].pub_date);
           web.html("Read More >>") + arr[i].web_url;
-          content.append(source,date,headline,snippet,web);
+          content.append(source, date, headline, snippet, web);
           $("#nyTime-div").append(content);
         }
-         $("#nyTimeIntro").empty();
-         for (var i = 0; i < 3; i++) {
-          var content = $("<div>").attr('class','nyTimeBox');
+        $("#nyTimeIntro").empty();
+        for (var i = 0; i < 1; i++) {
+          var content = $("<div>").attr('class', 'nyTimeBox');
           var snippet = $("<h6>").attr('class', 'snippet'),
-            headline = $("<h5>").attr('class','headline'),
+            headline = $("<h5>").attr('class', 'headline'),
             date = $("<p>").attr('class', 'date');
-            web = $("<a>").attr({
+          web = $("<a>").attr({
               'class': 'link',
               "href": arr[i].web_url
             }),
-         
-          headline.html(arr[i].headline.main);
+
+            headline.html(arr[i].headline.main);
           snippet.html("' " + arr[i].snippet + " '");
           date.html(arr[i].pub_date);
           web.html("Read More >>") + arr[i].web_u
-          content.append(date,headline,snippet,web);
+          content.append(date, headline, snippet, web);
           $("#nyTimeIntro").append(content);
         }
       })
-    
+
       .catch(function(err) {
         console.log(err.statusText);
       });
@@ -433,18 +466,22 @@ $(document).ready(function() {
           audioSource.attr("src", response[i].audio_url).attr("type", "audio/mpeg");
 
           podDiv.css({
-            "width" : "315px",
-            "height" : "150px",
+            "width": "315px",
+            "height": "160px",
             "float": "left",
-            "margin": "10px 50px 10px 50px",
+            "margin": "10px 50px 20px 50px",
           })
+
+          var podSaveIcon = $("<i>");
+          podSaveIcon.addClass("plus square outline icon green inverted podSaveIcon");
+
+          podSaveIcon.attr("data-podUrl", response[i].audio_url).attr("data-podTitle", response[i].title);
 
           controller.append(audioSource);
 
-          podDiv.append(podTitle);
-          podDiv.append(controller);
-          podDiv.append(podSource);
-          podDiv.append(podDate);
+          podDiv.append(podTitle),
+            podDiv.append(controller);
+          podDiv.append(podSource, podDate, podSaveIcon);
 
           $("#pod-div").append(podDiv);
         };
@@ -515,14 +552,10 @@ $(document).ready(function() {
         for (var i = 0; i < arr.length; i++) {
           var content = $("<div>").attr('class', 'box');
           var text = $("<p>").attr('class', 'text'),
-
-
-            name = $("<p>").attr('class', 'name');
-
-          text.html("Latest Tweet: " + arr[i].text);
-
-          content.append(text);
-          $("#twitter-div").append(content);
+              name = $("<p>").attr('class', 'name');
+              text.html("Latest Tweet: " + arr[i].text);
+              content.append(text);
+              $("#twitter-div").append(content);
         }
 
       })
@@ -531,60 +564,123 @@ $(document).ready(function() {
       })
   };
 
-  $(document).on("click", ".ytSaveIcon", function(){
+
+  //Saving - Displaying - Deleting Saved Items
+  //YouTube Saves
+  $(document).on("click", ".ytSaveIcon", function() {
     var ytUrl = $(this).attr("data-ytUrl");
     var ytTitle = $(this).attr("data-ytTitle");
-    console.log(ytUrl);
-    console.log(ytTitle)
+    $(this).removeClass("plus square");
+    $(this).addClass("red pin");
+  
     var user = auth.currentUser;
-    var ref = database.ref("/user/" + user.uid + "/saved");
+    var ref = database.ref("/user/" + user.uid + "/ytSaved");
     ref.push({
-      url : ytUrl,
-      title : ytTitle,
+      ytUrl: ytUrl,
+      ytTitle: ytTitle,
       dateAdded: firebase.database.ServerValue.TIMESTAMP
     })
-   getSavedFromDatabase();
+    getSavedYouTubeFromDatabase();
   });
 
-    function getSavedFromDatabase() {
+  function getSavedYouTubeFromDatabase() {
     $("#ytSavedItems").empty();
     var user = auth.currentUser;
-    var ref = database.ref("/user/" + user.uid + "/saved");
-    ref.once("value", function (snapshot) {
-    snapshot.forEach(function (childSnapshot) {
-    var dbItemKey = childSnapshot.key;
-    var ytSavedUrl = childSnapshot.val().url;
-    console.log(dbItemKey);
-    console.log(ytSavedUrl);
-    var ytSavedDiv = $("<div>");
-    var iFrameSaved = $("<iframe class='youtube' allowfullscreen>");
-    iFrameSaved.css({
-      "width": "120px",
-      "height": "80px",
-      "display": "block",
-      "padding": "5px"
+    var ref = database.ref("/user/" + user.uid + "/ytSaved");
+    ref.once("value", function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        var dbItemKey = childSnapshot.key;
+
+        var ytSavedUrl = childSnapshot.val().ytUrl;
+        var ytSavedDiv = $("<div>");
+        var iFrameSaved = $("<iframe class='youtube' allowfullscreen>");
+        iFrameSaved.css({
+          "width": "120px",
+          "height": "80px",
+          "display": "block",
+          "padding": "5px"
+        });
+        iFrameSaved.attr("src", ytSavedUrl);
+        var deleteIcon = $("<i>");
+        deleteIcon.addClass("remove circle icon green deleteIcon");
+        deleteIcon.css("padding", "5px");
+        deleteIcon.attr("data-itemKey", dbItemKey);
+
+        ytSavedDiv.append(iFrameSaved);
+        ytSavedDiv.append(deleteIcon);
+        $("#ytSavedItems").prepend(ytSavedDiv);
+
+      });
     });
-    iFrameSaved.attr("src", ytSavedUrl);
-    var deleteIcon = $("<i>");
-    deleteIcon.addClass("remove circle icon green deleteIcon");
-    deleteIcon.css("padding", "5px");
-    deleteIcon.attr("data-itemKey", dbItemKey);
+  };
 
-    ytSavedDiv.append(iFrameSaved);
-    ytSavedDiv.append(deleteIcon);
-    $("#ytSavedItems").prepend(ytSavedDiv);
+  $(document).on("click", ".deleteIcon", function() {
+    var itemKey = $(this).attr("data-itemKey");
+    var user = auth.currentUser;
+    var ref = database.ref("/user/" + user.uid + "/ytSaved");
+    ref.child(itemKey).remove();
+    getSavedYouTubeFromDatabase();
+  });
 
+  //Podcast Saves
+  $(document).on("click", ".podSaveIcon", function() {
+    var podUrl = $(this).attr("data-podUrl");
+    var podTitle = $(this).attr("data-podTitle");
+
+    var user = auth.currentUser;
+    var ref = database.ref("/user/" + user.uid + "/podSaved");
+    ref.push({
+      podUrl: podUrl,
+      podTitle: podTitle,
+      dateAdded: firebase.database.ServerValue.TIMESTAMP
+    })
+    getSavedPodcastFromDatabase();
+  });
+
+  function getSavedPodcastFromDatabase() {
+    $("#podSavedItems").empty();
+    var user = auth.currentUser;
+    var ref = database.ref("/user/" + user.uid + "/podSaved");
+    ref.once("value", function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        var dbItemKey = childSnapshot.key;
+
+        var podSavedTitle = childSnapshot.val().podTitle;
+        var podSavedUrl = childSnapshot.val().podUrl;
+        var podSavedDiv = $("<div>");
+        var podTitle = $("<p>" + podSavedTitle + "</p>");
+        var controller = $("<audio controls>");
+        var audioSource = $("<source>");
+        audioSource.attr("src", podSavedUrl).attr("type", "audio/mpeg");
+
+        podSavedDiv.css({
+          "width": "120px",
+          "height": "100px",
+          "margin-bottom": "10px"
+        });
+
+        controller.append(audioSource);
+
+        var deleteIcon = $("<i>");
+        deleteIcon.addClass("remove circle icon green deleteIcon");
+        deleteIcon.css("padding", "5px");
+        deleteIcon.attr("data-itemKey", dbItemKey);
+
+        podSavedDiv.append(podTitle),
+          podSavedDiv.append(controller);
+        podSavedDiv.append(deleteIcon);
+        $("#podSavedItems").prepend(podSavedDiv);
+
+      });
     });
-});
-};
+  };
 
-$(document).on("click", ".deleteIcon", function(){
-  var itemKey = $(this).attr("data-itemKey");
-  var user = auth.currentUser;
-  var ref = database.ref("/user/" + user.uid + "/saved");
-  ref.child(itemKey).remove();
-  getSavedFromDatabase();
-});
-
+  $(document).on("click", ".deleteIcon", function() {
+    var itemKey = $(this).attr("data-itemKey");
+    var user = auth.currentUser;
+    var ref = database.ref("/user/" + user.uid + "/podSaved");
+    ref.child(itemKey).remove();
+    getSavedPodcastFromDatabase();
+  });
 });
 //document end.
