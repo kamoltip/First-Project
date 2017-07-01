@@ -1,143 +1,140 @@
 <!DOCTYPE html>
 <html lang="en-us">
-	<head>
-		<meta charset="utf-8">
-		<title>Working File</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
-		<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/spacelab/bootstrap.min.css" rel="stylesheet" integrity="sha384-L/tgI3wSsbb3f/nW9V6Yqlaw3Gj7mpE56LWrhew/c8MIhAYWZ/FNirA64AVkB5pI" crossorigin="anonymous">
-		<link rel="stylesheet" text="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-	</head>
-	<body>
-		
-		
-		<div class="ui container-fluid">
-			<div class="ui container">
-				<div class="ui inverted pointing secondary fixed menu">
-					<button id="flip" class="ui inverted green secondary button">My Snackables</button>
-					<button class="ui inverted green secondary button" id="logout">Log Out</button>
-					<a class="right item"></a>
-					<p class="right item" id="userName">Sign In</p>
-					<div class="ui icon input">
-						<input id="searchInput" type="text" placeholder="Chew On This!">
 
-						<button class="ui inverted green mini button" type="submit" id="searchSubmit"><i class="search icon"></i></button>
-						<div class="ui icon button">
-							<i class="large settings basic icon"></i>
+<head>
+	<meta charset="utf-8">
+	<title>Working File</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+	<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/spacelab/bootstrap.min.css" rel="stylesheet" integrity="sha384-L/tgI3wSsbb3f/nW9V6Yqlaw3Gj7mpE56LWrhew/c8MIhAYWZ/FNirA64AVkB5pI" crossorigin="anonymous">
+	<link rel="stylesheet" text="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<script src="http://cdn.jsdelivr.net/jquery.glide/1.0.6/jquery.glide.min.js"></script>
+</head>
+
+<body>
+
+
+	<div class="ui container-fluid">
+		<div class="ui container">
+			<div class="ui inverted pointing secondary fixed menu">
+				<button id="flip" class="ui inverted green secondary button">My Snackables</button>
+				<button class="ui inverted green secondary button" id="logout">Log Out</button>
+				<a class="right item"></a>
+				<p class="right item" id="userName">Sign In</p>
+				<div class="ui icon input">
+					<input id="searchInput" type="text" placeholder="Chew On This!">
+					<button class="ui inverted green mini button" type="submit" id="searchSubmit"><i class="search icon"></i></button>
+					<div class="ui icon button">
+						<i class="large settings basic icon"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /SETTING modal div//////////////////////-->
+	<div class="ui container-fluid">
+		<div class="ui basic modal setting">
+			<!-- <div class="ui one column center aligned grid"> -->
+			<div class="three column stackable ui grid">
+				<div class="column"></div>
+				<div class="column">
+					<div class="ui segment" id="modalContainer">
+						<!-- Settings Modal -->
+						<div id="settingsModal">
+							<h2 class="ui header userSettings">
+													<div class="ui circular label"><i class="large settings basic icon"></i></div>Settings
+											</h2>
+							<hr>
+							<div id="newUserModal">
+								<h2 class="ui header">
+																	<div id="welcomeHeader">
+																			Welcome to Bento!
+																	</div>
+															</h2>
+								<p id="welcomeText">For best experience, tell us your favorite interest.</p>
+							</div>
+							<hr>
+							<div class="ui input">
+								<input type="text" placeholder="Choose a new interest" id="newInterestInput">
+								<button class="ui inverted green large button" type="submit" id="newInterestSubmit"><i class="search icon"></i></button>
+							</div>
+							<hr>
+							<div class="ui two top attached buttons userSettings">
+								<div class="ui compact button" type="submit" id="#changePassword">Change Password</div>
+								<div class="ui compact button" type="submit" id="#changeEmail">Change<br>Email</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<!-- /SETTING modal div//////////////////////-->
-		<div class="ui container-fluid">
-			<div class="ui basic modal setting">
-				<!-- <div class="ui one column center aligned grid"> -->
-				<div class="three column stackable ui grid">
-					<div class="column"></div>
-					<div class="column">
-						<div class="ui segment" id="modalContainer">
-							<div class="column ten wide form-holder">
-								<div class="ui circular label"><i class="large settings basic icon"></i></div>
-								<hr>
-								<div class="ui input">
-									<input type="text" placeholder="Prep your own snack.." id="interestEntry">
-
-
-									<button class="ui inverted green mini button" type="submit" id="firstFavSubmit"><i class="tag icon"></i></button>
-								</div>
-								<hr>
-								<div class="grouped inline fields">
-									<div class="field">
-										<div class="ui radio checkbox">
-											<input type="radio" name="fruit">
-											<label>Javascript</label>
-	 										</div>
-									</div>
-									<div class="field">
-										<div class="ui radio checkbox">
-											<input type="radio" name="fruit" checked="">
-											<label>Latest technology</label>
-										</div>
-									</div>
-									<div class="field">
-										<div class="ui radio checkbox">
-											<input type="radio" name="fruit">
-											<label>React</label>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+		<!--///////////////////////////flip side bar///////////////////////////////> -->
+		<div class="ui sidebar inverted vertical menu">
+			<div class="item">
+				<div class="ui input" id="searchTopic"><input type="text" placeholder="Search..."></div>
+			</div>
+			<div class="item">
+				<i class="home icon"></i> Home
+				<div class="menu">
+					<a class="active item">Search</a>
 				</div>
 			</div>
-			<!--///////////////////////////flip side bar///////////////////////////////> -->
-			<div class="ui sidebar inverted vertical menu">
-				<div class="item">
-					<div class="ui input" id="searchTopic"><input type="text" placeholder="Search..."></div>
-				</div>
-				<div class="item">
-					<i class="home icon"></i> Home
-					<div class="menu">
-						<a class="active item">Search</a>
-					</div>
-				</div>
-				<a class="item">
+			<a class="item">
 					<i class="youtube icon"></i>
 					<div id="ytSavedItems"></div>
 				</a>
-				<a class="item">
+			<a class="item">
 					<i class="twitter icon"></i>
 					<div id="twitterSavedItems"></div>
 				</a>
-				<a class="item">
+			<a class="item">
 					<i class="file text outline icon"></i>
 					<div id="booksSavedItems"></div>
 				</a>
-				<a class="item">
+			<a class="item">
 					<i class="meetup icon"></i>
 					<div id="meetupSavedItems"></div>
 				</a>
-				<a class="item">
+			<a class="item">
 					<i class="sound icon"></i>
 					<div id="podSavedItems"></div>
 				</a>
-				<a class="item">
+			<a class="item">
 					<i class="newspaper icon"></i>
 					<div id="nytimeSavedItems"></div>
 				</a>
-			</div>
-			<div class="pusher"></div>
-			<h1>B E N T O</h1>
-			<div class="ui grid">
-				<div class="sixteen wide column"></div>
-				<div class="sixteen wide column"></div>
-			</div>
-			<!-- <//////////////////////Start Cards/////////////////////////> -->
-			<div class="ui three stackable link cards">
-				<div class="card">
-					<div class="image">
-						<img src="https://www.democracynow.org/images/story/49/29749/full_hd/NYTimes2.jpg">
+		</div>
+		<div class="pusher"></div>
+		<h1>B E N T O</h1>
+		<div class="ui grid">
+			<div class="sixteen wide column"></div>
+			<div class="sixteen wide column"></div>
+		</div>
+		<!-- <//////////////////////Start Cards/////////////////////////> -->
+		<div class="ui three stackable link cards">
+			<div class="card">
+				<div class="image">
+					<img src="https://www.democracynow.org/images/story/49/29749/full_hd/NYTimes2.jpg">
+				</div> <br> <br>
+				<div class="content">
+					<div class="header left floated" id="getNew"><i class="large newspaper icon"></i></div> <br>
+					<div class="ui basic modal nyTime">
+
+						<i class="close icon"></i>
+						<div id="nyTime-div"></div>
 					</div>
-					<div class="content">
-						<div class="header left floated" id="getNew"><i class="large newspaper icon"></i></div> <br>
-						<div class="ui basic modal nyTime">
-							
-							<i class="close icon"></i>
-							<div id="nyTime-div"></div></div>
-							<div class="meta">
-								<a></a>
-							</div>
-							<br> <br>
-							<div class="description" id="nyTimeIntro">
-							</div> <br>
-							<div class="header right floated" id="getNews">See all news >></div>
-							
-						</div>
-						<!-- 		<div class="extra content">
+					<div class="meta">
+						<a></a>
+					</div>
+					<br> <br>
+					<div class="description" id="nyTimeIntro">
+					</div> <br>
+					<div class="header right floated" id="getNews">See all news >></div>
+
+				</div>
+				<!-- 		<div class="extra content">
 							<span class="right floated">
 										share
 							</span>
@@ -146,55 +143,66 @@
 										75 likes
 							</span>
 						</div> -->
+			</div>
+			<div class="card">
+				<div class="image">
+					<img src="http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/08/Youtube-HD-Wallpapers-3.jpg" id="ytImage">
+				</div>
+				<div class="content">
+					<div class="header" id="ytDiv"><i class="large youtube icon"></i></div>
+					<div class="ui basic modal yt">
+						<i class="close icon"></i>
+						<div id="video-div"></div>
 					</div>
-					<div class="card">
-						<div class="image">
-							<img src="http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/08/Youtube-HD-Wallpapers-3.jpg" id="ytImage">
-						</div>
-						<div class="content">
-							<div class="header" id="ytDiv"><i class ="large youtube icon"></i></div>
-							<div class="ui basic modal yt">
-								<i class="close icon"></i>
-								<div id="video-div"></div>
-							</div>
-							<div class="meta">
-								<span class="date"></span>
-							</div>
-							<br> <br> <br>
-							<div class="description"  id="ytThumbnail">
-							</div>
-						</div>
-						<div class="extra content">
-							<span class="right floated">
+					<div class="meta">
+						<span class="date"></span>
+					</div>
+					<br> <br> <br>
+					<div class="description" id="ytThumbnail">
+					</div>
+				</div>
+				<div class="extra content">
+					<span class="right floated">
 								share
 							</span>
-							<span>
+					<span>
 								<i class="user icon"></i>
 								35 likes
 							</span>
-						</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="image">
+					<img src="https://www.pixelstalk.net/wp-content/uploads/2016/06/Twitter-Desktop-Wallpaper.jpg">
+				</div>
+				<div class="content">
+					<div class="header" id="getTwitter"><i class="large twitter icon"></i></div>
+					<script>
+						! function(d, s, id) {
+							var js, fjs = d.getElementsByTagName(s)[0],
+								p = /^http:/.test(d.location) ? 'http' : 'https';
+							if (!d.getElementById(id)) {
+								js = d.createElement(s);
+								js.id = id;
+								js.src = p + "://platform.twitter.com/widgets.js";
+								fjs.parentNode.insertBefore(js, fjs);
+							}
+						}(document, "script", "twitter-wjs");
+					</script>
+					<div class="ui basic modal twitter">
+						<i class="close icon"></i>
+
+						<div id="twitter-div"></div>
+
 					</div>
-					<div class="card">
-						<div class="image">
-							<img src="https://www.pixelstalk.net/wp-content/uploads/2016/06/Twitter-Desktop-Wallpaper.jpg">
-						</div>
-						<div class="content">
-							<div class="header" id ="getTwitter"><i class="large twitter icon"></i></div>
-							<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-							<div class="ui basic modal twitter">
-								<i class="close icon"></i>
-								
-								<div id="twitter-div"></div>
-								
-							</div>
-							<!-- 	<div class="meta">
+					<!-- 	<div class="meta">
 									<p>"Twitter is so short ... safe. I don't want my bosses to be like, 'Hey, your script is due & we saw you wrote four blog pages!" <br><span class="right floated">- @mindykaling</span></a>
 							</div> -->
-							<div class="description">
-								<a class="twitter-timeline"  href="https://twitter.com/hashtag/technology" data-widget-id="880523365978603520">#technology Tweets</a>
-							</div>
-						</div>
-						<!-- <div class="extra content">
+					<div class="description">
+						<a class="twitter-timeline" href="https://twitter.com/hashtag/technology" data-widget-id="880523365978603520">#technology Tweets</a>
+					</div>
+				</div>
+				<!-- <div class="extra content">
 									<span class="right floated">
 												share
 									</span>
@@ -203,27 +211,27 @@
 												151 likes
 									</span>
 						</div> -->
+			</div>
+		</div>
+		<div class="ui three stackable link cards" id="cardsBottom">
+			<div class="card">
+				<div class="image">
+					<img src="http://hdwallpapersbuzz.com/wp-content/uploads/2017/04/meetup-logo-2.jpg">
+				</div>
+				<div class="content">
+					<div class="header" id="getMeetUp"><i class="large meetup icon"></i></div>
+					<div class="ui basic modal meetup">
+						<i class="close icon"></i>
+						<div id="meetup-div"></div>
+					</div>
+					<div class="meta">
+						<p>"To educate a man in mind and not in morals is to educate a menace to society." <br><span class="right floated">-Anonymous</span></p>
+					</div>
+					<div class="description">
+						meet up results
 					</div>
 				</div>
-				<div class="ui three stackable link cards" id="cardsBottom">
-					<div class="card">
-						<div class="image">
-							<img src="http://hdwallpapersbuzz.com/wp-content/uploads/2017/04/meetup-logo-2.jpg">
-						</div>
-						<div class="content">
-							<div class="header" id="getMeetUp"><i class="large meetup icon"></i></div>
-							<div class="ui basic modal meetup">
-								<i class="close icon"></i>
-								<div id="meetup-div"></div>
-							</div>
-							<div class="meta">
-								<p>"To educate a man in mind and not in morals is to educate a menace to society." <br><span class="right floated">-Anonymous</span></p>
-							</div>
-							<div class="description">
-								meet up results
-							</div>
-						</div>
-						<!-- 	<div class="extra content">
+				<!-- 	<div class="extra content">
 								<span class="right floated">
 											share
 								</span>
@@ -232,26 +240,33 @@
 											75 likes
 								</span>
 						</div> -->
-					</div>
-					<div class="card">
-						<div class="image">
-							<img src="https://cdn.taschen.com/custom/taschen/includes/phpThumb/phpThumb.php/q=70;f=png;640;/media/images/640/menu_books_1507171125_id_970319.png">
-						</div>
-						<div class="content">
-							<div class="header" id="getBooks"><i class="large book icon"></i></div>
-							<div class="ui basic modal books">
-								<i class="close icon"></i>
+			</div>
+			<div class="card">
+				<div class="image">
+					<img src="https://cdn.taschen.com/custom/taschen/includes/phpThumb/phpThumb.php/q=70;f=png;640;/media/images/640/menu_books_1507171125_id_970319.png">
+				</div>
+				<div class="content">
+					<div class="header" id="getBooks"><i class="large book icon"></i></div>
+					<div class="ui basic modal books">
+						<i class="close icon"></i>
+						<div class="slider slider1">
+							<div class="slides">
+
 								<div id="books-div"></div>
+
 							</div>
-							<div class="meta">
-								<span class="date">"If we encounter a man of rare intellect, we should ask him what books he reads." <br>
+						</div>
+
+					</div>
+					<div class="meta">
+						<span class="date">"If we encounter a man of rare intellect, we should ask him what books he reads." <br>
 									<span class="right floated">–Ralph Waldo Emerson</span> <br>
-								</div>
-								<div class="description">
-									Books results
-								</div>
-							</div>
-							<!-- 	<div class="extra content">
+					</div>
+					<div class="description">
+						Books results
+					</div>
+				</div>
+				<!-- 	<div class="extra content">
 									<span class="right floated">
 												share
 									</span>
@@ -260,27 +275,31 @@
 												35 likes
 									</span>
 							</div> -->
-						</div>
-						<div class="card">
-							<div class="image">
-								<img src="https://userscontent2.emaze.com/images/68e5239d-a253-4e78-8904-ce64efb1d29b/b9aeeee7-0660-4bfc-b712-7348084617ad.jpg">
-							</div>
-							<div class="content">
-								<div class="header" id ="getPodcasts"><i class="large sound icon"></i> >> </div>
-								<div class="ui basic modal podcast">
-									<i class="close icon"></i>
-									<br> <br>
-									<div id="pod-div"></div>
-								</div>
-								<div class="meta">
-									<p>“Listening to podcast, reading a book, listening to an audibook and watching films isn't waste of time. It's how somebody becomes wise!”
-										<span class = "right floated"> <br> ― Deyth Banger</span></p>
-									</div>
-									<div class="description">
-										
-									</div>
-								</div>
-								<!-- 	<div class="extra content">
+			</div>
+			<div class="card">
+				<div class="image">
+					<img src="https://userscontent2.emaze.com/images/68e5239d-a253-4e78-8904-ce64efb1d29b/b9aeeee7-0660-4bfc-b712-7348084617ad.jpg">
+				</div>
+				<div class="content">
+					<div class="header" id="getPodcasts"><i class="large sound icon"></i> >> </div>
+					<div class="ui basic modal podcast">
+						<i class="close icon"></i>
+						<br> <br>
+						<div id="pod-div"></div>
+					</div>
+					<div class="meta">
+						<p>“Listening to podcast, reading a book, listening to an audibook and watching films isn't waste of time. It's how somebody becomes wise!”
+							<span class="right floated"> <br> ― Deyth Banger</span></p>
+					</div>
+					<div class="description">
+						<span id="pod-nowPlaying">Elyse is a copywriter working in New York.</span>
+					</div>
+					<div id="audioPlayer">
+
+					</div>
+				</div>
+			</div>
+			<!-- 	<div class="extra content">
 										<span class="right floated">
 													share
 										</span>
@@ -289,16 +308,17 @@
 													151 likes
 										</span>
 								</div> -->
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- MOMENT.JS CDN -->
-				<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-				<script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
-				<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous">
-				</script>
-				<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
-				<script type="text/javascript" src="assets/javascript/project.js"></script>
-			</body>
-		</html>
+		</div>
+	</div>
+	</div>
+	</div>
+	<!-- MOMENT.JS CDN -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous">
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+	<script type="text/javascript" src="assets/javascript/project.js"></script>
+</body>
+
+</html>
