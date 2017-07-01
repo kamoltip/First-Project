@@ -14,11 +14,7 @@ $(document).ready(function() {
     transition: 'overlay'
 });
 
-  $('.icon.button').on('click', function() {
-    $('.basic.modal.setting')
-      .modal('show')
-    setFavoriteTopic();;
-  });
+
 
   $('.ui.radio.checkbox')
     .checkbox();
@@ -186,13 +182,26 @@ $(document).ready(function() {
     });
   };
 
+  //Add Favorite Interest for New User and change user settings for interest - password - email
   function setFavoriteTopic() {
     $('.basic.modal.setting').modal('show');
-    $("#firstFavSubmit").on("click", function() {
-      var interest = $("#interestEntry").val().trim();
+    $('#newUserModal').show();
+    $('.userSettings').hide();
+    changeInterest();
+  };
+
+  $('.icon.button').on('click', function() {
+    $('.basic.modal.setting').modal('show');
+    $('#newUserModal').hide();
+    $('#userSettings').show();
+    changeInterest();
+  });
+
+  function changeInterest() {
+    $("#newInterestSubmit").on("click", function() {
+      var interest = $("#newInterestInput").val().trim();
       var user = auth.currentUser;
       var ref = database.ref("/user/" + user.uid);
-
       ref.update({
         interest: interest,
       })
@@ -203,8 +212,7 @@ $(document).ready(function() {
     });
   };
 
-
-  //Search topic to populate APIs
+//Search topic to populate APIs
   $("#searchSubmit").on("click", function(event) {
     event.preventDefault();
 
@@ -571,7 +579,7 @@ $(document).ready(function() {
     var ytTitle = $(this).attr("data-ytTitle");
     $(this).removeClass("plus square");
     $(this).addClass("red pin");
-  
+
     var user = auth.currentUser;
     var ref = database.ref("/user/" + user.uid + "/ytSaved");
     ref.push({
@@ -666,7 +674,7 @@ $(document).ready(function() {
         deleteIcon.attr("data-itemKey", dbItemKey);
 
         podSavedDiv.append(podTitle),
-          podSavedDiv.append(controller);
+        podSavedDiv.append(controller);
         podSavedDiv.append(deleteIcon);
         $("#podSavedItems").prepend(podSavedDiv);
 
