@@ -14,7 +14,11 @@ $(document).ready(function() {
     transition: 'overlay'
 });
 
-
+  $('.icon.button').on('click', function() {
+    $('.basic.modal.setting')
+      .modal('show')
+    setFavoriteTopic();;
+  });
 
   $('.ui.radio.checkbox')
     .checkbox();
@@ -182,26 +186,13 @@ $(document).ready(function() {
     });
   };
 
-  //Add Favorite Interest for New User and change user settings for interest - password - email
   function setFavoriteTopic() {
     $('.basic.modal.setting').modal('show');
-    $('#newUserModal').show();
-    $('.userSettings').hide();
-    changeInterest();
-  };
-
-  $('.icon.button').on('click', function() {
-    $('.basic.modal.setting').modal('show');
-    $('#newUserModal').hide();
-    $('#userSettings').show();
-    changeInterest();
-  });
-
-  function changeInterest() {
-    $("#newInterestSubmit").on("click", function() {
-      var interest = $("#newInterestInput").val().trim();
+    $("#firstFavSubmit").on("click", function() {
+      var interest = $("#interestEntry").val().trim();
       var user = auth.currentUser;
       var ref = database.ref("/user/" + user.uid);
+
       ref.update({
         interest: interest,
       })
@@ -212,7 +203,8 @@ $(document).ready(function() {
     });
   };
 
-//Search topic to populate APIs
+
+  //Search topic to populate APIs
   $("#searchSubmit").on("click", function(event) {
     event.preventDefault();
 
@@ -346,7 +338,7 @@ $(document).ready(function() {
   function getBooks(datatopic) {
     var searchTopic = datatopic.split(" ").join("+");
     var GbooksAPIkey = "AIzaSyAdRit-J3O3HY3ojccN4WDrf1Zqa-mVcgw"
-    var queryURL = "https://www.googleapis.com/books/v1/volumes?q=" + searchTopic + "&langRestrict=en&maxResults=20&orderBy=newest&key=" + GbooksAPIkey;
+    var queryURL = "https://www.googleapis.com/books/v1/volumes?q=" + searchTopic + "&langRestrict=en&maxResults=15&orderBy=newest&key=" + GbooksAPIkey;
 
     $.ajax({
         url: queryURL,
@@ -363,32 +355,38 @@ $(document).ready(function() {
         for (var i = 0; i < arr.length; i++) {
           var booksRow = $('<div>').attr('class', 'booksContainer');
           var thumbnailsSource = arr[i].volumeInfo.imageLinks.smallThumbnail;
-          var thumbnails = $('<img>').attr('src',thumbnailsSource);
+          var thumbnails = $('<img>').attr('src',thumbnailsSource).attr('class','bookImage');
+          var span = $('<span>').attr('class','span');
           // var booksURL = $("<a class='podlink' href=" + arr[i].volumeInfo.infoLink + ">" + arr[i].volumeInfo.title + "</a>");
           // var description = $('<p>').attr('class','description');
+              
               bookLink = $('<a>').attr({
               'class':'podlink',
               'href': arr[i].volumeInfo.infoLink,
-          });   
+              'target':'_blank'
+          }); 
+              bookLink.append(thumbnails);
+              span.append(thumbnails);
+              bookLink.append(span);
               bookTitle = $('<p>').attr('class','bookTitle');  
-              saveButton = $("<i class='green square plus icon'><i>");
+              saveButton = $("<i class='green plus icon'><i>");
               bookTitle.html(arr[i].volumeInfo.title);
               // description.html(' : '+arr[i].volumeInfo.description);
 
-              booksRow.append(thumbnails,saveButton);
+              booksRow.append(bookLink,saveButton);
               $("#books-div").append(booksRow);
 
               $('.booksContainer').css ({
+                'width':'5%',
                 'margin-bottom':'30px',
-                'margin-right':'15px',
-               'float':'left'
-             
+                'margin-right':'0px',
+                'float':'left'
               });
 
-              $('.bookTitle').css ({
-                'margin-bottom':'30px'
+              $(thumbnails).css({
+                'margin-top':'20px',
+                'float':'left'
               });
-          
         }
 
         // for (var i = 0; i < response.items.length; i++) {
@@ -609,7 +607,7 @@ $(document).ready(function() {
     var ytTitle = $(this).attr("data-ytTitle");
     $(this).removeClass("plus square");
     $(this).addClass("red pin");
-
+  
     var user = auth.currentUser;
     var ref = database.ref("/user/" + user.uid + "/ytSaved");
     ref.push({
@@ -704,7 +702,7 @@ $(document).ready(function() {
         deleteIcon.attr("data-itemKey", dbItemKey);
 
         podSavedDiv.append(podTitle),
-        podSavedDiv.append(controller);
+          podSavedDiv.append(controller);
         podSavedDiv.append(deleteIcon);
         $("#podSavedItems").prepend(podSavedDiv);
 

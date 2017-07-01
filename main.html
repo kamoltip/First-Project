@@ -9,11 +9,10 @@
 		<link rel="stylesheet" text="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-		<script src="http://cdn.jsdelivr.net/jquery.glide/1.0.6/jquery.glide.min.js"></script>
 	</head>
 	<body>
-
-
+		
+		
 		<div class="ui container-fluid">
 			<div class="ui container">
 				<div class="ui inverted pointing secondary fixed menu">
@@ -34,39 +33,43 @@
 		<!-- /SETTING modal div//////////////////////-->
 		<div class="ui container-fluid">
 			<div class="ui basic modal setting">
-					<!-- <div class="ui one column center aligned grid"> -->
-					<div class="three column stackable ui grid">
-							<div class="column"></div>
-							<div class="column">
-									<div class="ui segment" id="modalContainer">
-									<!-- Settings Modal -->
-											<div id="settingsModal">
-											<h2 class="ui header userSettings">
-													<div class="ui circular label"><i class="large settings basic icon"></i></div>Settings
-											</h2>
-												<hr>
-													<div id="newUserModal">
-															<h2 class="ui header">
-																	<div id="welcomeHeader">
-																			Welcome to Bento!
-																	</div>
-															</h2>
-															<p id="welcomeText">For best experience, tell us your favorite interest.</p>
-													</div>
-													<hr>
-													<div class="ui input">
-															<input type="text" placeholder="Choose a new interest" id="newInterestInput">
-															<button class="ui inverted green large button" type="submit" id="newInterestSubmit"><i class="search icon"></i></button>
-													</div>
-													<hr>
-													<div class="ui two top attached buttons userSettings">
-															<div class="ui compact button" type="submit" id="#changePassword">Change Password</div>
-															<div class="ui compact button" type="submit" id="#changeEmail">Change<br>Email</div>
-													</div>
-											</div>
+				<!-- <div class="ui one column center aligned grid"> -->
+				<div class="three column stackable ui grid">
+					<div class="column"></div>
+					<div class="column">
+						<div class="ui segment" id="modalContainer">
+							<div class="column ten wide form-holder">
+								<div class="ui circular label"><i class="large settings basic icon"></i></div>
+								<hr>
+								<div class="ui input">
+									<input type="text" placeholder="Prep your own snack.." id="interestEntry">
+									<button class="ui inverted green mini button" type="submit" id="firstFavSubmit"><i class="tag icon"></i></button>
+								</div>
+								<hr>
+								<div class="grouped inline fields">
+									<div class="field">
+										<div class="ui radio checkbox">
+											<input type="radio" name="fruit">
+											<label>Javascript</label>
+										</div>
 									</div>
+									<div class="field">
+										<div class="ui radio checkbox">
+											<input type="radio" name="fruit" checked="">
+											<label>Latest technology</label>
+										</div>
+									</div>
+									<div class="field">
+										<div class="ui radio checkbox">
+											<input type="radio" name="fruit">
+											<label>React</label>
+										</div>
+									</div>
+								</div>
 							</div>
+						</div>
 					</div>
+				</div>
 			</div>
 			<!--///////////////////////////flip side bar///////////////////////////////> -->
 			<div class="ui sidebar inverted vertical menu">
@@ -119,7 +122,7 @@
 					<div class="content">
 						<div class="header left floated" id="getNew"><i class="large newspaper icon"></i></div> <br>
 						<div class="ui basic modal nyTime">
-
+							
 							<i class="close icon"></i>
 							<div id="nyTime-div"></div></div>
 							<div class="meta">
@@ -129,7 +132,7 @@
 							<div class="description" id="nyTimeIntro">
 							</div> <br>
 							<div class="header right floated" id="getNews">See all news >></div>
-
+							
 						</div>
 						<!-- 		<div class="extra content">
 							<span class="right floated">
@@ -177,9 +180,9 @@
 							<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 							<div class="ui basic modal twitter">
 								<i class="close icon"></i>
-
+								
 								<div id="twitter-div"></div>
-
+								
 							</div>
 							<!-- 	<div class="meta">
 									<p>"Twitter is so short ... safe. I don't want my bosses to be like, 'Hey, your script is due & we saw you wrote four blog pages!" <br><span class="right floated">- @mindykaling</span></a>
@@ -189,13 +192,13 @@
 							</div>
 						</div>
 						<!-- <div class="extra content">
-									<span class="right floated">
-												share
-									</span>
-									<span>
-												<i class="user icon"></i>
-												151 likes
-									</span>
+										<span class="right floated">
+														share
+										</span>
+										<span>
+														<i class="user icon"></i>
+														151 likes
+										</span>
 						</div> -->
 					</div>
 				</div>
@@ -219,11 +222,11 @@
 						</div>
 						<!-- 	<div class="extra content">
 								<span class="right floated">
-											share
+												share
 								</span>
 								<span>
-											<i class="user icon"></i>
-											75 likes
+												<i class="user icon"></i>
+												75 likes
 								</span>
 						</div> -->
 					</div>
@@ -235,13 +238,13 @@
 							<div class="header" id="getBooks"><i class="large book icon"></i></div>
 							<div class="ui basic modal books">
 								<i class="close icon"></i>
-									<div class="slider slider1">
-    <div class="slides">
-      
-      <div id="books-div"></div>
-     
-  	</div>
-	</div>
+								<div class="slider slider1">
+									<div class="slides">
+										
+										<div id="books-div"></div>
+										
+									</div>
+								</div>
 								
 							</div>
 							<div class="meta">
@@ -254,11 +257,11 @@
 							</div>
 							<!-- 	<div class="extra content">
 									<span class="right floated">
-												share
+													share
 									</span>
 									<span>
-												<i class="user icon"></i>
-												35 likes
+													<i class="user icon"></i>
+													35 likes
 									</span>
 							</div> -->
 						</div>
@@ -278,19 +281,16 @@
 										<span class = "right floated"> <br> ― Deyth Banger</span></p>
 									</div>
 									<div class="description">
-
-									</div>
-									<div id="audioPlayer">
-										<audio controls><source id="audioSource"></source></audio>
+										
 									</div>
 								</div>
 								<!-- 	<div class="extra content">
 										<span class="right floated">
-													share
+														share
 										</span>
 										<span>
-													<i class="user icon"></i>
-													151 likes
+														<i class="user icon"></i>
+														151 likes
 										</span>
 								</div> -->
 							</div>
