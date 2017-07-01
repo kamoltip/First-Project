@@ -32,6 +32,10 @@ text-align: left;
 .signUp {
 color: black;
 }
+#logonButton{
+	display: flex;
+	justify-content: center;
+}
 .slogan{
 font-size: 18px;
 text-align: center;
