@@ -41,6 +41,10 @@ font-size: 45px;
 display: flex;
 justify-content: center;
 }
+#welcomeText {
+  color: black !important;
+  text-align: center;
+}
 /*------Start main-stack.html-----*/
 .ui.page.grid {
 opacity:0.2px;
