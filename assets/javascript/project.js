@@ -12,12 +12,6 @@ $(document).ready(function() {
 
   $('.ui.sidebar.inverted.vertical.menu').sidebar({
     transition: 'overlay'
-});
-
-  $('.icon.button').on('click', function() {
-    $('.basic.modal.setting')
-      .modal('show')
-    setFavoriteTopic();;
   });
 
   $('.ui.radio.checkbox')
@@ -27,23 +21,26 @@ $(document).ready(function() {
     $('.basic.modal.nyTime')
       .modal('show');
   });
+
   $('#getTwitter').on('click', function() {
     $('.basic.modal.twitter')
       .modal('show');
   });
+
   $('#getBooks').on('click', function() {
     $('.basic.modal.books')
       .modal('show');
   });
+
   $('#getPodcasts').on('click', function() {
     $('.basic.modal.podcast')
       .modal('show');
   });
+
   $('#getMeetUp').on('click', function() {
     $('.basic.modal.meetup')
       .modal('show');
   });
-
 
   //Firebase initialize
   var config = {
@@ -99,10 +96,15 @@ $(document).ready(function() {
       console.log(error.message);
     });
 
+    $("#signUpName").val("");
+    $("#signUpName").val("");
+    $("#signUpName").val("");
+
     auth.signOut();
     setTimeout(function() {
       window.location.href = "login.html";
     }, 2000);
+
   });
 
   //user login
@@ -123,13 +125,14 @@ $(document).ready(function() {
     var loginuser = auth.signInWithEmailAndPassword(email, password);
 
     loginuser.then(function() {
+      $("#loginEmail").val("");
+      $("#loginPassword").val("");
       window.location.href = 'main.html';
 
     }).catch(function(error) {
       console.log(error.code);
       console.log(error.message);
     })
-
   });
 
   getContent();
@@ -167,10 +170,10 @@ $(document).ready(function() {
             setFavoriteTopic();
 
           } else {
-            // getYouTube(datatopic);
+            getYouTube(datatopic);
             getBooks(datatopic);
             // getNews(datatopic);
-            // getPodcasts(datatopic);
+            getPodcasts(datatopic);
             getMeetup(datatopic);
             // getTwitter(datatopic);
             getSavedYouTubeFromDatabase();
@@ -186,23 +189,36 @@ $(document).ready(function() {
     });
   };
 
+  //Add Favorite Interest for New User and change user settings for interest - password - email
   function setFavoriteTopic() {
     $('.basic.modal.setting').modal('show');
-    $("#firstFavSubmit").on("click", function() {
-      var interest = $("#interestEntry").val().trim();
+    $('#newUserModal').show();
+    $('.userSettings').hide();
+    changeInterest();
+  };
+
+  $('.icon.button').on('click', function() {
+    $('.basic.modal.setting').modal('show');
+    $('#newUserModal').hide();
+    $('.userSettings').show();
+    changeInterest();
+  });
+
+  function changeInterest() {
+    $("#newInterestSubmit").on("click", function() {
+      var interest = $("#newInterestInput").val().trim();
       var user = auth.currentUser;
       var ref = database.ref("/user/" + user.uid);
-
       ref.update({
         interest: interest,
       })
+      $("#newInterestInput").val("");
       $('.basic.modal.setting').modal('hide');
       setTimeout(function() {
         getContent();
       }, 2000);
     });
   };
-
 
   //Search topic to populate APIs
   $("#searchSubmit").on("click", function(event) {
@@ -211,12 +227,13 @@ $(document).ready(function() {
     datatopic = $("#searchInput").val().trim();
     console.log(datatopic);
 
-    // getYouTube(datatopic);
+    getYouTube(datatopic);
     getBooks(datatopic);
     // getNews(datatopic);
-    // getPodcasts(datatopic);
+    getPodcasts(datatopic);
     getMeetup(datatopic);
     // getTwitter(datatopic);
+    $("#searchInput").val("");
   });
 
   /*//////////////////////////////////////
@@ -244,7 +261,7 @@ $(document).ready(function() {
     var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&part=snippet&&relevanceLanguage=en&q=' +
       searchTopic + '&publishedAfter=' + publishedAfter +
       '&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
-      // + '&order=viewCount'
+    // + '&order=viewCount'
     $.ajax({
         url: queryURL,
         method: 'GET',
@@ -304,29 +321,30 @@ $(document).ready(function() {
 
         // APPENDING thumbnails TO youtube DIV
 
-                for (var i = 0; i < response.items.length; i++) {
-                var ytHoldDiv = $("<div class=thumbnails>");
-                var ytThumbNailUrl = response.items[i].snippet.thumbnails.default.url;
-                console.log(ytThumbNailUrl);
-                var ytThumbnailHolder = $("<img>").attr("src", ytThumbNailUrl);
-                ytThumbnailHolder.css({
-                  "height":"75px", "width":"90px",
-                })
-                ytHoldDiv.css({
-                  "display" : "flex",
-                  "flex-flow" : "column-wrap",
-                  "justify-content" : "center",
-                  "float" : "left",
-                  // "padding" : "1px",
-                  "width" : "33.33%",
-                  // "border" : "1px solid black",
-                  "background-color" : "black",
-                  "border-radius" : "10px"
-                })
+        for (var i = 0; i < response.items.length; i++) {
+          var ytHoldDiv = $("<div class=thumbnails>");
+          var ytThumbNailUrl = response.items[i].snippet.thumbnails.default.url;
+          console.log(ytThumbNailUrl);
+          var ytThumbnailHolder = $("<img>").attr("src", ytThumbNailUrl);
+          ytThumbnailHolder.css({
+            "height": "75px",
+            "width": "90px",
+          })
+          ytHoldDiv.css({
+            "display": "flex",
+            "flex-flow": "column-wrap",
+            "justify-content": "center",
+            "float": "left",
+            // "padding" : "1px",
+            "width": "33.33%",
+            // "border" : "1px solid black",
+            "background-color": "black",
+            "border-radius": "10px"
+          })
 
-                ytHoldDiv.append(ytThumbnailHolder);
-                $("#ytThumbnail").append(ytHoldDiv);
-                }
+          ytHoldDiv.append(ytThumbnailHolder);
+          $("#ytThumbnail").append(ytHoldDiv);
+        }
 
       })
 
@@ -338,7 +356,7 @@ $(document).ready(function() {
   function getBooks(datatopic) {
     var searchTopic = datatopic.split(" ").join("+");
     var GbooksAPIkey = "AIzaSyAdRit-J3O3HY3ojccN4WDrf1Zqa-mVcgw"
-    var queryURL = "https://www.googleapis.com/books/v1/volumes?q=" + searchTopic + "&langRestrict=en&maxResults=15&orderBy=newest&key=" + GbooksAPIkey;
+    var queryURL = "https://www.googleapis.com/books/v1/volumes?q=" + searchTopic + "&langRestrict=en&maxResults=20&orderBy=newest&key=" + GbooksAPIkey;
 
     $.ajax({
         url: queryURL,
@@ -355,38 +373,32 @@ $(document).ready(function() {
         for (var i = 0; i < arr.length; i++) {
           var booksRow = $('<div>').attr('class', 'booksContainer');
           var thumbnailsSource = arr[i].volumeInfo.imageLinks.smallThumbnail;
-          var thumbnails = $('<img>').attr('src',thumbnailsSource).attr('class','bookImage');
-          var span = $('<span>').attr('class','span');
+          var thumbnails = $('<img>').attr('src', thumbnailsSource);
           // var booksURL = $("<a class='podlink' href=" + arr[i].volumeInfo.infoLink + ">" + arr[i].volumeInfo.title + "</a>");
           // var description = $('<p>').attr('class','description');
-              
-              bookLink = $('<a>').attr({
-              'class':'podlink',
-              'href': arr[i].volumeInfo.infoLink,
-              'target':'_blank'
-          }); 
-              bookLink.append(thumbnails);
-              span.append(thumbnails);
-              bookLink.append(span);
-              bookTitle = $('<p>').attr('class','bookTitle');  
-              saveButton = $("<i class='green plus icon'><i>");
-              bookTitle.html(arr[i].volumeInfo.title);
-              // description.html(' : '+arr[i].volumeInfo.description);
+          bookLink = $('<a>').attr({
+            'class': 'podlink',
+            'href': arr[i].volumeInfo.infoLink,
+          });
+          bookTitle = $('<p>').attr('class', 'bookTitle');
+          saveButton = $("<i class='green square plus icon'><i>");
+          bookTitle.html(arr[i].volumeInfo.title);
+          // description.html(' : '+arr[i].volumeInfo.description);
 
-              booksRow.append(bookLink,saveButton);
-              $("#books-div").append(booksRow);
+          booksRow.append(thumbnails, saveButton);
+          $("#books-div").append(booksRow);
 
-              $('.booksContainer').css ({
-                'width':'5%',
-                'margin-bottom':'30px',
-                'margin-right':'0px',
-                'float':'left'
-              });
+          $('.booksContainer').css({
+            'margin-bottom': '30px',
+            'margin-right': '15px',
+            'float': 'left'
 
-              $(thumbnails).css({
-                'margin-top':'20px',
-                'float':'left'
-              });
+          });
+
+          $('.bookTitle').css({
+            'margin-bottom': '30px'
+          });
+
         }
 
         // for (var i = 0; i < response.items.length; i++) {
@@ -487,7 +499,6 @@ $(document).ready(function() {
         console.log(response);
         console.log("Podcast: " + queryURL);
 
-
         $("#pod-div").empty();
 
         for (var i = 0; i < response.length; i++) {
@@ -496,7 +507,7 @@ $(document).ready(function() {
           var podTitle = $("<p>" + response[i].title + "</p>");
           var podSource = $("<p>" + response[i].source + "</p>");
           var podDate = $("<p>" + response[i].published_at + "</p>");
-          var controller = $("<audio controls>");
+
           var audioSource = $("<source>");
           audioSource.attr("src", response[i].audio_url).attr("type", "audio/mpeg");
 
@@ -505,21 +516,24 @@ $(document).ready(function() {
             "height": "160px",
             "float": "left",
             "margin": "10px 50px 20px 50px",
-          })
+          });
+
+          var podPlayIcon = $("<i>");
+          podPlayIcon.addClass("play icon green clickPlay");
+          podPlayIcon.attr("data-src", response[i].audio_url).attr("data-podTitle", response[i].title);
 
           var podSaveIcon = $("<i>");
           podSaveIcon.addClass("plus square outline icon green inverted podSaveIcon");
 
           podSaveIcon.attr("data-podUrl", response[i].audio_url).attr("data-podTitle", response[i].title);
 
-          controller.append(audioSource);
-
-          podDiv.append(podTitle),
-            podDiv.append(controller);
+          podDiv.append(podPlayIcon);
+          podDiv.append(podTitle);
           podDiv.append(podSource, podDate, podSaveIcon);
 
           $("#pod-div").append(podDiv);
         };
+
       }).fail(function(err) {
         console.log(err.statusText);
       });
@@ -587,10 +601,10 @@ $(document).ready(function() {
         for (var i = 0; i < arr.length; i++) {
           var content = $("<div>").attr('class', 'box');
           var text = $("<p>").attr('class', 'text'),
-              name = $("<p>").attr('class', 'name');
-              text.html("Latest Tweet: " + arr[i].text);
-              content.append(text);
-              $("#twitter-div").append(content);
+            name = $("<p>").attr('class', 'name');
+          text.html("Latest Tweet: " + arr[i].text);
+          content.append(text);
+          $("#twitter-div").append(content);
         }
 
       })
@@ -607,7 +621,7 @@ $(document).ready(function() {
     var ytTitle = $(this).attr("data-ytTitle");
     $(this).removeClass("plus square");
     $(this).addClass("red pin");
-  
+
     var user = auth.currentUser;
     var ref = database.ref("/user/" + user.uid + "/ytSaved");
     ref.push({
@@ -684,31 +698,41 @@ $(document).ready(function() {
         var podSavedUrl = childSnapshot.val().podUrl;
         var podSavedDiv = $("<div>");
         var podTitle = $("<p>" + podSavedTitle + "</p>");
-        var controller = $("<audio controls>");
-        var audioSource = $("<source>");
-        audioSource.attr("src", podSavedUrl).attr("type", "audio/mpeg");
 
-        podSavedDiv.css({
-          "width": "120px",
-          "height": "100px",
-          "margin-bottom": "10px"
-        });
-
-        controller.append(audioSource);
+        var podPlayIcon = $("<i>");
+        podSavedDiv.css("margin-bottom", "10px");
+        podPlayIcon.addClass("play icon green clickPlay");
+        podPlayIcon.attr("data-src", podSavedUrl).attr("data-podTitle", podSavedTitle);
+        podTitle.css("font-size", "12px");
 
         var deleteIcon = $("<i>");
         deleteIcon.addClass("remove circle icon green deleteIcon");
         deleteIcon.css("padding", "5px");
         deleteIcon.attr("data-itemKey", dbItemKey);
 
-        podSavedDiv.append(podTitle),
-          podSavedDiv.append(controller);
+        podSavedDiv.append(podPlayIcon);
+        podSavedDiv.append(podTitle);
         podSavedDiv.append(deleteIcon);
         $("#podSavedItems").prepend(podSavedDiv);
 
       });
     });
   };
+
+  $(document).on("click", ".clickPlay", function() {
+    $("#audioPlayer").empty();
+    var podURL = $(this).attr("data-src");
+    var podTitle = $(this).attr("data-podTitle");
+    var audioControl = $("<audio controls autoplay>")
+    var audioSource = $("<source>");
+
+    $("#pod-nowPlaying").html("You are listening to " + podTitle);
+
+    audioSource.attr("src", podURL).attr("type", "audio/mpeg");
+    audioControl.append(audioSource);
+
+    $("#audioPlayer").append(audioControl);
+  });
 
   $(document).on("click", ".deleteIcon", function() {
     var itemKey = $(this).attr("data-itemKey");
