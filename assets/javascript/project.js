@@ -356,7 +356,7 @@ $(document).ready(function() {
   function getBooks(datatopic) {
     var searchTopic = datatopic.split(" ").join("+");
     var GbooksAPIkey = "AIzaSyAdRit-J3O3HY3ojccN4WDrf1Zqa-mVcgw"
-    var queryURL = "https://www.googleapis.com/books/v1/volumes?q=" + searchTopic + "&langRestrict=en&maxResults=20&orderBy=newest&key=" + GbooksAPIkey;
+    var queryURL = "https://www.googleapis.com/books/v1/volumes?q=" + searchTopic + "&langRestrict=en&maxResults=15&orderBy=newest&key=" + GbooksAPIkey;
 
     $.ajax({
         url: queryURL,
@@ -373,33 +373,40 @@ $(document).ready(function() {
         for (var i = 0; i < arr.length; i++) {
           var booksRow = $('<div>').attr('class', 'booksContainer');
           var thumbnailsSource = arr[i].volumeInfo.imageLinks.smallThumbnail;
-          var thumbnails = $('<img>').attr('src', thumbnailsSource);
+          var thumbnails = $('<img>').attr('src',thumbnailsSource).attr('class','bookImage');
+          var span = $('<span>').attr('class','span');
           // var booksURL = $("<a class='podlink' href=" + arr[i].volumeInfo.infoLink + ">" + arr[i].volumeInfo.title + "</a>");
           // var description = $('<p>').attr('class','description');
-          bookLink = $('<a>').attr({
-            'class': 'podlink',
-            'href': arr[i].volumeInfo.infoLink,
-          });
-          bookTitle = $('<p>').attr('class', 'bookTitle');
-          saveButton = $("<i class='green square plus icon'><i>");
-          bookTitle.html(arr[i].volumeInfo.title);
-          // description.html(' : '+arr[i].volumeInfo.description);
+              
+              bookLink = $('<a>').attr({
+              'class':'podlink',
+              'href': arr[i].volumeInfo.infoLink,
+              'target':'_blank'
+          }); 
+              bookLink.append(thumbnails);
+              span.append(thumbnails);
+              bookLink.append(span);
+              bookTitle = $('<p>').attr('class','bookTitle');  
+              saveButton = $("<i class='green plus icon'><i>");
+              bookTitle.html(arr[i].volumeInfo.title);
+              // description.html(' : '+arr[i].volumeInfo.description);
 
-          booksRow.append(thumbnails, saveButton);
-          $("#books-div").append(booksRow);
+              booksRow.append(bookLink,saveButton);
+              $("#books-div").append(booksRow);
 
-          $('.booksContainer').css({
-            'margin-bottom': '30px',
-            'margin-right': '15px',
-            'float': 'left'
+              $('.booksContainer').css ({
+                'width':'5%',
+                'margin-bottom':'30px',
+                'margin-right':'0px',
+                'float':'left'
+              });
 
-          });
-
-          $('.bookTitle').css({
-            'margin-bottom': '30px'
-          });
-
+              $(thumbnails).css({
+                'margin-top':'20px',
+                'float':'left'
+              });
         }
+
 
         // for (var i = 0; i < response.items.length; i++) {
         //   console.log(response.items[i].volumeInfo.imageLinks.thumbnail);
