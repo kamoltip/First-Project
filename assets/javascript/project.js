@@ -167,12 +167,12 @@ $(document).ready(function() {
             setFavoriteTopic();
 
           } else {
-            getYouTube(datatopic);
+            // getYouTube(datatopic);
             getBooks(datatopic);
-            getNews(datatopic);
-            getPodcasts(datatopic);
-            // getMeetup(datatopic);
-            getTwitter(datatopic);
+            // getNews(datatopic);
+            // getPodcasts(datatopic);
+            getMeetup(datatopic);
+            // getTwitter(datatopic);
             getSavedYouTubeFromDatabase();
             getSavedPodcastFromDatabase();
           }
@@ -211,12 +211,12 @@ $(document).ready(function() {
     datatopic = $("#searchInput").val().trim();
     console.log(datatopic);
 
-    getYouTube(datatopic);
+    // getYouTube(datatopic);
     getBooks(datatopic);
-    getNews(datatopic);
-    getPodcasts(datatopic);
-    // getMeetup(datatopic);
-    getTwitter(datatopic);
+    // getNews(datatopic);
+    // getPodcasts(datatopic);
+    getMeetup(datatopic);
+    // getTwitter(datatopic);
   });
 
   /*//////////////////////////////////////
@@ -338,7 +338,7 @@ $(document).ready(function() {
   function getBooks(datatopic) {
     var searchTopic = datatopic.split(" ").join("+");
     var GbooksAPIkey = "AIzaSyAdRit-J3O3HY3ojccN4WDrf1Zqa-mVcgw"
-    var queryURL = "https://www.googleapis.com/books/v1/volumes?q=" + searchTopic + "&langRestrict=en&maxResults=9&orderBy=newest&key=" + GbooksAPIkey;
+    var queryURL = "https://www.googleapis.com/books/v1/volumes?q=" + searchTopic + "&langRestrict=en&maxResults=20&orderBy=newest&key=" + GbooksAPIkey;
 
     $.ajax({
         url: queryURL,
@@ -351,22 +351,52 @@ $(document).ready(function() {
 
         $("#books-div").empty();
 
-        for (var i = 0; i < response.items.length; i++) {
-          console.log(response.items[i].volumeInfo.imageLinks.thumbnail);
+        var arr = response.items;
+        for (var i = 0; i < arr.length; i++) {
+          var booksRow = $('<div>').attr('class', 'booksContainer');
+          var thumbnailsSource = arr[i].volumeInfo.imageLinks.smallThumbnail;
+          var thumbnails = $('<img>').attr('src',thumbnailsSource);
+          // var booksURL = $("<a class='podlink' href=" + arr[i].volumeInfo.infoLink + ">" + arr[i].volumeInfo.title + "</a>");
+          // var description = $('<p>').attr('class','description');
+              bookLink = $('<a>').attr({
+              'class':'podlink',
+              'href': arr[i].volumeInfo.infoLink,
+          });   
+              bookTitle = $('<p>').attr('class','bookTitle');  
+              saveButton = $("<i class='green square plus icon'><i>");
+              bookTitle.html(arr[i].volumeInfo.title);
+              // description.html(' : '+arr[i].volumeInfo.description);
 
-          var booksRow = $("<div class='books-row margin-top'>");
-          var image = $("<img src=" + response.items[i].volumeInfo.imageLinks.smallThumbnail + ">");
-          var booksURL = $("<a class='podlink' href=" + response.items[i].volumeInfo.infoLink + ">" + response.items[i].volumeInfo.title + "</a>");
-          var savebtn = $("<button class='btn btn-danger btn-sm pull-right'>save<button>");
-          savebtn.attr("data-title", response.items[i].volumeInfo.title).attr("data-url", response.items[i].volumeInfo.infoLink);
+              booksRow.append(thumbnails,saveButton);
+              $("#books-div").append(booksRow);
 
-          booksRow.append(image);
-          booksRow.append(booksURL);
-          booksRow.append(savebtn);
+              $('.booksContainer').css ({
+                'margin-bottom':'30px',
+                'margin-right':'15px',
+               'float':'left'
+             
+              });
 
-          $("#books-div").append(booksRow);
+              $('.bookTitle').css ({
+                'margin-bottom':'30px'
+              });
+          
+        }
 
-        };
+        // for (var i = 0; i < response.items.length; i++) {
+        //   console.log(response.items[i].volumeInfo.imageLinks.thumbnail);
+
+        //   var booksRow = $("<div class='right floated'>");
+        //   var image = $("<img src=" + response.items[i].volumeInfo.imageLinks.smallThumbnail + ">");
+        //   var booksURL = $("<a class='podlink' href=" + response.items[i].volumeInfo.infoLink + ">" + response.items[i].volumeInfo.title + "</a>");
+        //   var savebtn = $("<i class='green square plus icon'><i>");
+        //   savebtn.attr("data-title", response.items[i].volumeInfo.title).attr("data-url", response.items[i].volumeInfo.infoLink);
+        //   booksRow.append(booksURL,image,savebtn);
+        //   $("#books-div").append(booksRow);
+
+
+
+        // };
       }).fail(function(err) {
         console.log(err.statusText);
       });
