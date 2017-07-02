@@ -178,6 +178,7 @@ $(document).ready(function() {
             // getTwitter(datatopic);
             getSavedYouTubeFromDatabase();
             getSavedPodcastFromDatabase();
+            getSavedBooksFromDatabase();
           }
 
           console.log(user.uid + "is now signed in");
@@ -194,6 +195,7 @@ $(document).ready(function() {
     $('.basic.modal.setting').modal('show');
     $('#newUserModal').show();
     $('.userSettings').hide();
+    $('#changePasswordForm').hide();
     changeInterest();
   };
 
@@ -201,6 +203,7 @@ $(document).ready(function() {
     $('.basic.modal.setting').modal('show');
     $('#newUserModal').hide();
     $('.userSettings').show();
+    $('#changePasswordForm').hide();
     changeInterest();
   });
 
@@ -219,6 +222,20 @@ $(document).ready(function() {
       }, 2000);
     });
   };
+
+  $("#changePassword").on("click", function() {
+    $("#changePasswordForm").show();
+  });
+
+  $("#changePasswordSubmit").on("click", function(event) {
+    event.preventDefault();
+    var emailAddress = $("#changePasswordInput").val().trim();
+    auth.sendPasswordResetEmail(emailAddress).then(function() {
+      $("#emailSentConfirm").html("A password reset email has been sent to " + emailAddress);
+    }, function(error) {
+      $("#emailSentConfirm").html(error);
+    });
+  });
 
   //Search topic to populate APIs
   $("#searchSubmit").on("click", function(event) {
@@ -368,60 +385,61 @@ $(document).ready(function() {
         console.log("Books: " + queryURL);
 
         $("#books-div").empty();
+        $("#booksIntro").empty();
 
         var arr = response.items;
         for (var i = 0; i < arr.length; i++) {
           var booksRow = $('<div>').attr('class', 'booksContainer');
           var thumbnailsSource = arr[i].volumeInfo.imageLinks.smallThumbnail;
-          var thumbnails = $('<img>').attr('src',thumbnailsSource).attr('class','bookImage');
-          var span = $('<span>').attr('class','span');
-          // var booksURL = $("<a class='podlink' href=" + arr[i].volumeInfo.infoLink + ">" + arr[i].volumeInfo.title + "</a>");
-          // var description = $('<p>').attr('class','description');
-              
-              bookLink = $('<a>').attr({
-              'class':'podlink',
-              'href': arr[i].volumeInfo.infoLink,
-              'target':'_blank'
-          }); 
-              bookLink.append(thumbnails);
-              span.append(thumbnails);
-              bookLink.append(span);
-              bookTitle = $('<p>').attr('class','bookTitle');  
-              saveButton = $("<i class='green plus icon'><i>");
-              bookTitle.html(arr[i].volumeInfo.title);
-              // description.html(' : '+arr[i].volumeInfo.description);
+          var thumbnails = $('<img>').attr('src', thumbnailsSource).attr('class', 'bookImage');
 
-              booksRow.append(bookLink,saveButton);
-              $("#books-div").append(booksRow);
+          bookLink = $('<a>').attr({
+            'class': 'podlink',
+            'href': arr[i].volumeInfo.infoLink,
+            'target': '_blank'
+          });
+          bookLink.append(thumbnails);
 
-              $('.booksContainer').css ({
-                'width':'5%',
-                'margin-bottom':'30px',
-                'margin-right':'0px',
-                'float':'left'
-              });
+          bookTitle = $('<p>').attr('class', 'bookTitle');
+          var saveButton = $("<i class='green plus icon booksSaveIcon'><i>");
+          saveButton.attr("data-image", thumbnailsSource).attr("data-booksUrl", arr[i].volumeInfo.infoLink).attr("data-title", arr[i].volumeInfo.title);
+          bookTitle.html(arr[i].volumeInfo.title);
+          // description.html(' : '+arr[i].volumeInfo.description);
 
-              $(thumbnails).css({
-                'margin-top':'20px',
-                'float':'left'
-              });
-        }
+          booksRow.append(bookLink, saveButton);
+          $("#books-div").append(booksRow);
 
+          $('.booksContainer').css({
+            'width': '5%',
+            'margin-bottom': '30px',
+            'margin-right': '0px',
+            'float': 'left'
+          });
 
-        // for (var i = 0; i < response.items.length; i++) {
-        //   console.log(response.items[i].volumeInfo.imageLinks.thumbnail);
+          $(thumbnails).css({
+            'margin-top': '20px',
+            'float': 'left'
+          });
+        };
 
-        //   var booksRow = $("<div class='right floated'>");
-        //   var image = $("<img src=" + response.items[i].volumeInfo.imageLinks.smallThumbnail + ">");
-        //   var booksURL = $("<a class='podlink' href=" + response.items[i].volumeInfo.infoLink + ">" + response.items[i].volumeInfo.title + "</a>");
-        //   var savebtn = $("<i class='green square plus icon'><i>");
-        //   savebtn.attr("data-title", response.items[i].volumeInfo.title).attr("data-url", response.items[i].volumeInfo.infoLink);
-        //   booksRow.append(booksURL,image,savebtn);
-        //   $("#books-div").append(booksRow);
+        for (i = 0; i < 3; i++) {
+        var introBookThumbnail = arr[i].volumeInfo.imageLinks.smallThumbnail;
+        // var introBookTitle = $("<p>" + arr[i].volumeInfo.title + "</p>");
+        var introBookDiv = $("<div>");
+        introBookDiv.css({
+          "display": "inline-block",
+          "margin-right": "10px"
+        });
+        var introBookImage = $("<img>");
+        introBookImage.attr("src", introBookThumbnail);
 
+        // introBookDiv.append(introBookImage, introBookTitle);
 
+        introBookDiv.append(introBookImage);
 
-        // };
+        $("#booksIntro").append(introBookDiv);
+      };
+
       }).fail(function(err) {
         console.log(err.statusText);
       });
@@ -649,21 +667,26 @@ $(document).ready(function() {
 
         var ytSavedUrl = childSnapshot.val().ytUrl;
         var ytSavedDiv = $("<div>");
+        ytSavedDiv.css("margin-top", "20px");
         var iFrameSaved = $("<iframe class='youtube' allowfullscreen>");
         iFrameSaved.css({
-          "width": "120px",
+          "width": "150px",
           "height": "80px",
           "display": "block",
-          "padding": "5px"
+          // "padding": "5px"
         });
         iFrameSaved.attr("src", ytSavedUrl);
         var deleteIcon = $("<i>");
         deleteIcon.addClass("remove circle icon green deleteIcon");
-        deleteIcon.css("padding", "5px");
+        deleteIcon.css({
+          "float": "right",
+          "margin-right": "20px"
+        });
         deleteIcon.attr("data-itemKey", dbItemKey);
 
-        ytSavedDiv.append(iFrameSaved);
         ytSavedDiv.append(deleteIcon);
+        ytSavedDiv.append(iFrameSaved);
+
         $("#ytSavedItems").prepend(ytSavedDiv);
 
       });
@@ -706,20 +729,31 @@ $(document).ready(function() {
         var podSavedDiv = $("<div>");
         var podTitle = $("<p>" + podSavedTitle + "</p>");
 
+        podSavedDiv.css("margin-top", "20px");
+
         var podPlayIcon = $("<i>");
-        podSavedDiv.css("margin-bottom", "10px");
+        // podSavedDiv.css("margin-bottom", "10px");
         podPlayIcon.addClass("play icon green clickPlay");
         podPlayIcon.attr("data-src", podSavedUrl).attr("data-podTitle", podSavedTitle);
-        podTitle.css("font-size", "12px");
+        podTitle.css({
+          "width": "100px",
+          "display": "inline",
+          "margin-left": "5px",
+          "font-size": "10px"
+        });
 
         var deleteIcon = $("<i>");
         deleteIcon.addClass("remove circle icon green deleteIcon");
-        deleteIcon.css("padding", "5px");
+        deleteIcon.css({
+          "float": "right",
+          "margin-right": "20px"
+        });
         deleteIcon.attr("data-itemKey", dbItemKey);
 
         podSavedDiv.append(podPlayIcon);
-        podSavedDiv.append(podTitle);
         podSavedDiv.append(deleteIcon);
+        podSavedDiv.append(podTitle);
+
         $("#podSavedItems").prepend(podSavedDiv);
 
       });
@@ -747,6 +781,87 @@ $(document).ready(function() {
     var ref = database.ref("/user/" + user.uid + "/podSaved");
     ref.child(itemKey).remove();
     getSavedPodcastFromDatabase();
+  });
+
+  //Book Saves
+  $(document).on("click", ".booksSaveIcon", function() {
+    var booksImage = $(this).attr("data-image");
+    var booksUrl = $(this).attr("data-booksUrl");
+    var booksTitle = $(this).attr("data-title");
+
+    var user = auth.currentUser;
+    var ref = database.ref("/user/" + user.uid + "/booksSaved");
+    ref.push({
+      booksImage: booksImage,
+      booksUrl: booksUrl,
+      booksTitle: booksTitle,
+      dateAdded: firebase.database.ServerValue.TIMESTAMP
+    })
+    getSavedBooksFromDatabase();
+  });
+
+  function getSavedBooksFromDatabase() {
+    $("#booksSavedItems").empty();
+    var user = auth.currentUser;
+    var ref = database.ref("/user/" + user.uid + "/booksSaved");
+    ref.once("value", function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        var dbItemKey = childSnapshot.key;
+
+        var booksSavedImage = childSnapshot.val().booksImage;
+        var booksSavedUrl = childSnapshot.val().booksUrl;
+        var booksSavedTitle = childSnapshot.val().booksTitle;
+        var booksSavedDiv = $("<div>");
+        booksSavedDiv.css("margin-top", "20px");
+        var booksTitle = $("<div>");
+        booksTitle.append(booksSavedTitle);
+        booksTitle.css({
+          "width": "100px",
+          "display": "inline-block",
+          "font-size": "10px",
+          // "word-break" : "break-all"
+        })
+
+        var booksThumbnail = $("<img>");
+        booksThumbnail.attr("src", booksSavedImage);
+        booksThumbnail.css({
+          "height": "100px",
+          "width": "auto",
+          "margin": "0 5px 5px 0",
+        });
+
+        var booksSavedLink = $("<a>").attr({
+          'class': 'booklink',
+          'href': booksSavedUrl,
+          'target': '_blank'
+        });
+
+        booksSavedLink.append(booksThumbnail);
+
+        var deleteIcon = $("<i>");
+        deleteIcon.addClass("remove circle icon green deleteIcon");
+        deleteIcon.css({
+          "float": "right",
+          "margin-right": "20px"
+        });
+        deleteIcon.attr("data-itemKey", dbItemKey);
+
+        booksSavedDiv.append(booksSavedLink);
+        booksSavedDiv.append(deleteIcon);
+        booksSavedDiv.append(booksTitle);
+
+        $("#booksSavedItems").prepend(booksSavedDiv);
+
+      });
+    });
+  };
+
+  $(document).on("click", ".deleteIcon", function() {
+    var itemKey = $(this).attr("data-itemKey");
+    var user = auth.currentUser;
+    var ref = database.ref("/user/" + user.uid + "/booksSaved");
+    ref.child(itemKey).remove();
+    getSavedBooksFromDatabase();
   });
 });
 //document end.
