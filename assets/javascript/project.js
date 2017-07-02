@@ -668,21 +668,26 @@ $("#changePasswordSubmit").on("click", function(event){
 
         var ytSavedUrl = childSnapshot.val().ytUrl;
         var ytSavedDiv = $("<div>");
+        ytSavedDiv.css("margin-top", "20px");
         var iFrameSaved = $("<iframe class='youtube' allowfullscreen>");
         iFrameSaved.css({
-          "width": "120px",
+          "width": "150px",
           "height": "80px",
           "display": "block",
-          "padding": "5px"
+          // "padding": "5px"
         });
         iFrameSaved.attr("src", ytSavedUrl);
         var deleteIcon = $("<i>");
         deleteIcon.addClass("remove circle icon green deleteIcon");
-        deleteIcon.css("padding", "5px");
+        deleteIcon.css({
+          "float" : "right",
+          "margin-right" : "20px"
+        });
         deleteIcon.attr("data-itemKey", dbItemKey);
 
-        ytSavedDiv.append(iFrameSaved);
         ytSavedDiv.append(deleteIcon);
+        ytSavedDiv.append(iFrameSaved);
+
         $("#ytSavedItems").prepend(ytSavedDiv);
 
       });
@@ -725,20 +730,31 @@ $("#changePasswordSubmit").on("click", function(event){
         var podSavedDiv = $("<div>");
         var podTitle = $("<p>" + podSavedTitle + "</p>");
 
+        podSavedDiv.css("margin-top", "20px");
+
         var podPlayIcon = $("<i>");
-        podSavedDiv.css("margin-bottom", "10px");
+        // podSavedDiv.css("margin-bottom", "10px");
         podPlayIcon.addClass("play icon green clickPlay");
         podPlayIcon.attr("data-src", podSavedUrl).attr("data-podTitle", podSavedTitle);
-        podTitle.css("font-size", "12px");
+        podTitle.css({
+          "width" : "100px",
+          "display" : "inline",
+          "margin-left" : "5px",
+          "font-size" : "10px"
+        });
 
         var deleteIcon = $("<i>");
         deleteIcon.addClass("remove circle icon green deleteIcon");
-        deleteIcon.css("padding", "5px");
+        deleteIcon.css({
+          "float" : "right",
+          "margin-right" : "20px"
+        });
         deleteIcon.attr("data-itemKey", dbItemKey);
 
         podSavedDiv.append(podPlayIcon);
-        podSavedDiv.append(podTitle);
         podSavedDiv.append(deleteIcon);
+        podSavedDiv.append(podTitle);
+
         $("#podSavedItems").prepend(podSavedDiv);
 
       });
@@ -797,18 +813,22 @@ $("#changePasswordSubmit").on("click", function(event){
         var booksSavedUrl = childSnapshot.val().booksUrl;
         var booksSavedTitle = childSnapshot.val().booksTitle;
         var booksSavedDiv = $("<div>");
-        var booksTitle = $("<p>");
+        booksSavedDiv.css("margin-top", "20px");
+        var booksTitle = $("<div>");
         booksTitle.append(booksSavedTitle);
         booksTitle.css({
+          "width" : "100px",
+          "display" : "inline-block",
           "font-size" : "10px",
+          // "word-break" : "break-all"
         })
 
         var booksThumbnail = $("<img>");
         booksThumbnail.attr("src", booksSavedImage);
         booksThumbnail.css({
-          "height" : "80px",
+          "height" : "100px",
           "width" : "auto",
-          "margin" : "5px 0 5px 0",
+          "margin" : "0 5px 5px 0",
         });
 
         var booksSavedLink = $("<a>").attr({
@@ -822,8 +842,8 @@ $("#changePasswordSubmit").on("click", function(event){
         var deleteIcon = $("<i>");
         deleteIcon.addClass("remove circle icon green deleteIcon");
         deleteIcon.css({
-          "padding" : "5px",
-          "float" : "right"
+          "float" : "right",
+          "margin-right" : "20px"
         });
         deleteIcon.attr("data-itemKey", dbItemKey);
 
