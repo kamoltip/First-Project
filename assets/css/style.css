@@ -124,6 +124,11 @@ body.pushable>.pusher {
   align-items: center;
 }
 
+#emailSentConfirm {
+  font-size: 14px;
+  color: black;
+}
+
 #modalContainer {
   background-color: white;
 }

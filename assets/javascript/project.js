@@ -195,6 +195,7 @@ $(document).ready(function() {
     $('.basic.modal.setting').modal('show');
     $('#newUserModal').show();
     $('.userSettings').hide();
+    $('#changePasswordForm').hide();
     changeInterest();
   };
 
@@ -202,6 +203,7 @@ $(document).ready(function() {
     $('.basic.modal.setting').modal('show');
     $('#newUserModal').hide();
     $('.userSettings').show();
+    $('#changePasswordForm').hide();
     changeInterest();
   });
 
@@ -220,6 +222,20 @@ $(document).ready(function() {
       }, 2000);
     });
   };
+
+  $("#changePassword").on("click", function() {
+    $("#changePasswordForm").show();
+  });
+
+$("#changePasswordSubmit").on("click", function(event){
+  event.preventDefault();
+  var emailAddress = $("#changePasswordInput").val().trim();
+  auth.sendPasswordResetEmail(emailAddress).then(function() {
+    $("#emailSentConfirm").html("A password reset email has been sent to " + emailAddress);
+  }, function(error) {
+    $("#emailSentConfirm").html(error);
+  });
+});
 
   //Search topic to populate APIs
   $("#searchSubmit").on("click", function(event) {
