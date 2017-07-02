@@ -385,6 +385,7 @@ $(document).ready(function() {
         console.log("Books: " + queryURL);
 
         $("#books-div").empty();
+        $("#booksIntro").empty();
 
         var arr = response.items;
         for (var i = 0; i < arr.length; i++) {
