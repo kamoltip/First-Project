@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
 	<link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/spacelab/bootstrap.min.css" rel="stylesheet" integrity="sha384-L/tgI3wSsbb3f/nW9V6Yqlaw3Gj7mpE56LWrhew/c8MIhAYWZ/FNirA64AVkB5pI" crossorigin="anonymous">
-	<link rel="stylesheet" text="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
 	<!-- <script src="http://cdn.jsdelivr.net/jquery.glide/1.0.6/jquery.glide.min.js"></script> -->
@@ -43,15 +43,15 @@
 						<!-- Settings Modal -->
 						<div id="settingsModal">
 							<h2 class="ui header userSettings">
-													<div class="ui circular label"><i class="large settings basic icon"></i></div>Settings
+													<label class="ui circular label"><i class="large settings basic icon"></i></label>Settings
 											</h2>
 							<hr>
 							<div id="newUserModal">
-								<h2 class="ui header">
-																	<div id="welcomeHeader">
-																			Welcome to Bento!
-																	</div>
-															</h2>
+								<div class="ui header">
+									<h2 id="welcomeHeader">
+										Welcome to Bento!
+									</h2>
+								</div>
 								<p id="welcomeText">For best experience, tell us your favorite interest.</p>
 							</div>
 							<hr>
@@ -68,7 +68,7 @@
 							<div class="ui input" id="changePasswordForm">
 								<hr>
 								<input type="email" placeholder="Your user email address" id="changePasswordInput">
-								<button class="ui inverted green large button" type="submit" id="changePasswordSubmit"><i class="search icon"></i></button>
+								<button class="ui inverted green large button" type="submit" id="changePasswordSubmit"><i class="send icon"></i></button>
 							</div>
 							<br>
 							<p id="emailSentConfirm"></p>
@@ -123,7 +123,7 @@
 		<div class="ui three stackable link cards">
 			<div class="card">
 				<div class="image">
-					<img src="https://www.democracynow.org/images/story/49/29749/full_hd/NYTimes2.jpg">
+					<img src="https://www.democracynow.org/images/story/49/29749/full_hd/NYTimes2.jpg" alt="New York Times Sample Article">
 				</div> <br> <br>
 				<div class="content">
 					<div class="header left floated" id="getNew"><i class="large newspaper icon"></i></div> <br>
@@ -153,7 +153,7 @@
 			</div>
 			<div class="card">
 				<div class="image">
-					<img src="http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/08/Youtube-HD-Wallpapers-3.jpg" id="ytImage">
+					<img src="http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/08/Youtube-HD-Wallpapers-3.jpg" id="ytImage" alt="YouTube colorful logo">
 				</div>
 				<div class="content">
 					<div class="header" id="ytDiv"><i class="large youtube icon"></i></div>
@@ -180,7 +180,7 @@
 			</div>
 			<div class="card">
 				<div class="image">
-					<img src="https://www.pixelstalk.net/wp-content/uploads/2016/06/Twitter-Desktop-Wallpaper.jpg">
+					<img src="https://www.pixelstalk.net/wp-content/uploads/2016/06/Twitter-Desktop-Wallpaper.jpg" alt="twitter logo">
 				</div>
 				<div class="content">
 					<div class="header" id="getTwitter"><i class="large twitter icon"></i></div>
@@ -223,7 +223,7 @@
 		<div class="ui three stackable link cards" id="cardsBottom">
 			<div class="card">
 				<div class="image">
-					<img src="http://hdwallpapersbuzz.com/wp-content/uploads/2017/04/meetup-logo-2.jpg">
+					<img src="http://hdwallpapersbuzz.com/wp-content/uploads/2017/04/meetup-logo-2.jpg" alt="meetup logo">
 				</div>
 				<div class="content">
 					<div class="header" id="getMeetUp"><i class="large meetup icon"></i></div>
@@ -250,7 +250,7 @@
 			</div>
 			<div class="card">
 				<div class="image">
-					<img src="https://cdn.taschen.com/custom/taschen/includes/phpThumb/phpThumb.php/q=70;f=png;640;/media/images/640/menu_books_1507171125_id_970319.png">
+					<img src="https://cdn.taschen.com/custom/taschen/includes/phpThumb/phpThumb.php/q=70;f=png;640;/media/images/640/menu_books_1507171125_id_970319.png" alt="books on shelf">
 				</div>
 				<div class="content">
 					<div class="header" id="getBooks"><i class="large book icon"></i></div>
@@ -266,8 +266,8 @@
 
 					</div>
 					<div class="meta">
-						<span class="date">"If we encounter a man of rare intellect, we should ask him what books he reads." <br>
-									<span class="right floated">–Ralph Waldo Emerson</span> <br>
+						<span class="date">"If we encounter a man of rare intellect, we should ask him what books he reads."</span> <br>
+						<span class="right floated">–Ralph Waldo Emerson</span> <br>
 					</div>
 					<div class="description">
 						Books results
@@ -285,7 +285,7 @@
 			</div>
 			<div class="card">
 				<div class="image">
-					<img src="https://userscontent2.emaze.com/images/68e5239d-a253-4e78-8904-ce64efb1d29b/b9aeeee7-0660-4bfc-b712-7348084617ad.jpg">
+					<img src="https://userscontent2.emaze.com/images/68e5239d-a253-4e78-8904-ce64efb1d29b/b9aeeee7-0660-4bfc-b712-7348084617ad.jpg" alt="podcast rss logo">
 				</div>
 				<div class="content">
 					<div class="header" id="getPodcasts"><i class="large sound icon"></i> >> </div>
@@ -302,7 +302,6 @@
 						<span id="pod-nowPlaying">Elyse is a copywriter working in New York.</span>
 					</div>
 					<div id="audioPlayer">
-
 					</div>
 				</div>
 			</div>
@@ -316,8 +315,6 @@
 										</span>
 								</div> -->
 		</div>
-	</div>
-	</div>
 	</div>
 	<!-- MOMENT.JS CDN -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>

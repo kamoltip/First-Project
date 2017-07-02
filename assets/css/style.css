@@ -129,6 +129,10 @@ body.pushable>.pusher {
   color: black;
 }
 
+#welcomeHeader {
+  text-align: center;
+}
+
 #modalContainer {
   background-color: white;
 }
