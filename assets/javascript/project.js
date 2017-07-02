@@ -227,15 +227,15 @@ $(document).ready(function() {
     $("#changePasswordForm").show();
   });
 
-$("#changePasswordSubmit").on("click", function(event){
-  event.preventDefault();
-  var emailAddress = $("#changePasswordInput").val().trim();
-  auth.sendPasswordResetEmail(emailAddress).then(function() {
-    $("#emailSentConfirm").html("A password reset email has been sent to " + emailAddress);
-  }, function(error) {
-    $("#emailSentConfirm").html(error);
+  $("#changePasswordSubmit").on("click", function(event) {
+    event.preventDefault();
+    var emailAddress = $("#changePasswordInput").val().trim();
+    auth.sendPasswordResetEmail(emailAddress).then(function() {
+      $("#emailSentConfirm").html("A password reset email has been sent to " + emailAddress);
+    }, function(error) {
+      $("#emailSentConfirm").html(error);
+    });
   });
-});
 
   //Search topic to populate APIs
   $("#searchSubmit").on("click", function(event) {
@@ -390,57 +390,55 @@ $("#changePasswordSubmit").on("click", function(event){
         for (var i = 0; i < arr.length; i++) {
           var booksRow = $('<div>').attr('class', 'booksContainer');
           var thumbnailsSource = arr[i].volumeInfo.imageLinks.smallThumbnail;
-          var thumbnails = $('<img>').attr('src',thumbnailsSource).attr('class','bookImage');
-          // var span = $('<span>').attr('class','span');
-          // var booksURL = $("<a class='podlink' href=" + arr[i].volumeInfo.infoLink + ">" + arr[i].volumeInfo.title + "</a>");
-          // var description = $('<p>').attr('class','description');
+          var thumbnails = $('<img>').attr('src', thumbnailsSource).attr('class', 'bookImage');
 
-              bookLink = $('<a>').attr({
-              'class':'podlink',
-              'href': arr[i].volumeInfo.infoLink,
-              'target':'_blank'
+          bookLink = $('<a>').attr({
+            'class': 'podlink',
+            'href': arr[i].volumeInfo.infoLink,
+            'target': '_blank'
           });
-              bookLink.append(thumbnails);
-              // span.append(thumbnails);
-              // bookLink.append(span);
+          bookLink.append(thumbnails);
 
-              bookTitle = $('<p>').attr('class','bookTitle');
-              var saveButton = $("<i class='green plus icon booksSaveIcon'><i>");
-              saveButton.attr("data-image", thumbnailsSource).attr("data-booksUrl", arr[i].volumeInfo.infoLink).attr("data-title", arr[i].volumeInfo.title);
-              bookTitle.html(arr[i].volumeInfo.title);
-              // description.html(' : '+arr[i].volumeInfo.description);
+          bookTitle = $('<p>').attr('class', 'bookTitle');
+          var saveButton = $("<i class='green plus icon booksSaveIcon'><i>");
+          saveButton.attr("data-image", thumbnailsSource).attr("data-booksUrl", arr[i].volumeInfo.infoLink).attr("data-title", arr[i].volumeInfo.title);
+          bookTitle.html(arr[i].volumeInfo.title);
+          // description.html(' : '+arr[i].volumeInfo.description);
 
-              booksRow.append(bookLink,saveButton);
-              $("#books-div").append(booksRow);
+          booksRow.append(bookLink, saveButton);
+          $("#books-div").append(booksRow);
 
-              $('.booksContainer').css ({
-                'width':'5%',
-                'margin-bottom':'30px',
-                'margin-right':'0px',
-                'float':'left'
-              });
+          $('.booksContainer').css({
+            'width': '5%',
+            'margin-bottom': '30px',
+            'margin-right': '0px',
+            'float': 'left'
+          });
 
-              $(thumbnails).css({
-                'margin-top':'20px',
-                'float':'left'
-              });
+          $(thumbnails).css({
+            'margin-top': '20px',
+            'float': 'left'
+          });
         };
 
+        for (i = 0; i < 3; i++) {
+        var introBookThumbnail = arr[i].volumeInfo.imageLinks.smallThumbnail;
+        // var introBookTitle = $("<p>" + arr[i].volumeInfo.title + "</p>");
+        var introBookDiv = $("<div>");
+        introBookDiv.css({
+          "display": "inline-block",
+          "margin-right": "10px"
+        });
+        var introBookImage = $("<img>");
+        introBookImage.attr("src", introBookThumbnail);
 
-        // for (var i = 0; i < response.items.length; i++) {
-        //   console.log(response.items[i].volumeInfo.imageLinks.thumbnail);
+        // introBookDiv.append(introBookImage, introBookTitle);
 
-        //   var booksRow = $("<div class='right floated'>");
-        //   var image = $("<img src=" + response.items[i].volumeInfo.imageLinks.smallThumbnail + ">");
-        //   var booksURL = $("<a class='podlink' href=" + response.items[i].volumeInfo.infoLink + ">" + response.items[i].volumeInfo.title + "</a>");
-        //   var savebtn = $("<i class='green square plus icon'><i>");
-        //   savebtn.attr("data-title", response.items[i].volumeInfo.title).attr("data-url", response.items[i].volumeInfo.infoLink);
-        //   booksRow.append(booksURL,image,savebtn);
-        //   $("#books-div").append(booksRow);
+        introBookDiv.append(introBookImage);
 
+        $("#booksIntro").append(introBookDiv);
+      };
 
-
-        // };
       }).fail(function(err) {
         console.log(err.statusText);
       });
@@ -680,8 +678,8 @@ $("#changePasswordSubmit").on("click", function(event){
         var deleteIcon = $("<i>");
         deleteIcon.addClass("remove circle icon green deleteIcon");
         deleteIcon.css({
-          "float" : "right",
-          "margin-right" : "20px"
+          "float": "right",
+          "margin-right": "20px"
         });
         deleteIcon.attr("data-itemKey", dbItemKey);
 
@@ -737,17 +735,17 @@ $("#changePasswordSubmit").on("click", function(event){
         podPlayIcon.addClass("play icon green clickPlay");
         podPlayIcon.attr("data-src", podSavedUrl).attr("data-podTitle", podSavedTitle);
         podTitle.css({
-          "width" : "100px",
-          "display" : "inline",
-          "margin-left" : "5px",
-          "font-size" : "10px"
+          "width": "100px",
+          "display": "inline",
+          "margin-left": "5px",
+          "font-size": "10px"
         });
 
         var deleteIcon = $("<i>");
         deleteIcon.addClass("remove circle icon green deleteIcon");
         deleteIcon.css({
-          "float" : "right",
-          "margin-right" : "20px"
+          "float": "right",
+          "margin-right": "20px"
         });
         deleteIcon.attr("data-itemKey", dbItemKey);
 
@@ -784,7 +782,7 @@ $("#changePasswordSubmit").on("click", function(event){
     getSavedPodcastFromDatabase();
   });
 
-//Book Saves
+  //Book Saves
   $(document).on("click", ".booksSaveIcon", function() {
     var booksImage = $(this).attr("data-image");
     var booksUrl = $(this).attr("data-booksUrl");
@@ -817,24 +815,24 @@ $("#changePasswordSubmit").on("click", function(event){
         var booksTitle = $("<div>");
         booksTitle.append(booksSavedTitle);
         booksTitle.css({
-          "width" : "100px",
-          "display" : "inline-block",
-          "font-size" : "10px",
+          "width": "100px",
+          "display": "inline-block",
+          "font-size": "10px",
           // "word-break" : "break-all"
         })
 
         var booksThumbnail = $("<img>");
         booksThumbnail.attr("src", booksSavedImage);
         booksThumbnail.css({
-          "height" : "100px",
-          "width" : "auto",
-          "margin" : "0 5px 5px 0",
+          "height": "100px",
+          "width": "auto",
+          "margin": "0 5px 5px 0",
         });
 
         var booksSavedLink = $("<a>").attr({
-        'class':'booklink',
-        'href': booksSavedUrl,
-        'target':'_blank'
+          'class': 'booklink',
+          'href': booksSavedUrl,
+          'target': '_blank'
         });
 
         booksSavedLink.append(booksThumbnail);
@@ -842,8 +840,8 @@ $("#changePasswordSubmit").on("click", function(event){
         var deleteIcon = $("<i>");
         deleteIcon.addClass("remove circle icon green deleteIcon");
         deleteIcon.css({
-          "float" : "right",
-          "margin-right" : "20px"
+          "float": "right",
+          "margin-right": "20px"
         });
         deleteIcon.attr("data-itemKey", dbItemKey);
 
