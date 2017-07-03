@@ -184,7 +184,7 @@ $(document).ready(function() {
           console.log(user.uid + "is now signed in");
         });
       } else {
-        $("#userName").text("Sign In");
+        $("#userName").html("<a style='color: black;' href='login.html'>Sign In</a>");
         console.log("no user is signed in");
       }
     });
@@ -235,6 +235,7 @@ $(document).ready(function() {
     }, function(error) {
       $("#emailSentConfirm").html(error);
     });
+      $("#changePasswordInput").val("");
   });
 
   //Search topic to populate APIs
@@ -764,7 +765,7 @@ $(document).ready(function() {
     $("#audioPlayer").empty();
     var podURL = $(this).attr("data-src");
     var podTitle = $(this).attr("data-podTitle");
-    var audioControl = $("<audio controls autoplay>")
+    var audioControl = $("<audio controls autoplay>");
     var audioSource = $("<source>");
 
     $("#pod-nowPlaying").html("You are listening to " + podTitle);
