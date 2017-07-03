@@ -234,6 +234,7 @@ $(document).ready(function() {
     var emailAddress = $("#changePasswordInput").val().trim();
     auth.sendPasswordResetEmail(emailAddress).then(function() {
       $("#emailSentConfirm").html("A password reset email has been sent to " + emailAddress);
+
     }, function(error) {
       $("#emailSentConfirm").html(error);
     });
@@ -252,10 +253,16 @@ $(document).ready(function() {
       $("#emailSentConfirm").html("Your user email has been changed to " + emailAddress);
       var ref = database.ref("/user/" + user.uid);
       ref.update({email : emailAddress});
+
+      setTimeout(function() {
+        auth.signOut();
+        window.location.href = "login.html";
+      }, 2000);
+
     }, function(error) {
       $("#emailSentConfirm").html(error);
     });
-    $("#changePasswordInput").val("");
+    $("#changeEmailInput").val("");
   });
 
   //Search topic to populate APIs
