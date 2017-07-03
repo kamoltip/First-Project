@@ -196,14 +196,16 @@ $(document).ready(function() {
     $('#newUserModal').show();
     $('.userSettings').hide();
     $('#changePasswordForm').hide();
+    $('#changeEmailForm').hide();
     changeInterest();
   };
-
+  //Change User Settings (Favorite Interest, Password, Email Address)
   $('.icon.button').on('click', function() {
     $('.basic.modal.setting').modal('show');
     $('#newUserModal').hide();
     $('.userSettings').show();
     $('#changePasswordForm').hide();
+    $('#changeEmailForm').hide();
     changeInterest();
   });
 
@@ -214,7 +216,7 @@ $(document).ready(function() {
       var ref = database.ref("/user/" + user.uid);
       ref.update({
         interest: interest,
-      })
+      });
       $("#newInterestInput").val("");
       $('.basic.modal.setting').modal('hide');
       setTimeout(function() {
@@ -222,7 +224,7 @@ $(document).ready(function() {
       }, 2000);
     });
   };
-
+  //Change Password in Settings
   $("#changePassword").on("click", function() {
     $("#changePasswordForm").show();
   });
@@ -235,7 +237,25 @@ $(document).ready(function() {
     }, function(error) {
       $("#emailSentConfirm").html(error);
     });
-      $("#changePasswordInput").val("");
+    $("#changePasswordInput").val("");
+  });
+
+  $("#changeEmail").on("click", function() {
+    $("#changeEmailForm").show();
+  });
+  //Change Email in Settings
+  $("#changeEmailSubmit").on("click", function(event) {
+    event.preventDefault();
+    var emailAddress = $("#changeEmailInput").val().trim();
+    var user = auth.currentUser;
+    user.updateEmail(emailAddress).then(function() {
+      $("#emailSentConfirm").html("Your user email has been changed to " + emailAddress);
+      var ref = database.ref("/user/" + user.uid);
+      ref.update({email : emailAddress});
+    }, function(error) {
+      $("#emailSentConfirm").html(error);
+    });
+    $("#changePasswordInput").val("");
   });
 
   //Search topic to populate APIs
@@ -424,22 +444,22 @@ $(document).ready(function() {
         };
 
         for (i = 0; i < 3; i++) {
-        var introBookThumbnail = arr[i].volumeInfo.imageLinks.smallThumbnail;
-        // var introBookTitle = $("<p>" + arr[i].volumeInfo.title + "</p>");
-        var introBookDiv = $("<div>");
-        introBookDiv.css({
-          "display": "inline-block",
-          "margin-right": "10px"
-        });
-        var introBookImage = $("<img>");
-        introBookImage.attr("src", introBookThumbnail);
+          var introBookThumbnail = arr[i].volumeInfo.imageLinks.smallThumbnail;
+          // var introBookTitle = $("<p>" + arr[i].volumeInfo.title + "</p>");
+          var introBookDiv = $("<div>");
+          introBookDiv.css({
+            "display": "inline-block",
+            "margin-right": "10px"
+          });
+          var introBookImage = $("<img>");
+          introBookImage.attr("src", introBookThumbnail);
 
-        // introBookDiv.append(introBookImage, introBookTitle);
+          // introBookDiv.append(introBookImage, introBookTitle);
 
-        introBookDiv.append(introBookImage);
+          introBookDiv.append(introBookImage);
 
-        $("#booksIntro").append(introBookDiv);
-      };
+          $("#booksIntro").append(introBookDiv);
+        };
 
       }).fail(function(err) {
         console.log(err.statusText);
