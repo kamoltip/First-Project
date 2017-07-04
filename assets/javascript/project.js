@@ -443,13 +443,15 @@ $(document).ready(function() {
           });
         };
 
-        for (i = 0; i < 3; i++) {
+        for (i = 0; i < 1; i++) {
           var introBookThumbnail = arr[i].volumeInfo.imageLinks.smallThumbnail;
           // var introBookTitle = $("<p>" + arr[i].volumeInfo.title + "</p>");
           var introBookDiv = $("<div>");
           introBookDiv.css({
             "display": "inline-block",
-            "margin-right": "10px"
+            "margin-right": "10px",
+            "display":"flex",
+            "justify-content":"center"
           });
           var introBookImage = $("<img>");
           introBookImage.attr("src", introBookThumbnail);
@@ -604,24 +606,27 @@ $(document).ready(function() {
         method: "GET",
         dataType: "jsonp"
       })
-      .then(function(data) {
+            .then(function(data) {
         console.log(data);
+
+         $("#meetup-div").empty();
         var arr = data.data; // array of 10 objects
         for (var i = 0; i < arr.length; i++) {
           var content = $("<div>").attr('class', 'box');
-          var city = $("<p>").attr('class', 'city'),
-            description = $("<p>").attr('class', 'description'),
+          var city = $("<h2>").attr('class', 'city'),
+            description = $("<p>").attr('class', 'meetupDescription'),
             link = $("<a>").attr({
               'class': 'link',
-              "href": arr[i].link
+              'href': arr[i].link,
+              'target':'_blank'
             }),
-            name = $("<p>").attr('class', 'name');
+            name = $("<h1>").attr('class', 'name');
 
           city.html(arr[i].city);
-          description.html("description: " + arr[i].description);
-          link.html("link: " + arr[i].link);
-          name.html("Group Name: " + arr[i].name);
-          content.append(city, description, name, link);
+          description.html(arr[i].description);
+          link.html(arr[i].link);
+          name.html(arr[i].name);
+          content.append(name,city,description,link);
           $("#meetup-div").append(content);
         }
       })
@@ -809,6 +814,8 @@ $(document).ready(function() {
     var booksImage = $(this).attr("data-image");
     var booksUrl = $(this).attr("data-booksUrl");
     var booksTitle = $(this).attr("data-title");
+    $(this).removeClass("plus square");
+    $(this).addClass("pin");
 
     var user = auth.currentUser;
     var ref = database.ref("/user/" + user.uid + "/booksSaved");

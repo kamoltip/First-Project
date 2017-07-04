@@ -147,6 +147,7 @@ body.pushable>.pusher {
 
 .basic.modal.meetup {
   overflow: auto;
+  margin-bottom: 15px;
 }
 
 .basic.modal.twitter {
@@ -165,7 +166,31 @@ body.pushable>.pusher {
   display: flex;
   justify-content: center;
 }
+.box{
+  width: 100%;
+  border:1px solid grey;
+  border-radius: 10px;
+  text-align: center;
+  padding:10px;
+  margin-bottom: 10px;
+}
+.city{
+  color:white;
+}
+.name{
+  color: white;
+  text-shadow: 0 0 0px;
+}
+.meetupDescription{
+  border:1px solid black;
+  border-radius: 10px;
+  /*background-color: white;*/
+  /*box-shadow: 3px 3px 5px skyblue;*/
+  padding:5px;
+  color:grey;
+   margin-bottom: 25px;
 
+}
 
 /*--------------NY Time Modal--------------*/
 
@@ -181,6 +206,9 @@ body.pushable>.pusher {
   */
 }
 
+.large.book.icon{
+  color:red;
+}
 #getNew {
   color: red;
 }
@@ -190,6 +218,9 @@ body.pushable>.pusher {
 }
 
 #getMeetUp {
+  color: red;
+}
+.large.meetup.icon {
   color: red;
 }
 
