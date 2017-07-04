@@ -179,6 +179,7 @@ $(document).ready(function() {
             getSavedYouTubeFromDatabase();
             getSavedPodcastFromDatabase();
             getSavedBooksFromDatabase();
+            getSavedMeetupFromDatabase()
           }
 
           console.log(user.uid + "is now signed in");
@@ -234,6 +235,7 @@ $(document).ready(function() {
     var emailAddress = $("#changePasswordInput").val().trim();
     auth.sendPasswordResetEmail(emailAddress).then(function() {
       $("#emailSentConfirm").html("A password reset email has been sent to " + emailAddress);
+
     }, function(error) {
       $("#emailSentConfirm").html(error);
     });
@@ -252,10 +254,16 @@ $(document).ready(function() {
       $("#emailSentConfirm").html("Your user email has been changed to " + emailAddress);
       var ref = database.ref("/user/" + user.uid);
       ref.update({email : emailAddress});
+
+      setTimeout(function() {
+        auth.signOut();
+        window.location.href = "login.html";
+      }, 2000);
+
     }, function(error) {
       $("#emailSentConfirm").html(error);
     });
-    $("#changePasswordInput").val("");
+    $("#changeEmailInput").val("");
   });
 
   //Search topic to populate APIs
@@ -362,7 +370,6 @@ $(document).ready(function() {
         for (var i = 0; i < response.items.length; i++) {
           var ytHoldDiv = $("<div class=thumbnails>");
           var ytThumbNailUrl = response.items[i].snippet.thumbnails.default.url;
-          console.log(ytThumbNailUrl);
           var ytThumbnailHolder = $("<img>").attr("src", ytThumbNailUrl);
           ytThumbnailHolder.css({
             "height": "75px",
@@ -536,7 +543,7 @@ $(document).ready(function() {
 
   function getPodcasts(datatopic) {
     var searchTopic = datatopic.split(" ").join("%20");
-    var queryURL = 'https://api.ottoradio.com/v1/podcasts?query=' + searchTopic + '&type=recent&count=10';
+    var queryURL = 'https://api.ottoradio.com/v1/podcasts?query=' + searchTopic + '&type=recent&count=20';
 
     $.ajax({
         url: queryURL,
@@ -548,6 +555,8 @@ $(document).ready(function() {
         console.log("Podcast: " + queryURL);
 
         $("#pod-div").empty();
+        $("#pod-nowPlaying").empty();
+        $("#audioPlayer").empty();
 
         for (var i = 0; i < response.length; i++) {
 
@@ -555,9 +564,6 @@ $(document).ready(function() {
           var podTitle = $("<p>" + response[i].title + "</p>");
           var podSource = $("<p>" + response[i].source + "</p>");
           var podDate = $("<p>" + response[i].published_at + "</p>");
-
-          var audioSource = $("<source>");
-          audioSource.attr("src", response[i].audio_url).attr("type", "audio/mpeg");
 
           podDiv.css({
             "width": "315px",
@@ -581,6 +587,15 @@ $(document).ready(function() {
 
           $("#pod-div").append(podDiv);
         };
+          var audioControl = $("<audio controls>");
+          var audioSource = $("<source>");
+          var randomPodcast = Math.floor((Math.random() * response.length) - 1);
+          var podCounts = response.length - 1;
+          audioSource.attr("src", response[randomPodcast].audio_url).attr("type", "audio/mpeg");
+          audioControl.append(audioSource);
+
+          $("#pod-nowPlaying").html("Listen to " + response[randomPodcast].title + " or click above for " + podCounts + " more podcasts.");
+          $("#audioPlayer").append(audioControl);
 
       }).fail(function(err) {
         console.log(err.statusText);
@@ -609,31 +624,45 @@ $(document).ready(function() {
             .then(function(data) {
         console.log(data);
 
-         $("#meetup-div").empty();
+        $("#meetup-div").empty();
+        $("#meetupIntro").empty();
+
         var arr = data.data; // array of 10 objects
         for (var i = 0; i < arr.length; i++) {
-          var content = $("<div>").attr('class', 'box');
-          var city = $("<h2>").attr('class', 'city'),
-            description = $("<p>").attr('class', 'meetupDescription'),
-            link = $("<a>").attr({
-              'class': 'link',
-              'href': arr[i].link,
-              'target':'_blank'
-            }),
-            name = $("<h1>").attr('class', 'name');
+          var meetupInfoDiv = $("<div>").attr('class', 'meetupDiv');
+          var city = $("<p>").attr('class', 'city meetupContent'),
+              description = $("<p>").attr('class', 'description meetupContent'),
+              link = $("<a>").attr({
+                'class': 'link meetupContent',
+                'href': arr[i].link,
+                'target':'_blank'
+              }),
+              name = $("<p>").attr('class', 'name meetupContent');
 
-          city.html(arr[i].city);
-          description.html(arr[i].description);
-          link.html(arr[i].link);
-          name.html(arr[i].name);
-          content.append(name,city,description,link);
-          $("#meetup-div").append(content);
+          city.html(arr[i].city + " (" + arr[i].members + " Members)");
+          description.html("description: " + arr[i].description);
+          link.html("link: " + arr[i].link);
+          name.html("Group Name: " + arr[i].name);
+
+          var meetupSaveIcon = $("<i>");
+          meetupSaveIcon.addClass("plus square outline icon green inverted meetupSaveIcon");
+          meetupSaveIcon.attr({
+            "data-city" : arr[i].city,
+            "data-meetupGroup" : arr[i].name,
+            "data-meetupUrl" : arr[i].link,
+            "data-memberCount" : arr[i].members
+          });
+
+          meetupInfoDiv.append(meetupSaveIcon, name, city, link, description);
+
+          $("#meetup-div").append(meetupInfoDiv);
+
         }
+          $("#meetupIntro").html("Click for more info on " + arr.length + " Meetup groups in " + datatopic + " category")
       })
       .catch(function(err) {
         console.log(err.statusText);
       })
-    // GET, DELETE, POST, PUT
   };
 
   // 2.twitter ///////////////////////////////////////////////////
@@ -890,6 +919,83 @@ $(document).ready(function() {
     var ref = database.ref("/user/" + user.uid + "/booksSaved");
     ref.child(itemKey).remove();
     getSavedBooksFromDatabase();
+  });
+
+  //Meetup Saves
+  $(document).on("click", ".meetupSaveIcon", function() {
+    var meetupCity = $(this).attr("data-city");
+    var meetupGroup = $(this).attr("data-meetupGroup");
+    var meetupUrl = $(this).attr("data-meetupUrl");
+    var memberCount = $(this).attr("data-memberCount");
+
+    var user = auth.currentUser;
+    var ref = database.ref("/user/" + user.uid + "/meetupSaved");
+    ref.push({
+      meetupCity : meetupCity,
+      meetupName : meetupGroup,
+      meetupUrl : meetupUrl,
+      memberCount: memberCount,
+      dateAdded : firebase.database.ServerValue.TIMESTAMP
+    })
+    getSavedMeetupFromDatabase();
+  });
+
+  function getSavedMeetupFromDatabase() {
+    $("#meetupSavedItems").empty();
+    var user = auth.currentUser;
+    var ref = database.ref("/user/" + user.uid + "/meetupSaved");
+    ref.once("value", function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+        var dbItemKey = childSnapshot.key;
+
+        var meetupSavedName = childSnapshot.val().meetupName;
+        var meetupSavedCity = childSnapshot.val().meetupCity;
+        var meetupSavedUrl = childSnapshot.val().meetupUrl;
+        var meetupSavedMembers = childSnapshot.val().memberCount;
+        var meetupSavedDiv = $("<div>");
+        meetupSavedDiv.css({
+          "margin-top" : "20px",
+        });
+
+        var meetupLink = $("<a>").attr({
+          'class': 'meetuplink',
+          'href': meetupSavedUrl,
+          'target': '_blank'
+        });
+
+        var meetupGroupName = $("<p>Group: " + meetupSavedName + "</p>");
+        var meetupCity = $("<p>City: " + meetupSavedCity + " (" + meetupSavedMembers + " Members)</p>");
+        meetupLink.html("Link: " + meetupSavedUrl);
+
+        meetupGroupName.css("font-size", "12px");
+        meetupCity.css("font-size", "12px");
+        meetupLink.css("font-size", "12px");
+
+        var deleteIcon = $("<i>");
+        deleteIcon.addClass("remove circle icon green deleteIcon");
+        deleteIcon.css({
+          "float": "right",
+          "margin-right": "20px"
+        });
+        deleteIcon.attr("data-itemKey", dbItemKey);
+
+        meetupSavedDiv.append(deleteIcon);
+        meetupSavedDiv.append(meetupGroupName);
+        meetupSavedDiv.append(meetupCity);
+        meetupSavedDiv.append(meetupLink);
+
+        $("#meetupSavedItems").prepend(meetupSavedDiv);
+
+      });
+    });
+  };
+
+  $(document).on("click", ".deleteIcon", function() {
+    var itemKey = $(this).attr("data-itemKey");
+    var user = auth.currentUser;
+    var ref = database.ref("/user/" + user.uid + "/meetupSaved");
+    ref.child(itemKey).remove();
+    getSavedMeetupFromDatabase();
   });
 });
 //document end.

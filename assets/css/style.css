@@ -284,6 +284,24 @@ body.pushable>.pusher {
   /*border-radius: 2px;*/
 }
 
+/*meetup modal css*/
+.meetupDiv {
+  margin-bottom: 20px;
+  border-radius: 10px;
+  background: black;
+}
+
+.meetupContent {
+  margin: 0 10px 0 10px;
+  font-size: 14px;
+}
+
+.inverted.meetupSaveIcon {
+  display: inline-flex;
+  margin: 10px 5px 5px 10px;
+}
+/*end Meetup Modal Css*/
+
 /*//////////////custom scroll bar///////////////*/
 
 ::-webkit-scrollbar {
@@ -311,3 +329,4 @@ body.pushable>.pusher {
   #savedFavorites {
     float: none;
   }
+}
