@@ -384,7 +384,7 @@ $(document).ready(function() {
             "width": "33.33%",
             // "border" : "1px solid black",
             "background-color": "black",
-            "border-radius": "10px"
+            "border-radius": "10px",
           })
 
           ytHoldDiv.append(ytThumbnailHolder);
@@ -630,19 +630,20 @@ $(document).ready(function() {
         var arr = data.data; // array of 10 objects
         for (var i = 0; i < arr.length; i++) {
           var meetupInfoDiv = $("<div>").attr('class', 'meetupDiv');
-          var city = $("<p>").attr('class', 'city meetupContent'),
-              description = $("<p>").attr('class', 'description meetupContent'),
+          var city = $("<h3>").attr('class', 'cityMeetupContent'),
+              description = $("<p>").attr('class', 'meetupDescribe'),
               link = $("<a>").attr({
-                'class': 'link meetupContent',
+                'class': 'linkMeetupContent',
                 'href': arr[i].link,
                 'target':'_blank'
               }),
-              name = $("<p>").attr('class', 'name meetupContent');
+              name = $("<h2>").attr('class', 'meetupName');
 
           city.html(arr[i].city + " (" + arr[i].members + " Members)");
-          description.html("description: " + arr[i].description);
-          link.html("link: " + arr[i].link);
-          name.html("Group Name: " + arr[i].name);
+          description.html("Description : "+"<br></br>"+arr[i].description);
+          link.html(arr[i].link);
+          name.html(arr[i].name);
+         
 
           var meetupSaveIcon = $("<i>");
           meetupSaveIcon.addClass("plus square outline icon green inverted meetupSaveIcon");
@@ -658,7 +659,7 @@ $(document).ready(function() {
           $("#meetup-div").append(meetupInfoDiv);
 
         }
-          $("#meetupIntro").html("Click for more info on " + arr.length + " Meetup groups in " + datatopic + " category")
+          $("#meetupIntro").html("'Click below for more info on " + arr.length + " Meetup groups in " + datatopic + " category'")
       })
       .catch(function(err) {
         console.log(err.statusText);
@@ -699,7 +700,7 @@ $(document).ready(function() {
   $(document).on("click", ".ytSaveIcon", function() {
     var ytUrl = $(this).attr("data-ytUrl");
     var ytTitle = $(this).attr("data-ytTitle");
-    $(this).removeClass("plus square");
+    $(this).removeClass("plus green square");
     $(this).addClass("red pin");
 
     var user = auth.currentUser;
@@ -760,6 +761,8 @@ $(document).ready(function() {
   $(document).on("click", ".podSaveIcon", function() {
     var podUrl = $(this).attr("data-podUrl");
     var podTitle = $(this).attr("data-podTitle");
+    $(this).removeClass("plus green square");
+    $(this).addClass("red pin");
 
     var user = auth.currentUser;
     var ref = database.ref("/user/" + user.uid + "/podSaved");
@@ -843,8 +846,8 @@ $(document).ready(function() {
     var booksImage = $(this).attr("data-image");
     var booksUrl = $(this).attr("data-booksUrl");
     var booksTitle = $(this).attr("data-title");
-    $(this).removeClass("plus square");
-    $(this).addClass("pin");
+    $(this).removeClass("plus green square");
+    $(this).addClass("red pin");
 
     var user = auth.currentUser;
     var ref = database.ref("/user/" + user.uid + "/booksSaved");
@@ -923,6 +926,8 @@ $(document).ready(function() {
 
   //Meetup Saves
   $(document).on("click", ".meetupSaveIcon", function() {
+    $(this).removeClass("plus green square");
+    $(this).addClass("red pin");
     var meetupCity = $(this).attr("data-city");
     var meetupGroup = $(this).attr("data-meetupGroup");
     var meetupUrl = $(this).attr("data-meetupUrl");
@@ -965,7 +970,7 @@ $(document).ready(function() {
 
         var meetupGroupName = $("<p>Group: " + meetupSavedName + "</p>");
         var meetupCity = $("<p>City: " + meetupSavedCity + " (" + meetupSavedMembers + " Members)</p>");
-        meetupLink.html("Link: " + meetupSavedUrl);
+        meetupLink.html("Link: " + meetupSavedUrl + "<hr>");
 
         meetupGroupName.css("font-size", "12px");
         meetupCity.css("font-size", "12px");
