@@ -42,6 +42,10 @@ $(document).ready(function() {
       .modal('show');
   });
 
+  // $(function() {
+  //   $(document).tooltip();
+  // });
+
   //Firebase initialize
   var config = {
     apiKey: "AIzaSyDxW087mUoLk6smGAHixRd5lLKYBZ4JeA8",
@@ -180,6 +184,7 @@ $(document).ready(function() {
             getSavedPodcastFromDatabase();
             getSavedBooksFromDatabase();
             getSavedMeetupFromDatabase()
+            getBackgroundImage(datatopic);
           }
 
           console.log(user.uid + "is now signed in");
@@ -253,7 +258,9 @@ $(document).ready(function() {
     user.updateEmail(emailAddress).then(function() {
       $("#emailSentConfirm").html("Your user email has been changed to " + emailAddress);
       var ref = database.ref("/user/" + user.uid);
-      ref.update({email : emailAddress});
+      ref.update({
+        email: emailAddress
+      });
 
       setTimeout(function() {
         auth.signOut();
@@ -279,7 +286,46 @@ $(document).ready(function() {
     getPodcasts(datatopic);
     getMeetup(datatopic);
     // getTwitter(datatopic);
+    getBackgroundImage(datatopic);
     $("#searchInput").val("");
+  });
+  //background image
+  function getBackgroundImage(datatopic) {
+    var searchTopic = datatopic.split(" ").join("+");
+    var apiKey = "da529368443c37716713225f589d09c8916dad8c65611db1bed24204e6cf982d";
+    var queryURL = "https://api.unsplash.com/photos/random?query=" + searchTopic + "&orientation=landscape&count=1&w=1280&h=800";
+
+    $.ajax({
+        method: 'GET',
+        url: queryURL,
+        headers: {
+          "Accept-Version": "v1",
+          "Authorization": "Client-ID da529368443c37716713225f589d09c8916dad8c65611db1bed24204e6cf982d"
+        }
+      })
+      .done(function(response) {
+        var randomBackground = response[0].urls.custom;
+        $('body.pushable>.pusher').css({
+          'background': 'url(' + randomBackground + ') fixed',
+          'background-size': 'cover',
+          'padding': '0',
+          'margin': '0'
+        })
+        console.log(randomBackground);
+
+      }).fail(function(error) {
+        $('body.pushable>.pusher').css({
+          'background': 'url(http://wallpapercave.com/wp/n0FcaBH.jpg) fixed',
+          'background-size': 'cover',
+          'padding': '0',
+          'margin': '0'
+        });
+        console.log(error);
+      });
+  };
+
+  $("#Bento-Logo").on('click', function() {
+    $(".sourceCards").toggle('slow');
   });
 
   /*//////////////////////////////////////
@@ -457,8 +503,8 @@ $(document).ready(function() {
           introBookDiv.css({
             "display": "inline-block",
             "margin-right": "10px",
-            "display":"flex",
-            "justify-content":"center"
+            "display": "flex",
+            "justify-content": "center"
           });
           var introBookImage = $("<img>");
           introBookImage.attr("src", introBookThumbnail);
@@ -587,25 +633,20 @@ $(document).ready(function() {
 
           $("#pod-div").append(podDiv);
         };
-          var audioControl = $("<audio controls>");
-          var audioSource = $("<source>");
-          var randomPodcast = Math.floor((Math.random() * response.length) - 1);
-          var podCounts = response.length - 1;
-          audioSource.attr("src", response[randomPodcast].audio_url).attr("type", "audio/mpeg");
-          audioControl.append(audioSource);
+        var audioControl = $("<audio controls>");
+        var audioSource = $("<source>");
+        var randomPodcast = Math.floor(Math.random() * response.length);
+        var podCounts = response.length - 1;
+        audioSource.attr("src", response[randomPodcast].audio_url).attr("type", "audio/mpeg");
+        audioControl.append(audioSource);
 
-          $("#pod-nowPlaying").html("Listen to " + response[randomPodcast].title + " or click above for " + podCounts + " more podcasts.");
-          $("#audioPlayer").append(audioControl);
+        $("#pod-nowPlaying").html("Listen to " + response[randomPodcast].title + " or click above for " + podCounts + " more podcasts.");
+        $("#audioPlayer").append(audioControl);
 
       }).fail(function(err) {
         console.log(err.statusText);
       });
   };
-
-  $('.ui.sticky')
-    .sticky({
-      context: '#example1'
-    });
 
   /*//////////////////////////////////////
   /////////////////air API ///////////////
@@ -621,7 +662,7 @@ $(document).ready(function() {
         method: "GET",
         dataType: "jsonp"
       })
-            .then(function(data) {
+      .then(function(data) {
         console.log(data);
 
         $("#meetup-div").empty();
@@ -631,27 +672,27 @@ $(document).ready(function() {
         for (var i = 0; i < arr.length; i++) {
           var meetupInfoDiv = $("<div>").attr('class', 'meetupDiv');
           var city = $("<h3>").attr('class', 'cityMeetupContent'),
-              description = $("<p>").attr('class', 'meetupDescribe'),
-              link = $("<a>").attr({
-                'class': 'linkMeetupContent',
-                'href': arr[i].link,
-                'target':'_blank'
-              }),
-              name = $("<h2>").attr('class', 'meetupName');
+            description = $("<p>").attr('class', 'meetupDescribe'),
+            link = $("<a>").attr({
+              'class': 'linkMeetupContent',
+              'href': arr[i].link,
+              'target': '_blank'
+            }),
+            name = $("<h2>").attr('class', 'meetupName');
 
           city.html(arr[i].city + " (" + arr[i].members + " Members)");
-          description.html("Description : "+"<br></br>"+arr[i].description);
+          description.html("Description : " + "<br></br>" + arr[i].description);
           link.html(arr[i].link);
           name.html(arr[i].name);
-         
+
 
           var meetupSaveIcon = $("<i>");
           meetupSaveIcon.addClass("plus square outline icon green inverted meetupSaveIcon");
           meetupSaveIcon.attr({
-            "data-city" : arr[i].city,
-            "data-meetupGroup" : arr[i].name,
-            "data-meetupUrl" : arr[i].link,
-            "data-memberCount" : arr[i].members
+            "data-city": arr[i].city,
+            "data-meetupGroup": arr[i].name,
+            "data-meetupUrl": arr[i].link,
+            "data-memberCount": arr[i].members
           });
 
           meetupInfoDiv.append(meetupSaveIcon, name, city, link, description);
@@ -659,7 +700,7 @@ $(document).ready(function() {
           $("#meetup-div").append(meetupInfoDiv);
 
         }
-          $("#meetupIntro").html("'Click below for more info on " + arr.length + " Meetup groups in " + datatopic + " category'")
+        $("#meetupIntro").html("'Click below for more info on " + arr.length + " Meetup groups in " + datatopic + " category'")
       })
       .catch(function(err) {
         console.log(err.statusText);
@@ -936,11 +977,11 @@ $(document).ready(function() {
     var user = auth.currentUser;
     var ref = database.ref("/user/" + user.uid + "/meetupSaved");
     ref.push({
-      meetupCity : meetupCity,
-      meetupName : meetupGroup,
-      meetupUrl : meetupUrl,
+      meetupCity: meetupCity,
+      meetupName: meetupGroup,
+      meetupUrl: meetupUrl,
       memberCount: memberCount,
-      dateAdded : firebase.database.ServerValue.TIMESTAMP
+      dateAdded: firebase.database.ServerValue.TIMESTAMP
     })
     getSavedMeetupFromDatabase();
   });
@@ -959,7 +1000,7 @@ $(document).ready(function() {
         var meetupSavedMembers = childSnapshot.val().memberCount;
         var meetupSavedDiv = $("<div>");
         meetupSavedDiv.css({
-          "margin-top" : "20px",
+          "margin-top": "20px",
         });
 
         var meetupLink = $("<a>").attr({

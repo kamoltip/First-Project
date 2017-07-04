@@ -81,12 +81,18 @@ background: rgba(255, 255, 255, 0.2);
 background-color: #f6f6f6;
 opacity: 0.8;
 }
-body.pushable>.pusher {
+
+.togglePic {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+/*body.pushable>.pusher {
 background: url('http://wallpapercave.com/wp/n0FcaBH.jpg') fixed;
 background-size: cover;
 padding: 0;
 margin: 0;
-}
+}*/
 .container-fluid {
 /*margin-bottom: 10%;*/
 }
@@ -148,10 +154,12 @@ text-shadow: 0 0 0px;
 }*/
 .meetupName{
 color: white;
+display: inline;
 }
 .cityMeetupContent{
 color: white;
 }
+
 /*--------------NY Time Modal--------------
 .nyTimeBox {
 border: 3px outset grey;
