@@ -1,27 +1,19 @@
 {
-  "name": "node-js-getting-started",
-  "version": "0.2.6",
-  "description": "A sample Node.js app using Express 4",
-  "engines": {
-    "node": "6.10.2"
-  },
-  "main": "index.js",
+  "name": "bento",
+  "version": "1.0.0",
+  "description": "first project",
+  "main": "project.js",
   "scripts": {
-    "start": "node index.js"
-  },
-  "dependencies": {
-    "ejs": "2.5.6",
-    "express": "^4.15.2",
-    "heroku": "^0.2.0"
+    "start": "node project.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku/node-js-getting-started"
+    "url": "git+https://github.com/kamoltip/First-Project.git"
   },
-  "keywords": [
-    "node",
-    "heroku",
-    "express"
-  ],
-  "license": "MIT"
+  "author": "Jeff L",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kamoltip/First-Project/issues"
+  },
+  "homepage": "https://github.com/kamoltip/First-Project#readme"
 }
