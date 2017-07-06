@@ -2,8 +2,7 @@
 <html lang="en-us">
 	<head>
 		<meta charset="utf-8">
-		<title>Working File</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>BENTO</title>
 		<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -29,50 +28,51 @@
 		</div>
 		<!-- /SETTING modal div//////////////////////-->
 		<div class="ui container-fluid">
-			<div class="ui basic modal setting">
-				<!-- <div class="ui one column center aligned grid"> -->
-				<div class="three column stackable ui grid">
-					<div class="column"></div>
-					<div class="column">
-						<div class="ui segment" id="modalContainer">
-
-							<!-- Settings Modal -->
-							<div id="settingsModal">
-								<h2 class="ui header userSettings">
-								<label class="ui circular label"><i class="large settings basic icon"></i></label>Settings
-								</h2>
-
-								<div id="newUserModal">
-									<div class="ui header">
-										<h2 id="welcomeHeader">
-										Welcome to Bento!
-										</h2>
+			<div class="ui container">
+				<div class="ui basic modal setting">
+					<!-- <div class="ui one column center aligned grid"> -->
+					<div class="three column stackable ui grid">
+						
+						<div class="column"></div>
+						<div class="column">
+							<div class="ui segment" id="modalContainer">
+								<!-- Settings Modal -->
+								<div id="settingsModal">
+									<h2 class="ui header userSettings">
+									<label class="ui circular label"><i class="large settings basic icon"></i></label>Settings
+									</h2>
+									<div id="newUserModal">
+										<div class="ui header">
+											<h2 id="welcomeHeader">
+											Welcome to Bento!
+											</h2>
+										</div>
+										<p id="welcomeText">For best experience, tell us your favorite interest.</p>
 									</div>
-									<p id="welcomeText">For best experience, tell us your favorite interest.</p>
-								</div>
-								<hr>
-								<div class="ui input">
-									<input type="text" placeholder="Choose a new interest" id="newInterestInput">
-									<button class="ui inverted green large button" type="submit" id="newInterestSubmit"><i class="search icon"></i></button>
-								</div> <br>
-								<hr>
-								<div class="ui two top attached buttons userSettings">
-									<div class="ui compact button" id="changePassword">Change Password</div>
-									<div class="ui compact button" id="changeEmail">Change<br>Email</div>
-								</div>
-								<br>
-								<div class="ui input" id="changePasswordForm">
 									<hr>
-									<input type="email" placeholder="Your user email address" id="changePasswordInput">
-									<button class="ui inverted green large button" type="submit" id="changePasswordSubmit"><i class="send icon"></i></button>
-								</div>
-								<div class="ui input" id="changeEmailForm">
+									<div class="ui input">
+										<input type="text" placeholder="Choose a new interest" id="newInterestInput">
+										<button class="ui inverted mini green button" type="submit" id="newInterestSubmit"><i class="search icon"></i></button>
+									</div> <br>
 									<hr>
-									<input type="email" placeholder="Input new email address" id="changeEmailInput">
-									<button class="ui inverted green large button" type="submit" id="changeEmailSubmit"><i class="checkmark icon"></i></button>
+									<div class="ui two top attached buttons userSettings">
+										<div class="ui compact button" id="changePassword">Change Password</div>
+										<div class="ui compact button" id="changeEmail">Change<br>Email</div>
+									</div>
+									<br>
+									<div class="ui input" id="changePasswordForm">
+										<hr>
+										<input type="email" placeholder="Your user email address" id="changePasswordInput">
+										<button class="ui inverted green mini button" type="submit" id="changePasswordSubmit"><i class="send icon"></i></button>
+									</div>
+									<div class="ui input" id="changeEmailForm">
+										<hr>
+										<input type="email" placeholder="Input new email address" id="changeEmailInput">
+										<button class="ui inverted green mini button" type="submit" id="changeEmailSubmit"><i class="checkmark icon"></i></button>
+									</div>
+									<br>
+									<p id="emailSentConfirm"></p>
 								</div>
-								<br>
-								<p id="emailSentConfirm"></p>
 							</div>
 						</div>
 					</div>
@@ -81,39 +81,88 @@
 			<!--///////////////////////////flip side bar///////////////////////////////> -->
 			<div class="ui sidebar inverted vertical menu">
 				<!-- <div class="item">
-						<div class="ui input" id="searchTopic"><input type="text" placeholder="Search..."></div>
+							<div class="ui input" id="searchTopic"><input type="text" placeholder="Search..."></div>
 				</div> -->
-				<div class="item">
-					<i class="home icon" id="saveIcon"></i> Home
-					<div class="menu">
-						<!-- <a class="active item">Search</a> -->
+				<div class="item logo">
+					<h1>BENTO</h1>
+				</div>
+				<div class="ui inverted accordion">
+					<div class="title active">
+						<i class="dropdown icon"></i>
+						My Snackables
+					</div>
+					<div class="content active">
+						<p class="transition visible" style="display: block !important;"></p>
+						<div class="accordion transition visible" style="display: block !important;">
+							<!-- <div class="title">
+								<i class="dropdown icon"></i>
+								Level 2A
+							</div>
+							<div class="content">
+								<p class="transition hidden">Level 2A Contents</p>
+								<div class="accordion transition hidden">
+									<div class="title">
+										<i class="dropdown icon"></i>
+										Level 2A-A
+									</div>
+									<div class="content">
+										Level 2A-A Contents
+									</div>
+									<div class="title">
+										<i class="dropdown icon"></i>
+										Level 2A-B
+									</div>
+									<div class="content">
+										Level 2A-B Contents
+									</div>
+								</div>
+							</div> -->
+							<div class="title">
+								<i class="dropdown icon"></i>
+								<i class="big youtube icon" id="saveIcon"></i> <br>
+							</div>
+							<div class="content">
+								<a class="transition hidden"><div id="ytSavedItems"></div></a>
+							</div>
+							<div class="title">
+								<i class="dropdown icon"></i>
+								<i class="big book icon" id="saveIcon"></i><br>
+							</div>
+							<div class="content">
+								<a class="transition hidden"><div id="booksSavedItems"></div></a>
+							</div>
+							<div class="title">
+								<i class="dropdown icon"></i>
+								<i class="big sound icon" id="saveIcon"></i><br>
+							</div>
+							<div class="content">
+								<a class="transition hidden"><div id="podSavedItems"></div></a>
+							</div>
+							<div class="title">
+								<i class="dropdown icon"></i>
+								<i class="big meetup icon" id="saveIcon"></i><br>
+							</div>
+							<div class="content">
+								<a class="transition hidden"><div id="meetupSavedItems"></div></a>
+							</div>
+							<div class="title">
+								<i class="dropdown icon"></i>
+								<i class="big newspaper icon" id="saveIcon"></i><br>
+							</div>
+							<div class="content">
+								<a class="transition hidden"><div id="nytimeSavedItems"></div></a>
+							</div>
+							<div class="title">
+								<i class="big angle double up icon" id="saveIcon"></i>
+							</div>
+							<!-- <div class="content">
+							
+							</div> -->
+						</div>
 					</div>
 				</div>
-				<a class="item">
-					<i class="large youtube icon" id="saveIcon"></i> <br>
-					<div id="ytSavedItems"></div>
-				</a>
-				<!-- <a class="item">
-							<i class="twitter icon"></i>
-							<div id="twitterSavedItems"></div>
-				</a> -->
-				<a class="item">
-					<i class="large file text outline icon" id="saveIcon"></i><br>
-					<div id="booksSavedItems"></div>
-				</a>
-				<a class="item">
-					<i class="large meetup icon" id="saveIcon"></i><br>
-					<div id="meetupSavedItems"></div>
-				</a>
-				<a class="item">
-					<i class="large sound icon" id="saveIcon"></i><br>
-					<div id="podSavedItems"></div>
-				</a>
-				<a class="item">
-					<i class="large newspaper icon" id="saveIcon"></i><br>
-					<div id="nytimeSavedItems"></div>
-				</a>
 			</div>
+			
 			<!-- <div class="pusher"></div> -->
 			<div data-tooltip="Enjoy the Scenery" data-position="top center">
 				<h1 id="Bento-Logo">B E N T O</h1>
@@ -154,13 +203,13 @@
 						</div>
 					</div>
 					<!-- <div class="extra content">
-											<span class="right floated">
-															share
-											</span>
-											<span>
-															<i class="user icon"></i>
-															151 likes
-											</span>
+												<span class="right floated">
+																	share
+												</span>
+												<span>
+																	<i class="user icon"></i>
+																	151 likes
+												</span>
 					</div> -->
 				</div>
 				<div class="card">
@@ -178,21 +227,25 @@
 							<p>“Listening to podcast, reading a book, listening to an audibook and watching films isn't waste of time. It's how somebody becomes wise!”
 								<span class="right floated"> <br> ― Deyth Banger</span></p>
 							</div>
-
 							<div class="description">
 								<span id="pod-nowPlaying"><h3>Your station will play here..</h3></span>
 							</div>
 							<br>
 							<div id="audioPlayer">
-
 							</div>
-							<hr>
+							
+							<br> <br> <br> <br>
 							<div class="extra content">
-								<button class="ui inverted green secondary button" id="getPodcasts">See your stations</button>
+								<div class="ui bottom attached inverted green fluid button" tabindex="0" id="getPodcasts">
+									Find more stations
+								</div>
+								<span>
+									
+									
+								</span>
 							</div>
 						</div>
 					</div>
-
 					<div class="card">
 						<div class="image">
 							<img src="http://hdwallpaperbackgrounds.net/wp-content/uploads/2015/08/Youtube-HD-Wallpapers-3.jpg" id="ytImage" alt="YouTube colorful logo">
@@ -213,11 +266,9 @@
 						</div>
 						<div class="extra content">
 							<span class="right floated">
-
 							</span>
 							<span>
 								<!-- <i class="user icon"></i> -->
-
 							</span>
 						</div>
 					</div>
@@ -242,12 +293,12 @@
 							<div class="header right floated"></div>
 						</div>
 						<div class="extra content">
-							<button class="ui inverted green secondary button" id="getNews">
-							See all News
-							</button>
+							<div class="ui bottom attached inverted green fluid button" tabindex="0" id="getNews">
+								See all News
+							</div>
 							<span>
-
-
+								
+								
 							</span>
 						</div>
 					</div>
@@ -265,17 +316,16 @@
 								<p>"To educate a man in mind and not in morals is to educate a menace to society." <br><span class="right floated">-Anonymous</span></p>
 							</div>
 							<div class="description">
-
 								<div id="meetupIntro"></div>
 							</div>
 						</div>
 						<div class="extra content">
-							<span class="left floated" id ="getMeetUp">
-								<button class="ui inverted green secondary button">Find your group</button>
-							</span>
+							<div class="ui bottom attached inverted green fluid button" tabindex="0" id="getMeetUp">
+								See your group
+							</div>
 							<span>
-
-
+								
+								
 							</span>
 						</div>
 					</div>
@@ -299,25 +349,25 @@
 							</div>
 							<div class="description">
 								<div id="booksIntro">
-
 								</div>
-
 							</div>
 						</div>
 						<div class="extra content">
-							<button class="ui inverted green secondary button" id="getBooks">
-							See all Books
-							</button>
-
+							<div class="ui bottom attached inverted green fluid button" tabindex="0" id="getBooks">
+								See all Books
+							</div>
+							<span>
+								
+								
+							</span>
 						</div>
-
 						<!-- 	<div class="extra content">
 											<span class="right floated">
-															share
+																share
 											</span>
 											<span>
-															<i class="user icon"></i>
-															35 likes
+																<i class="user icon"></i>
+																35 likes
 											</span>
 						</div> -->
 					</div>

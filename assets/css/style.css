@@ -1,4 +1,18 @@
-/*------START login & signup.html-----*/
+
+#subSnackBar {
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 100%;
+text-shadow: 3px 5px 5px;
+}
+.ui.inverted.accordion{
+	width: 100%;
+	padding:10%;
+}
+
+
+/*------START logibackground-color: #1b1c1d;n & signup.html-----*/
 body {
 background: url('http://www.imagestowallpapers.com/wp-content/uploads/2015/12/Background-Image-CSS4.jpg') fixed;
 background-size: cover;
@@ -11,7 +25,7 @@ justify-content: center;
 align-items: center;
 font-size: 300%;
 /*margin-top: 5%;*/
-text-shadow: 3px 5px 5px;
+text-shadow: 3px 5px 5px white;
 }
 .form-holder {
 background: rgba(255, 255, 255, 0.2);
@@ -208,6 +222,17 @@ margin-left: 10px;
 color: black;
 font-size: 14px;
 }
+#podSavedItems{
+/*	box-shadow: 2px 3px 10px grey;
+	padding:7px;
+	border-radius: 10px;*/
+}
+.podDiv{
+	box-shadow: 2px 3px 15px grey;
+	padding:7px;
+	border-radius: 10px;
+	background-color: black;
+}
 #addInterestForm {
 display: none;
 }
@@ -249,9 +274,15 @@ margin: 10px 5px 5px 10px;
 #meetupIntro{
 font-size: 120%;
 }
+#meetupSavedItems{
+	padding:2px;
+	border-radius: 10px;
+	line-height: 0.7px;
+	/*overflow: auto;*/
+}
 .meetupDescribe{
 color: black;
-background: url("../images/concrete.jpg");
+background: url("../images/pantoneCut.jpg");
 background-size: cover;
 padding:30px;
 border-radius: 15px;
@@ -282,3 +313,5 @@ height: 30px;
 float: none;
 }
 }
+
+

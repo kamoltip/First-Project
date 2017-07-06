@@ -9,6 +9,9 @@ $(document).ready(function() {
     //   .dropdown()
     // ;
   });
+   $('.ui.accordion')
+  .accordion()
+;
 
   $('.ui.sidebar.inverted.vertical.menu').sidebar({
     transition: 'overlay'
@@ -825,10 +828,10 @@ $(document).ready(function() {
 
         var podSavedTitle = childSnapshot.val().podTitle;
         var podSavedUrl = childSnapshot.val().podUrl;
-        var podSavedDiv = $("<div>");
+        var podSavedDiv = $("<div>").attr("class","podDiv")
         var podTitle = $("<p>" + podSavedTitle + "</p>");
 
-        podSavedDiv.css("margin-top", "20px");
+        podSavedDiv.css("margin-top", "15px");
 
         var podPlayIcon = $("<i>");
         // podSavedDiv.css("margin-bottom", "10px");
@@ -1001,6 +1004,14 @@ $(document).ready(function() {
         var meetupSavedDiv = $("<div>");
         meetupSavedDiv.css({
           "margin-top": "20px",
+          // "border":"1px solid grey",
+          "border-radius":"10px",
+          "padding":"20px",
+          // "background-image":"url('assets/images/pantoneCut.jpg')",
+          // "background-size":"cover",
+          "box-shadow":"2px 3px 15px grey",
+          "background-color":"black"
+
         });
 
         var meetupLink = $("<a>").attr({
@@ -1009,9 +1020,9 @@ $(document).ready(function() {
           'target': '_blank'
         });
 
-        var meetupGroupName = $("<p>Group: " + meetupSavedName + "</p>");
+        var meetupGroupName = $("<p>Group: " +"<br></br>"+ meetupSavedName + "</p>");
         var meetupCity = $("<p>City: " + meetupSavedCity + " (" + meetupSavedMembers + " Members)</p>");
-        meetupLink.html("Link: " + meetupSavedUrl + "<hr>");
+        meetupLink.html(meetupSavedUrl);
 
         meetupGroupName.css("font-size", "12px");
         meetupCity.css("font-size", "12px");
