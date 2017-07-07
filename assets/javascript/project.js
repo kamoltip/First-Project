@@ -179,10 +179,10 @@ $(document).ready(function() {
           } else {
             getYouTube(datatopic);
             getBooks(datatopic);
-            // getNews(datatopic);
+            getNews(datatopic);
             getPodcasts(datatopic);
             getMeetup(datatopic);
-            // getTwitter(datatopic);
+            getTwitter(datatopic);
             getSavedYouTubeFromDatabase();
             getSavedPodcastFromDatabase();
             getSavedBooksFromDatabase();
@@ -285,10 +285,10 @@ $(document).ready(function() {
 
     getYouTube(datatopic);
     getBooks(datatopic);
-    // getNews(datatopic);
+    getNews(datatopic);
     getPodcasts(datatopic);
     getMeetup(datatopic);
-    // getTwitter(datatopic);
+    getTwitter(datatopic);
     getBackgroundImage(datatopic);
     $("#searchInput").val("");
   });
@@ -712,32 +712,32 @@ $(document).ready(function() {
 
   // 2.twitter ///////////////////////////////////////////////////
   function getTwitter(datatopic) {
-    var searchTopic = datatopic.split(" ").join("+");
-    var queryURL = 'https://twitterpopularapi.herokuapp.com/api?q=' + searchTopic + '&count=9';
+    $("#twitterEmbed").empty();
+    var searchTopic = datatopic.split(" ").join("");
+    // var queryURL = 'https://twitterpopularapi.herokuapp.com/api?q=' + searchTopic + '&count=9';
+    var queryURL = 'https://publish.twitter.com/oembed?url=https%3A%2F%2Ftwitter.com%2F' + searchTopic + '&maxheight=500';
     $.ajax({
         url: queryURL,
         method: "GET",
         dataType: "jsonp"
+        // "Access-Control-Allow-Origin" : "*"
       })
       .then(function(data) {
         console.log(data);
         console.log(queryURL);
-        var arr = data.statuses; // array of 10 objects
-        for (var i = 0; i < arr.length; i++) {
-          var content = $("<div>").attr('class', 'box');
-          var text = $("<p>").attr('class', 'text'),
-            name = $("<p>").attr('class', 'name');
-          text.html("Latest Tweet: " + arr[i].text);
-          content.append(text);
-          $("#twitter-div").append(content);
-        }
-
+        // var arr = data.statuses; // array of 10 objects
+        // for (var i = 0; i < arr.length; i++) {
+        //   var content = $("<div>").attr('class', 'box');
+        //   var text = $("<p>").attr('class', 'text'),
+        //     name = $("<p>").attr('class', 'name');
+        //   text.html("Latest Tweet: " + arr[i].text);
+        //   content.append(text);
+          $("#twitterEmbed").append(data.html);
       })
       .fail(function(err) {
         console.log(err.statusText);
       })
   };
-
 
   //Saving - Displaying - Deleting Saved Items
   //YouTube Saves
