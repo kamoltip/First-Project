@@ -174,18 +174,8 @@ display: inline;
 color: white;
 }
 
-/*--------------NY Time Modal--------------
-.nyTimeBox {
-border: 3px outset grey;
-border-radius: 10px;
-background-color: white;
-padding: 2%;
-color: black;
-margin-bottom: 2%;
-margin-top: 0px;
-box-shadow: 3px 5px 5px;
-*/
-}
+--------------NY Time Modal--------------
+
 .large.book.icon{
 color:red;
 }
@@ -277,7 +267,7 @@ font-size: 120%;
 #meetupSavedItems{
 	padding:2px;
 	border-radius: 10px;
-	line-height: 0.7px;
+	/*line-height: 0.7px;*/
 	/*overflow: auto;*/
 }
 .meetupDescribe{

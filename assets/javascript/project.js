@@ -13,6 +13,7 @@ $(document).ready(function() {
   .accordion()
 ;
 
+
   $('.ui.sidebar.inverted.vertical.menu').sidebar({
     transition: 'overlay'
   });
@@ -179,7 +180,7 @@ $(document).ready(function() {
           } else {
             getYouTube(datatopic);
             getBooks(datatopic);
-            // getNews(datatopic);
+            getNews(datatopic);
             getPodcasts(datatopic);
             getMeetup(datatopic);
             // getTwitter(datatopic);
@@ -285,7 +286,7 @@ $(document).ready(function() {
 
     getYouTube(datatopic);
     getBooks(datatopic);
-    // getNews(datatopic);
+    getNews(datatopic);
     getPodcasts(datatopic);
     getMeetup(datatopic);
     // getTwitter(datatopic);
@@ -528,10 +529,6 @@ $(document).ready(function() {
 
     var searchTopic = datatopic.split(" ").join("+");
     var endpoint = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?q=' + searchTopic + '&sort=newest&begin_date=20170000&hl=true&api_key=a49e8a22035943e9bb2f4928fe15d8fe';
-    // params = 'q=' + searchTopic + '&sort=newest&api_key=a49e8a22035943e9bb2f4928fe15d8fe';
-    // params = 'q=' + searchTopic + '&sort=newest&api_key=6c06af0cde254bc0a14d82aaa261021c';
-
-    // var url = endpoint;
 
     $.ajax({
         url: endpoint,
@@ -539,30 +536,43 @@ $(document).ready(function() {
       }).then(function(data) {
         console.log(data);
         console.log("NYT: " + endpoint);
-        // book.html("Categorie: " + data.response.docs[0].section_name);
-        // source.html("Source: " + data.response.docs[0].source);
-        // snippet.html("Description: " + data.response.docs[0].snippet);
-        // date.html("Date: " + data.response.docs[0].pub_date);
+   
         $("#nyTime-div").empty();
 
         var arr = data.response.docs; // array of 10 objects
         for (var i = 0; i < arr.length; i++) {
           var content = $("<div>").attr('class', 'nyTimeBox');
           var source = $("<p>").attr('class', 'source'),
-            headline = $("<h5>").attr('class', 'headline')
-          snippet = $("<p>").attr('class', 'snippet'),
-            date = $("<p>").attr('class', 'date');
-          web = $("<a>").attr({
+              headline = $("<h5>").attr('class', 'headline'),
+              snippet = $("<p>").attr('class', 'snippet'),
+              date = $("<p>").attr('class', 'date'),
+              web = $("<a>").attr({
               'class': 'link',
-              "href": arr[i].web_url
-            }),
+              'href': arr[i].web_url,
+              'target':'_blank'
+            });
+              $('.nyTimeBox').css({
+            'border':'1px outset white',
+            'border-radius': '10px',
+            'background-color':'white',
+            'padding': '2%',
+            'color': 'black',
+            'margin-bottom':'10px',
+            'margin-top':'0px',
+            'box-shadow':'3px 3px 5px black',
+            'color':'black'
+            });
+           //    $('#nyTime-div').css({
+           // 'background-color':'black'
+           //    });
+
             headline.html(arr[i].headline.main);
-          source.html("Source : " + arr[i].source);
-          snippet.html("' " + arr[i].snippet + " '");
-          date.html(arr[i].pub_date);
-          web.html("Read More >>") + arr[i].web_url;
-          content.append(source, date, headline, snippet, web);
-          $("#nyTime-div").append(content);
+            source.html("Source : " + arr[i].source);
+            snippet.html("' " + arr[i].snippet + " '");
+            date.html(arr[i].pub_date);
+            web.html("Read More >>") + arr[i].web_url;
+            content.append(source, date, headline, snippet, web);
+            $("#nyTime-div").append(content);
         }
         $("#nyTimeIntro").empty();
         for (var i = 0; i < 1; i++) {
@@ -572,13 +582,14 @@ $(document).ready(function() {
             date = $("<p>").attr('class', 'date');
           web = $("<a>").attr({
               'class': 'link',
-              "href": arr[i].web_url
+              'href': arr[i].web_url,
+               'target':'_blank'
             }),
 
             headline.html(arr[i].headline.main);
           snippet.html("' " + arr[i].snippet + " '");
           date.html(arr[i].pub_date);
-          web.html("Read More >>") + arr[i].web_u
+          web.html("Read More >>") + arr[i].web_url;
           content.append(date, headline, snippet, web);
           $("#nyTimeIntro").append(content);
         }
@@ -587,7 +598,7 @@ $(document).ready(function() {
       .catch(function(err) {
         console.log(err.statusText);
       });
-    // GET, DELETE, POST, PUT
+ 
   };
 
   function getPodcasts(datatopic) {
@@ -1019,6 +1030,10 @@ $(document).ready(function() {
           'href': meetupSavedUrl,
           'target': '_blank'
         });
+        $('.meetuplink').css({
+          'word-break':'break-all'
+        });
+   
 
         var meetupGroupName = $("<p>Group: " +"<br></br>"+ meetupSavedName + "</p>");
         var meetupCity = $("<p>City: " + meetupSavedCity + " (" + meetupSavedMembers + " Members)</p>");
