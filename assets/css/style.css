@@ -159,13 +159,7 @@ text-align: center;
 padding:10px;
 margin-bottom: 10px;
 }
-/*.city{
-color:white;
-}
-.name{
-color: white;
-text-shadow: 0 0 0px;
-}*/
+
 .meetupName{
 color: white;
 display: inline;
@@ -174,7 +168,7 @@ display: inline;
 color: white;
 }
 
---------------NY Time Modal--------------
+/*--------------NY Time Modal--------------*/
 
 .large.book.icon{
 color:red;
@@ -182,24 +176,7 @@ color:red;
 #getNew {
 color: red;
 }
-/*#getNews {
-color: red;
-}*/
-/*#getMeetUp {
-color: red;
-}*/
-.large.meetup.icon {
-color: red;
-}
-#ytDiv {
-color: red;
-}
-#getTwitter {
-color: red;
-}
-/*#getBooks {
-color: red;
-}*/
+
 #getyt {
 color: red;
 }
@@ -253,10 +230,7 @@ margin-bottom: 30px;
 border-radius: 10px;
 padding: 30px;
 }
-/*.meetupContent {
-margin: 0 10px 0 10px;
-font-size: 14px;
-}*/
+
 .inverted.meetupSaveIcon {
 display: inline-flex;
 margin: 10px 5px 5px 10px;
@@ -303,5 +277,3 @@ height: 30px;
 float: none;
 }
 }
-
-

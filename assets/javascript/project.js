@@ -2,53 +2,33 @@ $(document).ready(function() {
 
   $("#flip").on("click", function() {
 
-    $('.ui.sidebar')
-      .sidebar('toggle');
-
-    //       $('.ui.dropdown')
-    //   .dropdown()
-    // ;
+    $('.ui.sidebar').sidebar('toggle');
   });
-   $('.ui.accordion')
-  .accordion()
-;
+
+  $('.ui.accordion').accordion();
 
 
   $('.ui.sidebar.inverted.vertical.menu').sidebar({
     transition: 'overlay'
   });
 
-  $('.ui.radio.checkbox')
-    .checkbox();
+  $('.ui.radio.checkbox').checkbox();
 
   $('#getNews').on('click', function() {
-    $('.basic.modal.nyTime')
-      .modal('show');
-  });
-
-  $('#getTwitter').on('click', function() {
-    $('.basic.modal.twitter')
-      .modal('show');
+    $('.basic.modal.nyTime').modal('show');
   });
 
   $('#getBooks').on('click', function() {
-    $('.basic.modal.books')
-      .modal('show');
+    $('.basic.modal.books').modal('show');
   });
 
   $('#getPodcasts').on('click', function() {
-    $('.basic.modal.podcast')
-      .modal('show');
+    $('.basic.modal.podcast').modal('show');
   });
 
   $('#getMeetUp').on('click', function() {
-    $('.basic.modal.meetup')
-      .modal('show');
+    $('.basic.modal.meetup').modal('show');
   });
-
-  // $(function() {
-  //   $(document).tooltip();
-  // });
 
   //Firebase initialize
   var config = {
@@ -183,7 +163,7 @@ $(document).ready(function() {
             getNews(datatopic);
             getPodcasts(datatopic);
             getMeetup(datatopic);
-            // getTwitter(datatopic);
+            getTwitter(datatopic);
             getSavedYouTubeFromDatabase();
             getSavedPodcastFromDatabase();
             getSavedBooksFromDatabase();
@@ -257,7 +237,9 @@ $(document).ready(function() {
   //Change Email in Settings
   $("#changeEmailSubmit").on("click", function(event) {
     event.preventDefault();
+
     var emailAddress = $("#changeEmailInput").val().trim();
+
     var user = auth.currentUser;
     user.updateEmail(emailAddress).then(function() {
       $("#emailSentConfirm").html("Your user email has been changed to " + emailAddress);
@@ -289,7 +271,7 @@ $(document).ready(function() {
     getNews(datatopic);
     getPodcasts(datatopic);
     getMeetup(datatopic);
-    // getTwitter(datatopic);
+    getTwitter(datatopic);
     getBackgroundImage(datatopic);
     $("#searchInput").val("");
   });
@@ -332,10 +314,6 @@ $(document).ready(function() {
     $(".sourceCards").toggle('slow');
   });
 
-  /*//////////////////////////////////////
-  /////////////////Mauricio API ///////////////
-  /*/ /////////////////////////////////////
-
   function getYouTube(datatopic) {
     var searchTopic = datatopic.split(" ").join("+");
 
@@ -365,12 +343,10 @@ $(document).ready(function() {
       })
 
       .done(function(response) {
-        // console.log("YouTube: " + queryURL);
         console.log(response);
-        // console.log(response.items);
 
         $("#video-div").empty();
-        // var results = data.items;
+
         for (var i = 0; i < response.items.length; i++) {
           var ytHoldDiv = $("<div>");
           var youtubeDiv = $("<iframe class='youtube' allowfullscreen>");
@@ -402,14 +378,10 @@ $(document).ready(function() {
           youtubeDiv.addClass("margin-top");
           ytHoldDiv.append(youtubeDiv);
           ytHoldDiv.append(saveIcon);
-          // $("#video-div").append(youtubeDiv);
-          // $("#video-div").append(saveDiv);
           $("#video-div").append(ytHoldDiv);
           $('#ytThumbnail').on('click', function() {
             $('.basic.modal.yt')
               .modal('show');
-
-
           });
         }
 
@@ -440,10 +412,7 @@ $(document).ready(function() {
           ytHoldDiv.append(ytThumbnailHolder);
           $("#ytThumbnail").append(ytHoldDiv);
         }
-
-      })
-
-      .fail(function(err) {
+      }).fail(function(err) {
         console.log(err.statusText);
       })
   };
@@ -482,7 +451,6 @@ $(document).ready(function() {
           var saveButton = $("<i class='green plus icon booksSaveIcon'><i>");
           saveButton.attr("data-image", thumbnailsSource).attr("data-booksUrl", arr[i].volumeInfo.infoLink).attr("data-title", arr[i].volumeInfo.title);
           bookTitle.html(arr[i].volumeInfo.title);
-          // description.html(' : '+arr[i].volumeInfo.description);
 
           booksRow.append(bookLink, saveButton);
           $("#books-div").append(booksRow);
@@ -500,25 +468,20 @@ $(document).ready(function() {
           });
         };
 
-        for (i = 0; i < 1; i++) {
-          var introBookThumbnail = arr[i].volumeInfo.imageLinks.smallThumbnail;
-          // var introBookTitle = $("<p>" + arr[i].volumeInfo.title + "</p>");
-          var introBookDiv = $("<div>");
-          introBookDiv.css({
-            "display": "inline-block",
-            "margin-right": "10px",
-            "display": "flex",
-            "justify-content": "center"
-          });
-          var introBookImage = $("<img>");
-          introBookImage.attr("src", introBookThumbnail);
+        var introBookThumbnail = arr[0].volumeInfo.imageLinks.smallThumbnail;
+        var introBookDiv = $("<div>");
+        introBookDiv.css({
+          "display": "inline-block",
+          "margin-right": "10px",
+          "display": "flex",
+          "justify-content": "center"
+        });
+        var introBookImage = $("<img>");
+        introBookImage.attr("src", introBookThumbnail);
 
-          // introBookDiv.append(introBookImage, introBookTitle);
+        introBookDiv.append(introBookImage);
 
-          introBookDiv.append(introBookImage);
-
-          $("#booksIntro").append(introBookDiv);
-        };
+        $("#booksIntro").append(introBookDiv);
 
       }).fail(function(err) {
         console.log(err.statusText);
@@ -598,7 +561,7 @@ $(document).ready(function() {
       .catch(function(err) {
         console.log(err.statusText);
       });
- 
+
   };
 
   function getPodcasts(datatopic) {
@@ -662,12 +625,6 @@ $(document).ready(function() {
       });
   };
 
-  /*//////////////////////////////////////
-  /////////////////air API ///////////////
-  /*/ /////////////////////////////////////
-
-  // meet up api ///////////////////////////////////////////
-
   function getMeetup(datatopic) {
     var searchTopic = datatopic.split(" ").join("+");
     $.ajax({
@@ -721,10 +678,10 @@ $(document).ready(function() {
       })
   };
 
-  // 2.twitter ///////////////////////////////////////////////////
   function getTwitter(datatopic) {
-    var searchTopic = datatopic.split(" ").join("+");
-    var queryURL = 'https://twitterpopularapi.herokuapp.com/api?q=' + searchTopic + '&count=9';
+    $("#twitterEmbed").empty();
+    var searchTopic = datatopic.split(" ").join("");
+    var queryURL = 'https://publish.twitter.com/oembed?url=https%3A%2F%2Ftwitter.com%2F' + searchTopic + '&maxheight=500';
     $.ajax({
         url: queryURL,
         method: "GET",
@@ -733,22 +690,12 @@ $(document).ready(function() {
       .then(function(data) {
         console.log(data);
         console.log(queryURL);
-        var arr = data.statuses; // array of 10 objects
-        for (var i = 0; i < arr.length; i++) {
-          var content = $("<div>").attr('class', 'box');
-          var text = $("<p>").attr('class', 'text'),
-            name = $("<p>").attr('class', 'name');
-          text.html("Latest Tweet: " + arr[i].text);
-          content.append(text);
-          $("#twitter-div").append(content);
-        }
-
+        $("#twitterEmbed").append(data.html);
       })
       .fail(function(err) {
         console.log(err.statusText);
       })
   };
-
 
   //Saving - Displaying - Deleting Saved Items
   //YouTube Saves
@@ -784,7 +731,6 @@ $(document).ready(function() {
           "width": "150px",
           "height": "80px",
           "display": "block",
-          // "padding": "5px"
         });
         iFrameSaved.attr("src", ytSavedUrl);
         var deleteIcon = $("<i>");
@@ -839,13 +785,12 @@ $(document).ready(function() {
 
         var podSavedTitle = childSnapshot.val().podTitle;
         var podSavedUrl = childSnapshot.val().podUrl;
-        var podSavedDiv = $("<div>").attr("class","podDiv")
+        var podSavedDiv = $("<div>").attr("class", "podDiv")
         var podTitle = $("<p>" + podSavedTitle + "</p>");
 
         podSavedDiv.css("margin-top", "15px");
 
         var podPlayIcon = $("<i>");
-        // podSavedDiv.css("margin-bottom", "10px");
         podPlayIcon.addClass("play icon green clickPlay");
         podPlayIcon.attr("data-src", podSavedUrl).attr("data-podTitle", podSavedTitle);
         podTitle.css({
@@ -1016,12 +961,12 @@ $(document).ready(function() {
         meetupSavedDiv.css({
           "margin-top": "20px",
           // "border":"1px solid grey",
-          "border-radius":"10px",
-          "padding":"20px",
+          "border-radius": "10px",
+          "padding": "20px",
           // "background-image":"url('assets/images/pantoneCut.jpg')",
           // "background-size":"cover",
-          "box-shadow":"2px 3px 15px grey",
-          "background-color":"black"
+          "box-shadow": "2px 3px 15px grey",
+          "background-color": "black"
 
         });
 
@@ -1035,7 +980,7 @@ $(document).ready(function() {
         });
    
 
-        var meetupGroupName = $("<p>Group: " +"<br></br>"+ meetupSavedName + "</p>");
+        var meetupGroupName = $("<p>Group: " + "<br></br>" + meetupSavedName + "</p>");
         var meetupCity = $("<p>City: " + meetupSavedCity + " (" + meetupSavedMembers + " Members)</p>");
         meetupLink.html(meetupSavedUrl);
 
