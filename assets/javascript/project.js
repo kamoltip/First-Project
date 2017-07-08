@@ -42,8 +42,6 @@ $(document).ready(function() {
 
   firebase.initializeApp(config);
 
-  console.log(firebase);
-
   //store firebase db and auth in global variables
   var database = firebase.database();
   var auth = firebase.auth();
@@ -59,7 +57,6 @@ $(document).ready(function() {
     window.location.href = "signup.html";
   });
 
-  // console.log("Hello World!!");
   $("#signUpSubmit").on("click", function(event) {
     event.preventDefault();
 
@@ -131,7 +128,6 @@ $(document).ready(function() {
 
     logoutuser.then(function() {
 
-      console.log("Logged out!");
       window.location.href = "index.html";
 
     }).catch(function(error) {
@@ -152,7 +148,6 @@ $(document).ready(function() {
 
           var datatopic = snapshot.val().interest;
           $("#userName").text("Welcome back " + snapshot.val().userName);
-          console.log(datatopic);
 
           if (datatopic === false) {
             setFavoriteTopic();
@@ -171,11 +166,9 @@ $(document).ready(function() {
             getBackgroundImage(datatopic);
           }
 
-          console.log(user.uid + "is now signed in");
         });
       } else {
         $("#userName").html("<a style='color: black;' href='login.html'>Sign In</a>");
-        console.log("no user is signed in");
       }
     });
   };
@@ -264,7 +257,6 @@ $(document).ready(function() {
     event.preventDefault();
 
     datatopic = $("#searchInput").val().trim();
-    console.log(datatopic);
 
     getYouTube(datatopic);
     getBooks(datatopic);
@@ -297,7 +289,19 @@ $(document).ready(function() {
           'padding': '0',
           'margin': '0'
         })
-        console.log(randomBackground);
+
+        var user = response[0].user.name;
+        var userLink = response[0].user.links.html;
+        var creditDiv = $("<div id='photoCredit'>");
+        var userInfo = "<a target='_blank' href=" + userLink + "?utm_source=mybentohub&utm_medium=referral&utm_campaign=api-credit>" + user + "</a>";
+        var unsplashURL = "<a target='_blank' href='https://unsplash.com/?utm_source=mybentohub&utm_medium=referral&utm_campaign=api-credit'>Unsplash</a>";
+        creditDiv.html("Photographer:" + userInfo + " / " + unsplashURL);
+        creditDiv.css({
+          "position": "relative",
+          "bottom": "10px",
+          "right": "-20px"
+        })
+        $('body.pushable>.pusher').append(creditDiv);
 
       }).fail(function(error) {
         $('body.pushable>.pusher').css({
@@ -320,10 +324,8 @@ $(document).ready(function() {
     // NEW VARIABLE TO set search to begin 30 days ago from current time
     // USING MOMENT.JS
     var searchBeginingDate = moment().subtract(30, 'days').toISOString();
-    console.log(searchBeginingDate);
     // the youtube query url requires "publishedAfter" to be a string
     var publishedAfter = String(searchBeginingDate);
-    console.log(publishedAfter);
     // ===============================================================
     // var order = 'date';
     var videoID;
@@ -335,7 +337,7 @@ $(document).ready(function() {
     var queryURL = 'https://www.googleapis.com/youtube/v3/search?maxResults=9&part=snippet&&relevanceLanguage=en&q=' +
       searchTopic + '&publishedAfter=' + publishedAfter +
       '&type=video&videoEmbeddable=true&key=AIzaSyCnbcvaas-tjIurM5-936c9S3mT5dJgTIo';
-    // + '&order=viewCount'
+
     $.ajax({
         url: queryURL,
         method: 'GET',
@@ -343,7 +345,6 @@ $(document).ready(function() {
       })
 
       .done(function(response) {
-        console.log(response);
 
         $("#video-div").empty();
 
@@ -362,11 +363,11 @@ $(document).ready(function() {
 
           // grabbing the title for every video
           var videoTitle = response.items[i].snippet.title;
-          // console.log(videoTitle);
 
           var saveIcon = $("<i>");
 
           saveIcon.addClass("plus square outline icon green inverted ytSaveIcon");
+          saveIcon.attr("data-saved", "false");
           saveIcon.css({
             "padding": "0px",
             "margin-left": "8px"
@@ -428,9 +429,6 @@ $(document).ready(function() {
       })
       .done(function(response) {
 
-        console.log(response);
-        console.log("Books: " + queryURL);
-
         $("#books-div").empty();
         $("#booksIntro").empty();
 
@@ -449,7 +447,12 @@ $(document).ready(function() {
 
           bookTitle = $('<p>').attr('class', 'bookTitle');
           var saveButton = $("<i class='green plus icon booksSaveIcon'><i>");
-          saveButton.attr("data-image", thumbnailsSource).attr("data-booksUrl", arr[i].volumeInfo.infoLink).attr("data-title", arr[i].volumeInfo.title);
+          saveButton.attr({
+            "data-image": thumbnailsSource,
+            "data-booksUrl": arr[i].volumeInfo.infoLink,
+            "data-title": arr[i].volumeInfo.title,
+            "data-saved": "false"
+          })
           bookTitle.html(arr[i].volumeInfo.title);
 
           booksRow.append(bookLink, saveButton);
@@ -497,12 +500,10 @@ $(document).ready(function() {
         url: endpoint,
         method: 'GET'
       }).then(function(data) {
-        console.log(data);
-        console.log("NYT: " + endpoint);
-   
+
         $("#nyTime-div").empty();
 
-        var arr = data.response.docs; // array of 10 objects
+        var arr = data.response.docs;
         for (var i = 0; i < arr.length; i++) {
           var content = $("<div>").attr('class', 'nyTimeBox');
           var source = $("<p>").attr('class', 'source'),
@@ -549,7 +550,7 @@ $(document).ready(function() {
                'target':'_blank'
             }),
 
-            headline.html(arr[i].headline.main);
+          headline.html(arr[i].headline.main);
           snippet.html("' " + arr[i].snippet + " '");
           date.html(arr[i].pub_date);
           web.html("Read More >>") + arr[i].web_url;
@@ -573,9 +574,6 @@ $(document).ready(function() {
         method: 'GET',
       })
       .done(function(response) {
-
-        console.log(response);
-        console.log("Podcast: " + queryURL);
 
         $("#pod-div").empty();
         $("#pod-nowPlaying").empty();
@@ -602,7 +600,11 @@ $(document).ready(function() {
           var podSaveIcon = $("<i>");
           podSaveIcon.addClass("plus square outline icon green inverted podSaveIcon");
 
-          podSaveIcon.attr("data-podUrl", response[i].audio_url).attr("data-podTitle", response[i].title);
+          podSaveIcon.attr({
+            "data-podUrl": response[i].audio_url,
+            "data-podTitle": response[i].title,
+            "data-saved": "false"
+          });
 
           podDiv.append(podPlayIcon);
           podDiv.append(podTitle);
@@ -634,7 +636,6 @@ $(document).ready(function() {
         dataType: "jsonp"
       })
       .then(function(data) {
-        console.log(data);
 
         $("#meetup-div").empty();
         $("#meetupIntro").empty();
@@ -663,7 +664,8 @@ $(document).ready(function() {
             "data-city": arr[i].city,
             "data-meetupGroup": arr[i].name,
             "data-meetupUrl": arr[i].link,
-            "data-memberCount": arr[i].members
+            "data-memberCount": arr[i].members,
+            "data-saved": "false"
           });
 
           meetupInfoDiv.append(meetupSaveIcon, name, city, link, description);
@@ -688,8 +690,7 @@ $(document).ready(function() {
         dataType: "jsonp"
       })
       .then(function(data) {
-        console.log(data);
-        console.log(queryURL);
+
         $("#twitterEmbed").append(data.html);
       })
       .fail(function(err) {
@@ -705,6 +706,9 @@ $(document).ready(function() {
     $(this).removeClass("plus green square");
     $(this).addClass("red pin");
 
+    dataSaved = $(this).attr("data-saved");
+
+    if (dataSaved !== "true") {
     var user = auth.currentUser;
     var ref = database.ref("/user/" + user.uid + "/ytSaved");
     ref.push({
@@ -713,6 +717,10 @@ $(document).ready(function() {
       dateAdded: firebase.database.ServerValue.TIMESTAMP
     })
     getSavedYouTubeFromDatabase();
+    $(this).attr("data-saved", "true");
+  } else {
+    //Already Saved
+    }
   });
 
   function getSavedYouTubeFromDatabase() {
@@ -764,7 +772,9 @@ $(document).ready(function() {
     var podTitle = $(this).attr("data-podTitle");
     $(this).removeClass("plus green square");
     $(this).addClass("red pin");
+    var dataSaved = $(this).attr("data-saved");
 
+    if (dataSaved !== "true") {
     var user = auth.currentUser;
     var ref = database.ref("/user/" + user.uid + "/podSaved");
     ref.push({
@@ -773,6 +783,10 @@ $(document).ready(function() {
       dateAdded: firebase.database.ServerValue.TIMESTAMP
     })
     getSavedPodcastFromDatabase();
+    $(this).attr("data-saved", "true");
+  } else {
+    //Already Saved
+  }
   });
 
   function getSavedPodcastFromDatabase() {
@@ -848,7 +862,9 @@ $(document).ready(function() {
     var booksTitle = $(this).attr("data-title");
     $(this).removeClass("plus green square");
     $(this).addClass("red pin");
+    var dataSaved = $(this).attr("data-saved");
 
+    if (dataSaved !== "true") {
     var user = auth.currentUser;
     var ref = database.ref("/user/" + user.uid + "/booksSaved");
     ref.push({
@@ -858,6 +874,10 @@ $(document).ready(function() {
       dateAdded: firebase.database.ServerValue.TIMESTAMP
     })
     getSavedBooksFromDatabase();
+    $(this).attr("data-saved", "true");
+  } else {
+    //Already Saved
+  }
   });
 
   function getSavedBooksFromDatabase() {
@@ -932,7 +952,9 @@ $(document).ready(function() {
     var meetupGroup = $(this).attr("data-meetupGroup");
     var meetupUrl = $(this).attr("data-meetupUrl");
     var memberCount = $(this).attr("data-memberCount");
+    var dataSaved = $(this).attr("data-saved");
 
+    if (dataSaved !== "true") {
     var user = auth.currentUser;
     var ref = database.ref("/user/" + user.uid + "/meetupSaved");
     ref.push({
@@ -943,6 +965,10 @@ $(document).ready(function() {
       dateAdded: firebase.database.ServerValue.TIMESTAMP
     })
     getSavedMeetupFromDatabase();
+     $(this).attr("data-saved", "true");
+  } else {
+    //Already Saved
+  }
   });
 
   function getSavedMeetupFromDatabase() {
@@ -978,7 +1004,7 @@ $(document).ready(function() {
         $('.meetuplink').css({
           'word-break':'break-all'
         });
-   
+
 
         var meetupGroupName = $("<p>Group: " + "<br></br>" + meetupSavedName + "</p>");
         var meetupCity = $("<p>City: " + meetupSavedCity + " (" + meetupSavedMembers + " Members)</p>");

@@ -170,13 +170,24 @@ color: white;
 
 /*--------------NY Time Modal--------------*/
 
+#saveIcon{
+color: red;
+}
 .large.book.icon{
 color:red;
 }
 #getNew {
 color: red;
 }
-
+.large.meetup.icon {
+color: red;
+}
+#ytDiv {
+color: red;
+}
+#getTwitter {
+color: red;
+}
 #getyt {
 color: red;
 }
@@ -271,6 +282,9 @@ border-radius: 10px;
 }
 .twitter-timeline {
 height: 30px;
+}
+#photoCredit {
+	color: white;
 }
 @media screen and (max-width: 995px) {
 #savedFavorites {
