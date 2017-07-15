@@ -269,6 +269,7 @@ $(document).ready(function() {
   });
   //background image
   function getBackgroundImage(datatopic) {
+    $('#photoCredit').remove(); 
     var searchTopic = datatopic.split(" ").join("+");
     var apiKey = "da529368443c37716713225f589d09c8916dad8c65611db1bed24204e6cf982d";
     var queryURL = "https://api.unsplash.com/photos/random?query=" + searchTopic + "&orientation=landscape&count=1&w=1280&h=800";
